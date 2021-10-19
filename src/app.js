@@ -5,17 +5,17 @@ const express = require("express");
 const app = express();
 
 /**
- * Base de datos
- */
- require("@database/connection");
-
-/**
  * Configuración
  */
 require("dotenv").config();
 require("module-alias/register");
 const admin = require("@routes/api/admin");
 const error404 = require("@routes/dist/404");
+
+/**
+ * Base de datos
+ */
+require("@database/connection");
 
 /**
  * Uso de Middlewares
@@ -32,10 +32,10 @@ if (process.env.NODE_ENV === "development") {
 }
 
 if (process.env.NODE_ENV === "production") {
-  app.use(express.static("public"));
-  // app.use("/", (req, res) => {
-  //   res.sendFile(path.join(__dirname, "../client/build/index.html"));
-  // });
+  app.use(express.static(path.join(__dirname, "../public/")));
+  app.use("/", (req, res) => {
+    res.sendFile(path.join(__dirname, "../public/index.html"));
+  });
 }
 
 // PAGINA 404
