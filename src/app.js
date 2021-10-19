@@ -9,6 +9,7 @@ const app = express();
  */
 require("dotenv").config();
 require("module-alias/register");
+app.use(express.static("public"));
 const admin = require("@routes/api/admin");
 const error404 = require("@routes/dist/404");
 
@@ -32,10 +33,10 @@ if (process.env.NODE_ENV === "development") {
 }
 
 if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join(__dirname, "../public/")));
-  app.use("/", (req, res) => {
-    res.sendFile(path.join(__dirname, "../public/index.html"));
-  });
+  // app.use(express.static("public"));
+  // app.use("/", (req, res) => {
+  //   res.sendFile(path.join(__dirname, "../public/index.html"));
+  // });
 }
 
 // PAGINA 404
