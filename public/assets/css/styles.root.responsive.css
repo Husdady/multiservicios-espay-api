@@ -1,0 +1,17 @@
+@media (max-width: 1024px) {
+  #root {
+    margin-top: 80px;
+  }
+}
+
+@media (max-width: 768px) {
+  #root {
+    margin-top: 60px;
+  }
+}
+
+@media (max-width: 280px) {
+  #root {
+    margin-top: 20vw;
+  }
+}
