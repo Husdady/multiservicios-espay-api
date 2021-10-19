@@ -24,12 +24,12 @@
       "width": 526,
       "height": 225
     },
-    "linked": "#"
+    "linked": "testimonials"
   },
   {
     "containerStyle": {
       "backgroundColor": "#F1D6FF",
-      "color": "#000"
+      "color": "#000000"
     },
     "wrapperStyle": {
       "borderTop": "1px solid black",
@@ -62,7 +62,7 @@
       "width": 1920,
       "height": 1080
     },
-    "linked": "#"
+    "linked": "shortcut-1DA21"
   },
   {
     "containerStyle": {
@@ -94,7 +94,7 @@
       "width": 800,
       "height": 650
     },
-    "linked": "#"
+    "linked": "membership"
   },
   {
     "containerStyle": {
@@ -132,7 +132,7 @@
       "width": 910,
       "height": 750
     },
-    "linked": "#"
+    "linked": "shortcut-D12H3"
   },
   {
     "containerStyle": {
@@ -162,6 +162,8 @@
       "width": 1920,
       "height": 1080
     },
-    "linked": "#"
+    "linked": {
+      "path": "/productos-omnilife"
+    }
   }
 ]

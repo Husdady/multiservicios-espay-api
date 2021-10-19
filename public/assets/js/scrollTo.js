@@ -15,24 +15,39 @@ function getCurrentScroll() {
 }
 
 function scrollToSection(options) {
-  window.addEventListener("load", function () {
-    let timeout;
-    const currentScroll = getCurrentScroll();
-    const { section, time = 1000, scrollPosition = 500 } = options;
-    if (currentScroll < scrollPosition) {
-      timeout = setTimeout(() => {
-        scroller.scrollTo(section, {
-          duration: 1000,
-          delay: 0,
-          smooth: "easeInOutQuart",
-        });
-      }, time);
-      return timeout;
-    } else {
-      window.scrollTo(0, window.innerHeight - window.scrollY);
-      return null;
-    }
-  });
+  const {
+    section,
+    whenLoadPage,
+    waitTime = 1000,
+    scrollPosition = 500,
+    duration
+  } = options;
+  if (whenLoadPage) {
+    window.addEventListener("load", function () {
+      let timeout;
+      const currentScroll = getCurrentScroll();
+
+      if (currentScroll < scrollPosition) {
+        timeout = setTimeout(() => {
+          scroller.scrollTo(section, {
+            duration: duration || 1000,
+            delay: 0,
+            smooth: "easeInOutQuart",
+          });
+        }, waitTime);
+        return timeout;
+      } else {
+        window.scrollTo(0, window.innerHeight - window.scrollY);
+        return null;
+      }
+    });
+  } else {
+    scroller.scrollTo(section, {
+      duration: duration || 1000,
+      delay: 0,
+      smooth: "easeInOutQuart",
+    });
+  }
 }
 
 export { scrollToSection };
