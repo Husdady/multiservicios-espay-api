@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/static/css/main.7114381f.chunk.css",
-    "main.js": "/static/js/main.8c5b9d70.chunk.js",
-    "main.js.map": "/static/js/main.8c5b9d70.chunk.js.map",
+    "main.js": "/static/js/main.ad8210e8.chunk.js",
+    "main.js.map": "/static/js/main.ad8210e8.chunk.js.map",
     "runtime-main.js": "/static/js/runtime-main.71c5bbf3.js",
     "runtime-main.js.map": "/static/js/runtime-main.71c5bbf3.js.map",
     "static/css/2.1dcedd5d.chunk.css": "/static/css/2.1dcedd5d.chunk.css",
@@ -28,7 +28,6 @@
     "static/media/crema-aclaradora.webp": "/static/media/crema-aclaradora.0ef4fcb7.webp",
     "static/media/crema-para-manos.webp": "/static/media/crema-para-manos.8c8bea63.webp",
     "static/media/crema-protectora-solar.webp": "/static/media/crema-protectora-solar.20d3f579.webp",
-    "static/media/default_index.ejs": "/static/media/default_index.596959f0.ejs",
     "static/media/delineador-mate.webp": "/static/media/delineador-mate.49c6c97a.webp",
     "static/media/delineador-negro.webp": "/static/media/delineador-negro.7e6b87ba.webp",
     "static/media/delineador-penliner.webp": "/static/media/delineador-penliner.c81e3526.webp",
@@ -135,6 +134,6 @@
     "static/css/2.1dcedd5d.chunk.css",
     "static/js/2.131dc2cf.chunk.js",
     "static/css/main.7114381f.chunk.css",
-    "static/js/main.8c5b9d70.chunk.js"
+    "static/js/main.ad8210e8.chunk.js"
   ]
 }
