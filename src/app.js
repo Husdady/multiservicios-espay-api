@@ -1,6 +1,7 @@
 "use strict";
 
 const path = require("path");
+const compression = require("compression");
 const express = require("express");
 const app = express();
 
@@ -19,6 +20,7 @@ require("@database/connection");
 /**
  * Uso de Middlewares
  */
+app.use(compression());
 app.use(express.json());
 app.use("/admin", admin);
 
@@ -32,8 +34,7 @@ if (process.env.NODE_ENV === "development") {
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static("public"));
-  // app.use(express.static("public"));
-  app.use("/", (req, res) => {
+  app.use("/", (_, res) => {
     res.sendFile(path.join(__dirname, "../public/index.html"));
   });
 }
