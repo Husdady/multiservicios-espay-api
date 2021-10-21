@@ -1,0 +1,62 @@
+.membership {
+  display: flex;
+  height: 600px;
+  background-color: #000;
+  background: linear-gradient(to right, hsla(183, 100%, 0%, 0.914), hsla(183, 98%, 41%, 0.394)), url(../../img/home/sections/afiliacion.webp);
+  overflow: hidden;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+}
+
+.membership .wrapper {
+  text-align: left;
+  width: 85%;
+  margin: auto;
+  overflow: hidden;
+  font-family: 'Electrolize', sans-serif;
+}
+
+.membership .wrapper .title {
+  color: var(--bg-lightblue);
+  font-size: 4.5em;
+  text-shadow: 4px 5px black;
+  margin: 0;
+  font-weight: bold;
+  line-height: normal;
+  word-break: break-word;
+}
+
+.membership .wrapper .text {
+  margin: 15px 0;
+  display: block;
+  line-height: normal;
+  font-size: 1.45em;
+  letter-spacing: 1.5px;
+  color: var(--bg-white);
+  text-shadow: 1px 1px black;
+}
+
+.membership .wrapper .link {
+  padding: 1% 6%;
+  display: table;
+  text-transform: uppercase;
+  border: none;
+  letter-spacing: 1.5px;
+  border-radius: 8px;
+  color: var(--bg-white);
+  text-shadow: 1px 1px black;
+  font-size: 1.13em;
+  background: rgba(0, 157, 165, 0.6);
+}
+
+.membership .wrapper .link:hover {
+  opacity: 0.6;
+  -webkit-transform: scale(0.95);
+  -moz-transform: scale(0.95);
+  -o-transform: scale(0.95);
+  transform: scale(0.95);
+  font-style: italic;
+  cursor: pointer;
+}

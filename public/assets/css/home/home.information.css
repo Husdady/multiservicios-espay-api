@@ -1,0 +1,88 @@
+.about-products {
+  background-color: #E4E4E4;
+  padding-bottom: 3.5%;
+}
+
+.about-products[category="omnilife"] .wrapper .title,
+.about-products[category="omnilife"] .wrapper .question {
+  color: var(--bg-darkpurple);
+}
+
+.about-products[category="seytu"] .wrapper .title,
+.about-products[category="seytu"] .wrapper .question {
+  color: var(--bg-darkred);
+}
+
+.about-products[category="omnilife"] .wrapper .see-all-products {
+  background-color: var(--bg-darkpurple);
+}
+
+.about-products[category="omnilife"] .wrapper .see-all-products:hover {
+  background-color: #A2008E !important;
+}
+
+.about-products[category="seytu"] .wrapper .see-all-products {
+  background-color: var(--bg-darkred);
+}
+
+.about-products[category="seytu"] .wrapper .see-all-products:hover {
+  background-color: #C00040 !important;
+}
+
+.about-products > .wrapper {
+  width: 75%;
+  margin: auto;
+}
+
+.about-products .wrapper .title {
+  margin-bottom: 3%;
+  font-size: 4em;
+  padding-bottom: 15px;
+  text-align: center;
+  line-height: normal;
+  border-bottom: 1px solid rgba(0,0,0,0.15);
+}
+
+.about-products .wrapper .title,
+.about-products .wrapper .question {
+  font-weight: bold;
+}
+
+.about-products > .wrapper figure {
+  width: 70%;
+  margin: auto;
+  margin-top: 3%;
+}
+
+.about-products > .wrapper .question {
+  margin: 25px 0;
+  font-size: 2.6em;
+  line-height: normal;
+}
+
+.about-products > .wrapper .response {
+  font-size: 1.45em;
+  white-space: pre-wrap;
+  margin: 0;
+}
+
+.about-products > .wrapper .see-all-products {
+  border: none;
+  border-radius: 5px;
+  color: var(--bg-white);
+  display: table;
+  margin: 30px auto 25px;
+  padding: 10px 80px;
+  cursor: pointer;
+  font-size: 1.3em;
+  font-family: 'Electrolize', sans-serif;
+}
+
+.about-products .products {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  width: 80%;
+  margin: auto;
+  overflow: hidden;
+}

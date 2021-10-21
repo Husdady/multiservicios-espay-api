@@ -1,0 +1,29 @@
+/**
+ * Filter by Categories
+ */
+
+#products-container[category="seytu-products"]>.wrapper .filters #categories-container .title {
+  color: var(--bg-darkred);
+}
+
+#products-container[category="seytu-products"]>.wrapper .filters #categories-container .categories::-webkit-scrollbar-thumb {
+  background-color: var(--bg-darkred);
+}
+
+#products-container[category="seytu-products"]>.wrapper .filters #categories-container .categories .category span.active:before {
+  color: var(--bg-white);
+  background-color: var(--bg-darkred);
+}
+
+#products-container[category="seytu-products"]>.wrapper .filters #categories-container .apply-filters {
+  background: var(--bg-darkred);
+  color: var(--bg-white);
+}
+
+/**
+ * Products
+ */
+
+#products-container[category="seytu-products"]>.wrapper .product .title {
+  color: var(--bg-darkred);
+}

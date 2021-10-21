@@ -1,0 +1,36 @@
+@media (max-width: 1080px) {
+  .about-omnilife-business .wrapper .business-item {
+    width: 45%;
+    margin: 15px;
+  }
+}
+
+@media (max-width: 960px) {
+  .about-omnilife-business .wrapper .business-item {
+    width: 80%;
+  }
+}
+
+@media (max-width: 600px) {
+  .about-omnilife-business .wrapper {
+    padding: 14% 0 24%;
+  }
+  .about-omnilife-business .wrapper .business-item {
+    width: 90%;
+  }
+}
+
+@media (max-width: 480px) {
+  .about-omnilife-business .wrapper .business-item {
+    width: 95%;
+  }
+}
+
+@media (max-width: 320px) {
+  .about-omnilife-business .wrapper .business-item {
+    font-size: 4.15vw;
+  }
+  .about-omnilife-business .wrapper .business-item .description {
+    line-height: 10vw;
+  }
+}

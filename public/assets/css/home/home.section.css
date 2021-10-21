@@ -1,0 +1,58 @@
+.about-omnilife {
+  padding: 7% 0;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center center;
+  background-color: black;
+  color: var(--bg-white);
+}
+
+.about-omnilife .container {
+  width: 80%;
+  margin: auto;
+}
+
+.about-omnilife .container .wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+.about-omnilife .container .wrapper .info {
+  width: 45%;
+  line-height: normal;
+}
+
+.about-omnilife .container .wrapper .info .title {
+  font-size: 3.35em;
+  color: var(--bg-white);
+  font-weight: bold;
+}
+
+.about-omnilife .container .wrapper .info .description {
+  font-size: 1.45em;
+  line-height: 1.5;
+}
+
+.about-omnilife .container .wrapper .info .more-information {
+  display: table;
+  border-radius: 3px;
+  border: none;
+  padding: 2.5% 10%;
+  font-weight: 500;
+  color: var(--bg-white);
+  font-size: 1.3em;
+  margin-top: 1.5%;
+  margin-bottom: 5%;
+  font-family: 'Rubik', sans-serif;
+}
+
+.about-omnilife .container .wrapper .info .more-information:hover {
+  opacity: .6;
+}
+
+.about-omnilife .container .wrapper figure {
+  width: 40%;
+}

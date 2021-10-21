@@ -1,0 +1,44 @@
+.about-omnilife-business {
+  background-color: #DEDEDE;
+  padding-top: 5%;
+}
+
+.about-omnilife-business .wrapper {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding-bottom: 14%;
+}
+
+.about-omnilife-business .wrapper .business-item {
+  width: 42%;
+  margin: 10px;
+  text-align: center;
+}
+
+.about-omnilife-business .wrapper .business-item .title {
+  font-size: 2.35em;
+  margin: 3% 0;
+  line-height: normal;
+  font-weight: bold;
+}
+
+.about-omnilife-business .wrapper .business-item .description {
+  font-size: 1.35em;
+  line-height: 30px;
+}
+
+.about-omnilife-business .wrapper .business-item, .about-omnilife-business .wrapper .business-item .title {
+  color: #005571;
+}
+
+.wave {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
+
+.wave svg {
+  display: block;
+}
