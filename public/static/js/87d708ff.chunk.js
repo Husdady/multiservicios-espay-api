@@ -18,14 +18,14 @@ var slicedToArray = __webpack_require__(885);
 var defineProperty = __webpack_require__(4942);
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/objectWithoutProperties.js
 var objectWithoutProperties = __webpack_require__(5987);
-// EXTERNAL MODULE: ./node_modules/preact/compat/dist/compat.module.js + 1 modules
-var compat_module = __webpack_require__(9748);
+// EXTERNAL MODULE: ./node_modules/react/index.js
+var react = __webpack_require__(7294);
 // EXTERNAL MODULE: ./node_modules/classnames/index.js
 var classnames = __webpack_require__(4184);
 var classnames_default = /*#__PURE__*/__webpack_require__.n(classnames);
 ;// CONCATENATED MODULE: ./node_modules/@ant-design/icons/es/components/Context.js
 
-var IconContext = /*#__PURE__*/(0,compat_module.createContext)({});
+var IconContext = /*#__PURE__*/(0,react.createContext)({});
 /* harmony default export */ const Context = (IconContext);
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/typeof.js
 var esm_typeof = __webpack_require__(1002);
@@ -965,14 +965,14 @@ function normalizeAttrs() {
 }
 function utils_generate(node, key, rootProps) {
   if (!rootProps) {
-    return /*#__PURE__*/compat_module["default"].createElement(node.tag, (0,objectSpread2/* default */.Z)({
+    return /*#__PURE__*/react.createElement(node.tag, (0,objectSpread2/* default */.Z)({
       key: key
     }, normalizeAttrs(node.attrs)), (node.children || []).map(function (child, index) {
       return utils_generate(child, "".concat(key, "-").concat(node.tag, "-").concat(index));
     }));
   }
 
-  return /*#__PURE__*/compat_module["default"].createElement(node.tag, (0,objectSpread2/* default */.Z)((0,objectSpread2/* default */.Z)({
+  return /*#__PURE__*/react.createElement(node.tag, (0,objectSpread2/* default */.Z)((0,objectSpread2/* default */.Z)({
     key: key
   }, normalizeAttrs(node.attrs)), rootProps), (node.children || []).map(function (child, index) {
     return utils_generate(child, "".concat(key, "-").concat(node.tag, "-").concat(index));
@@ -1002,10 +1002,10 @@ var iconStyles = "\n.anticon {\n  display: inline-block;\n  color: inherit;\n  f
 var useInsertStyles = function useInsertStyles() {
   var styleStr = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : iconStyles;
 
-  var _useContext = (0,compat_module.useContext)(Context),
+  var _useContext = (0,react.useContext)(Context),
       csp = _useContext.csp;
 
-  (0,compat_module.useEffect)(function () {
+  (0,react.useEffect)(function () {
     (0,dynamicCSS/* updateCSS */.h)(styleStr, '@ant-design-icons', {
       prepend: true,
       csp: csp
@@ -1123,7 +1123,7 @@ var AntdIcon_excluded = ["className", "icon", "spin", "rotate", "tabIndex", "onC
 // should move it to antd main repo?
 
 setTwoToneColor('#1890ff');
-var Icon = /*#__PURE__*/compat_module.forwardRef(function (props, ref) {
+var Icon = /*#__PURE__*/react.forwardRef(function (props, ref) {
   var _classNames;
 
   var className = props.className,
@@ -1135,7 +1135,7 @@ var Icon = /*#__PURE__*/compat_module.forwardRef(function (props, ref) {
       twoToneColor = props.twoToneColor,
       restProps = (0,objectWithoutProperties/* default */.Z)(props, AntdIcon_excluded);
 
-  var _React$useContext = compat_module.useContext(Context),
+  var _React$useContext = react.useContext(Context),
       _React$useContext$pre = _React$useContext.prefixCls,
       prefixCls = _React$useContext$pre === void 0 ? 'anticon' : _React$useContext$pre;
 
@@ -1156,7 +1156,7 @@ var Icon = /*#__PURE__*/compat_module.forwardRef(function (props, ref) {
       primaryColor = _normalizeTwoToneColo2[0],
       secondaryColor = _normalizeTwoToneColo2[1];
 
-  return /*#__PURE__*/compat_module.createElement("span", (0,objectSpread2/* default */.Z)((0,objectSpread2/* default */.Z)({
+  return /*#__PURE__*/react.createElement("span", (0,objectSpread2/* default */.Z)((0,objectSpread2/* default */.Z)({
     role: "img",
     "aria-label": icon.name
   }, restProps), {}, {
@@ -1164,7 +1164,7 @@ var Icon = /*#__PURE__*/compat_module.forwardRef(function (props, ref) {
     tabIndex: iconTabIndex,
     onClick: onClick,
     className: classString
-  }), /*#__PURE__*/compat_module.createElement(components_IconBase, {
+  }), /*#__PURE__*/react.createElement(components_IconBase, {
     icon: icon,
     primaryColor: primaryColor,
     secondaryColor: secondaryColor,
@@ -1190,8 +1190,8 @@ __webpack_require__.d(__webpack_exports__, {
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/objectSpread2.js
 var objectSpread2 = __webpack_require__(1413);
-// EXTERNAL MODULE: ./node_modules/preact/compat/dist/compat.module.js + 1 modules
-var compat_module = __webpack_require__(9748);
+// EXTERNAL MODULE: ./node_modules/react/index.js
+var react = __webpack_require__(7294);
 ;// CONCATENATED MODULE: ./node_modules/@ant-design/icons-svg/es/asn/EllipsisOutlined.js
 // This icon file is generated automatically.
 var EllipsisOutlined = { "icon": { "tag": "svg", "attrs": { "viewBox": "64 64 896 896", "focusable": "false" }, "children": [{ "tag": "path", "attrs": { "d": "M176 511a56 56 0 10112 0 56 56 0 10-112 0zm280 0a56 56 0 10112 0 56 56 0 10-112 0zm280 0a56 56 0 10112 0 56 56 0 10-112 0z" } }] }, "name": "ellipsis", "theme": "outlined" };
@@ -1208,14 +1208,14 @@ var AntdIcon = __webpack_require__(6988);
 
 
 var EllipsisOutlined_EllipsisOutlined = function EllipsisOutlined(props, ref) {
-  return /*#__PURE__*/compat_module.createElement(AntdIcon/* default */.Z, (0,objectSpread2/* default */.Z)((0,objectSpread2/* default */.Z)({}, props), {}, {
+  return /*#__PURE__*/react.createElement(AntdIcon/* default */.Z, (0,objectSpread2/* default */.Z)((0,objectSpread2/* default */.Z)({}, props), {}, {
     ref: ref,
     icon: asn_EllipsisOutlined
   }));
 };
 
 EllipsisOutlined_EllipsisOutlined.displayName = 'EllipsisOutlined';
-/* harmony default export */ const icons_EllipsisOutlined = (/*#__PURE__*/compat_module.forwardRef(EllipsisOutlined_EllipsisOutlined));
+/* harmony default export */ const icons_EllipsisOutlined = (/*#__PURE__*/react.forwardRef(EllipsisOutlined_EllipsisOutlined));
 
 /***/ }),
 
@@ -1231,8 +1231,8 @@ __webpack_require__.d(__webpack_exports__, {
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/objectSpread2.js
 var objectSpread2 = __webpack_require__(1413);
-// EXTERNAL MODULE: ./node_modules/preact/compat/dist/compat.module.js + 1 modules
-var compat_module = __webpack_require__(9748);
+// EXTERNAL MODULE: ./node_modules/react/index.js
+var react = __webpack_require__(7294);
 ;// CONCATENATED MODULE: ./node_modules/@ant-design/icons-svg/es/asn/RightOutlined.js
 // This icon file is generated automatically.
 var RightOutlined = { "icon": { "tag": "svg", "attrs": { "viewBox": "64 64 896 896", "focusable": "false" }, "children": [{ "tag": "path", "attrs": { "d": "M765.7 486.8L314.9 134.7A7.97 7.97 0 00302 141v77.3c0 4.9 2.3 9.6 6.1 12.6l360 281.1-360 281.1c-3.9 3-6.1 7.7-6.1 12.6V883c0 6.7 7.7 10.4 12.9 6.3l450.8-352.1a31.96 31.96 0 000-50.4z" } }] }, "name": "right", "theme": "outlined" };
@@ -1249,14 +1249,14 @@ var AntdIcon = __webpack_require__(6988);
 
 
 var RightOutlined_RightOutlined = function RightOutlined(props, ref) {
-  return /*#__PURE__*/compat_module.createElement(AntdIcon/* default */.Z, (0,objectSpread2/* default */.Z)((0,objectSpread2/* default */.Z)({}, props), {}, {
+  return /*#__PURE__*/react.createElement(AntdIcon/* default */.Z, (0,objectSpread2/* default */.Z)((0,objectSpread2/* default */.Z)({}, props), {}, {
     ref: ref,
     icon: asn_RightOutlined
   }));
 };
 
 RightOutlined_RightOutlined.displayName = 'RightOutlined';
-/* harmony default export */ const icons_RightOutlined = (/*#__PURE__*/compat_module.forwardRef(RightOutlined_RightOutlined));
+/* harmony default export */ const icons_RightOutlined = (/*#__PURE__*/react.forwardRef(RightOutlined_RightOutlined));
 
 /***/ }),
 
@@ -1278,7 +1278,7 @@ module.exports = __webpack_require__(5666);
 /* harmony import */ var _fortawesome_fontawesome_svg_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(8947);
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(5697);
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(9748);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(7294);
 
 
 
@@ -1666,7 +1666,7 @@ FontAwesomeIcon.defaultProps = {
   transform: null,
   swapOpacity: false
 };
-var convertCurry = convert.bind(null, react__WEBPACK_IMPORTED_MODULE_2__["default"].createElement);
+var convertCurry = convert.bind(null, react__WEBPACK_IMPORTED_MODULE_2__.createElement);
 
 
 
@@ -1758,7 +1758,7 @@ var getTransitionName = function getTransitionName(rootPrefixCls, motion, transi
 /* harmony export */   "Tm": () => (/* binding */ cloneElement)
 /* harmony export */ });
 /* unused harmony export replaceElement */
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(9748);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(7294);
 
 var isValidElement = react__WEBPACK_IMPORTED_MODULE_0__.isValidElement;
 
@@ -1812,8 +1812,8 @@ __webpack_require__.d(__webpack_exports__, {
 var esm_extends = __webpack_require__(7462);
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/defineProperty.js
 var defineProperty = __webpack_require__(4942);
-// EXTERNAL MODULE: ./node_modules/preact/compat/dist/compat.module.js + 1 modules
-var compat_module = __webpack_require__(9748);
+// EXTERNAL MODULE: ./node_modules/react/index.js
+var react = __webpack_require__(7294);
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js + 3 modules
 var toConsumableArray = __webpack_require__(2982);
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/classCallCheck.js
@@ -1847,7 +1847,7 @@ var slicedToArray = __webpack_require__(885);
 /* eslint-disable react/prop-types */
 
 
-var PanelContent = /*#__PURE__*/compat_module.forwardRef(function (props, ref) {
+var PanelContent = /*#__PURE__*/react.forwardRef(function (props, ref) {
   var _classnames;
 
   var prefixCls = props.prefixCls,
@@ -1858,12 +1858,12 @@ var PanelContent = /*#__PURE__*/compat_module.forwardRef(function (props, ref) {
       isActive = props.isActive,
       role = props.role;
 
-  var _React$useState = compat_module.useState(isActive || forceRender),
+  var _React$useState = react.useState(isActive || forceRender),
       _React$useState2 = (0,slicedToArray/* default */.Z)(_React$useState, 2),
       rendered = _React$useState2[0],
       setRendered = _React$useState2[1];
 
-  compat_module.useEffect(function () {
+  react.useEffect(function () {
     if (forceRender || isActive) {
       setRendered(true);
     }
@@ -1873,12 +1873,12 @@ var PanelContent = /*#__PURE__*/compat_module.forwardRef(function (props, ref) {
     return null;
   }
 
-  return /*#__PURE__*/compat_module.createElement("div", {
+  return /*#__PURE__*/react.createElement("div", {
     ref: ref,
     className: classnames_default()("".concat(prefixCls, "-content"), (_classnames = {}, (0,defineProperty/* default */.Z)(_classnames, "".concat(prefixCls, "-content-active"), isActive), (0,defineProperty/* default */.Z)(_classnames, "".concat(prefixCls, "-content-inactive"), !isActive), _classnames), className),
     style: style,
     role: role
-  }, /*#__PURE__*/compat_module.createElement("div", {
+  }, /*#__PURE__*/react.createElement("div", {
     className: "".concat(prefixCls, "-content-box")
   }, children));
 });
@@ -1966,7 +1966,7 @@ var CollapsePanel = /*#__PURE__*/function (_React$Component) {
       var disabled = collapsible === 'disabled';
       var headerCls = classnames_default()("".concat(prefixCls, "-header"), (_classNames = {}, (0,defineProperty/* default */.Z)(_classNames, headerClass, headerClass), (0,defineProperty/* default */.Z)(_classNames, "".concat(prefixCls, "-header-collapsible-only"), collapsible === 'header'), _classNames));
       var itemCls = classnames_default()((_classNames2 = {}, (0,defineProperty/* default */.Z)(_classNames2, "".concat(prefixCls, "-item"), true), (0,defineProperty/* default */.Z)(_classNames2, "".concat(prefixCls, "-item-active"), isActive), (0,defineProperty/* default */.Z)(_classNames2, "".concat(prefixCls, "-item-disabled"), disabled), _classNames2), className);
-      var icon = /*#__PURE__*/compat_module.createElement("i", {
+      var icon = /*#__PURE__*/react.createElement("i", {
         className: "arrow"
       });
 
@@ -1975,11 +1975,11 @@ var CollapsePanel = /*#__PURE__*/function (_React$Component) {
       }
 
       var ifExtraExist = extra !== null && extra !== undefined && typeof extra !== 'boolean';
-      return /*#__PURE__*/compat_module.createElement("div", {
+      return /*#__PURE__*/react.createElement("div", {
         className: itemCls,
         style: style,
         id: id
-      }, /*#__PURE__*/compat_module.createElement("div", {
+      }, /*#__PURE__*/react.createElement("div", {
         className: headerCls,
         onClick: function onClick() {
           return collapsible !== 'header' && _this2.handleItemClick();
@@ -1988,12 +1988,12 @@ var CollapsePanel = /*#__PURE__*/function (_React$Component) {
         tabIndex: disabled ? -1 : 0,
         "aria-expanded": isActive,
         onKeyPress: this.handleKeyPress
-      }, showArrow && icon, collapsible === 'header' ? /*#__PURE__*/compat_module.createElement("span", {
+      }, showArrow && icon, collapsible === 'header' ? /*#__PURE__*/react.createElement("span", {
         onClick: this.handleItemClick,
         className: "".concat(prefixCls, "-header-text")
-      }, header) : header, ifExtraExist && /*#__PURE__*/compat_module.createElement("div", {
+      }, header) : header, ifExtraExist && /*#__PURE__*/react.createElement("div", {
         className: "".concat(prefixCls, "-extra")
-      }, extra)), /*#__PURE__*/compat_module.createElement(es/* default */.Z, (0,esm_extends/* default */.Z)({
+      }, extra)), /*#__PURE__*/react.createElement(es/* default */.Z, (0,esm_extends/* default */.Z)({
         visible: isActive,
         leavedClassName: "".concat(prefixCls, "-content-hidden")
       }, openMotion, {
@@ -2002,7 +2002,7 @@ var CollapsePanel = /*#__PURE__*/function (_React$Component) {
       }), function (_ref, ref) {
         var motionClassName = _ref.className,
             motionStyle = _ref.style;
-        return /*#__PURE__*/compat_module.createElement(es_PanelContent, {
+        return /*#__PURE__*/react.createElement(es_PanelContent, {
           ref: ref,
           prefixCls: prefixCls,
           className: motionClassName,
@@ -2016,7 +2016,7 @@ var CollapsePanel = /*#__PURE__*/function (_React$Component) {
   }]);
 
   return CollapsePanel;
-}(compat_module.Component);
+}(react.Component);
 
 CollapsePanel.defaultProps = {
   showArrow: true,
@@ -2135,7 +2135,7 @@ var Collapse = /*#__PURE__*/function (_React$Component) {
         return child;
       }
 
-      return /*#__PURE__*/compat_module.cloneElement(child, props);
+      return /*#__PURE__*/react.cloneElement(child, props);
     };
 
     _this.getItems = function () {
@@ -2183,7 +2183,7 @@ var Collapse = /*#__PURE__*/function (_React$Component) {
           style = _this$props2.style,
           accordion = _this$props2.accordion;
       var collapseClassName = classnames_default()((_classNames = {}, (0,defineProperty/* default */.Z)(_classNames, prefixCls, true), (0,defineProperty/* default */.Z)(_classNames, className, !!className), _classNames));
-      return /*#__PURE__*/compat_module.createElement("div", {
+      return /*#__PURE__*/react.createElement("div", {
         className: collapseClassName,
         style: style,
         role: accordion ? 'tablist' : null
@@ -2203,7 +2203,7 @@ var Collapse = /*#__PURE__*/function (_React$Component) {
   }]);
 
   return Collapse;
-}(compat_module.Component);
+}(react.Component);
 
 Collapse.defaultProps = {
   prefixCls: 'rc-collapse',
@@ -2238,7 +2238,7 @@ var devWarning = __webpack_require__(1687);
 var CollapsePanel_CollapsePanel = function CollapsePanel(props) {
   (0,devWarning/* default */.Z)(!('disabled' in props), 'Collapse.Panel', '`disabled` is deprecated. Please use `collapsible="disabled"` instead.');
 
-  var _React$useContext = compat_module.useContext(context/* ConfigContext */.E_),
+  var _React$useContext = react.useContext(context/* ConfigContext */.E_),
       getPrefixCls = _React$useContext.getPrefixCls;
 
   var customizePrefixCls = props.prefixCls,
@@ -2248,7 +2248,7 @@ var CollapsePanel_CollapsePanel = function CollapsePanel(props) {
       showArrow = _props$showArrow === void 0 ? true : _props$showArrow;
   var prefixCls = getPrefixCls('collapse', customizePrefixCls);
   var collapsePanelClassName = classnames_default()((0,defineProperty/* default */.Z)({}, "".concat(prefixCls, "-no-arrow"), !showArrow), className);
-  return /*#__PURE__*/compat_module.createElement(rc_collapse_es.Panel, (0,esm_extends/* default */.Z)({}, props, {
+  return /*#__PURE__*/react.createElement(rc_collapse_es.Panel, (0,esm_extends/* default */.Z)({}, props, {
     prefixCls: prefixCls,
     className: collapsePanelClassName
   }));
@@ -2276,7 +2276,7 @@ var reactNode = __webpack_require__(6159);
 var Collapse_Collapse = function Collapse(props) {
   var _classNames;
 
-  var _React$useContext = compat_module.useContext(context/* ConfigContext */.E_),
+  var _React$useContext = react.useContext(context/* ConfigContext */.E_),
       getPrefixCls = _React$useContext.getPrefixCls,
       direction = _React$useContext.direction;
 
@@ -2301,7 +2301,7 @@ var Collapse_Collapse = function Collapse(props) {
   var renderExpandIcon = function renderExpandIcon() {
     var panelProps = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
     var expandIcon = props.expandIcon;
-    var icon = expandIcon ? expandIcon(panelProps) : /*#__PURE__*/compat_module.createElement(RightOutlined/* default */.Z, {
+    var icon = expandIcon ? expandIcon(panelProps) : /*#__PURE__*/react.createElement(RightOutlined/* default */.Z, {
       rotate: panelProps.isActive ? 90 : undefined
     });
     return (0,reactNode/* cloneElement */.Tm)(icon, function () {
@@ -2342,7 +2342,7 @@ var Collapse_Collapse = function Collapse(props) {
     });
   };
 
-  return /*#__PURE__*/compat_module.createElement(rc_collapse_es, (0,esm_extends/* default */.Z)({
+  return /*#__PURE__*/react.createElement(rc_collapse_es, (0,esm_extends/* default */.Z)({
     openMotion: openMotion
   }, props, {
     expandIcon: renderExpandIcon,
@@ -2372,8 +2372,8 @@ __webpack_require__.d(__webpack_exports__, {
 
 // UNUSED EXPORTS: withConfigConsumer
 
-// EXTERNAL MODULE: ./node_modules/preact/compat/dist/compat.module.js + 1 modules
-var compat_module = __webpack_require__(9748);
+// EXTERNAL MODULE: ./node_modules/react/index.js
+var react = __webpack_require__(7294);
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/extends.js
 var esm_extends = __webpack_require__(7462);
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/defineProperty.js
@@ -2602,7 +2602,7 @@ var localeValues = {
 /* harmony default export */ const locale_provider_default = (locale_default);
 ;// CONCATENATED MODULE: ./node_modules/antd/es/locale-provider/context.js
 
-var context_LocaleContext = /*#__PURE__*/(0,compat_module.createContext)(undefined);
+var context_LocaleContext = /*#__PURE__*/(0,react.createContext)(undefined);
 /* harmony default export */ const context = (context_LocaleContext);
 ;// CONCATENATED MODULE: ./node_modules/antd/es/locale-provider/LocaleReceiver.js
 
@@ -2656,7 +2656,7 @@ var LocaleReceiver = /*#__PURE__*/function (_React$Component) {
   }]);
 
   return LocaleReceiver;
-}(compat_module.Component);
+}(react.Component);
 
 
 LocaleReceiver.defaultProps = {
@@ -2677,52 +2677,52 @@ function useLocaleReceiver(componentName, defaultLocale) {
 
 
 var Empty = function Empty() {
-  var _React$useContext = compat_module.useContext(ConfigContext),
+  var _React$useContext = react.useContext(ConfigContext),
       getPrefixCls = _React$useContext.getPrefixCls;
 
   var prefixCls = getPrefixCls('empty-img-default');
-  return /*#__PURE__*/compat_module.createElement("svg", {
+  return /*#__PURE__*/react.createElement("svg", {
     className: prefixCls,
     width: "184",
     height: "152",
     viewBox: "0 0 184 152",
     xmlns: "http://www.w3.org/2000/svg"
-  }, /*#__PURE__*/compat_module.createElement("g", {
+  }, /*#__PURE__*/react.createElement("g", {
     fill: "none",
     fillRule: "evenodd"
-  }, /*#__PURE__*/compat_module.createElement("g", {
+  }, /*#__PURE__*/react.createElement("g", {
     transform: "translate(24 31.67)"
-  }, /*#__PURE__*/compat_module.createElement("ellipse", {
+  }, /*#__PURE__*/react.createElement("ellipse", {
     className: "".concat(prefixCls, "-ellipse"),
     cx: "67.797",
     cy: "106.89",
     rx: "67.797",
     ry: "12.668"
-  }), /*#__PURE__*/compat_module.createElement("path", {
+  }), /*#__PURE__*/react.createElement("path", {
     className: "".concat(prefixCls, "-path-1"),
     d: "M122.034 69.674L98.109 40.229c-1.148-1.386-2.826-2.225-4.593-2.225h-51.44c-1.766 0-3.444.839-4.592 2.225L13.56 69.674v15.383h108.475V69.674z"
-  }), /*#__PURE__*/compat_module.createElement("path", {
+  }), /*#__PURE__*/react.createElement("path", {
     className: "".concat(prefixCls, "-path-2"),
     d: "M101.537 86.214L80.63 61.102c-1.001-1.207-2.507-1.867-4.048-1.867H31.724c-1.54 0-3.047.66-4.048 1.867L6.769 86.214v13.792h94.768V86.214z",
     transform: "translate(13.56)"
-  }), /*#__PURE__*/compat_module.createElement("path", {
+  }), /*#__PURE__*/react.createElement("path", {
     className: "".concat(prefixCls, "-path-3"),
     d: "M33.83 0h67.933a4 4 0 0 1 4 4v93.344a4 4 0 0 1-4 4H33.83a4 4 0 0 1-4-4V4a4 4 0 0 1 4-4z"
-  }), /*#__PURE__*/compat_module.createElement("path", {
+  }), /*#__PURE__*/react.createElement("path", {
     className: "".concat(prefixCls, "-path-4"),
     d: "M42.678 9.953h50.237a2 2 0 0 1 2 2V36.91a2 2 0 0 1-2 2H42.678a2 2 0 0 1-2-2V11.953a2 2 0 0 1 2-2zM42.94 49.767h49.713a2.262 2.262 0 1 1 0 4.524H42.94a2.262 2.262 0 0 1 0-4.524zM42.94 61.53h49.713a2.262 2.262 0 1 1 0 4.525H42.94a2.262 2.262 0 0 1 0-4.525zM121.813 105.032c-.775 3.071-3.497 5.36-6.735 5.36H20.515c-3.238 0-5.96-2.29-6.734-5.36a7.309 7.309 0 0 1-.222-1.79V69.675h26.318c2.907 0 5.25 2.448 5.25 5.42v.04c0 2.971 2.37 5.37 5.277 5.37h34.785c2.907 0 5.277-2.421 5.277-5.393V75.1c0-2.972 2.343-5.426 5.25-5.426h26.318v33.569c0 .617-.077 1.216-.221 1.789z"
-  })), /*#__PURE__*/compat_module.createElement("path", {
+  })), /*#__PURE__*/react.createElement("path", {
     className: "".concat(prefixCls, "-path-5"),
     d: "M149.121 33.292l-6.83 2.65a1 1 0 0 1-1.317-1.23l1.937-6.207c-2.589-2.944-4.109-6.534-4.109-10.408C138.802 8.102 148.92 0 161.402 0 173.881 0 184 8.102 184 18.097c0 9.995-10.118 18.097-22.599 18.097-4.528 0-8.744-1.066-12.28-2.902z"
-  }), /*#__PURE__*/compat_module.createElement("g", {
+  }), /*#__PURE__*/react.createElement("g", {
     className: "".concat(prefixCls, "-g"),
     transform: "translate(149.65 15.383)"
-  }, /*#__PURE__*/compat_module.createElement("ellipse", {
+  }, /*#__PURE__*/react.createElement("ellipse", {
     cx: "20.654",
     cy: "3.167",
     rx: "2.849",
     ry: "2.815"
-  }), /*#__PURE__*/compat_module.createElement("path", {
+  }), /*#__PURE__*/react.createElement("path", {
     d: "M5.698 5.63H0L2.898.704zM9.259.704h4.985V5.63H9.259z"
   }))));
 };
@@ -2733,32 +2733,32 @@ var Empty = function Empty() {
 
 
 var Simple = function Simple() {
-  var _React$useContext = compat_module.useContext(ConfigContext),
+  var _React$useContext = react.useContext(ConfigContext),
       getPrefixCls = _React$useContext.getPrefixCls;
 
   var prefixCls = getPrefixCls('empty-img-simple');
-  return /*#__PURE__*/compat_module.createElement("svg", {
+  return /*#__PURE__*/react.createElement("svg", {
     className: prefixCls,
     width: "64",
     height: "41",
     viewBox: "0 0 64 41",
     xmlns: "http://www.w3.org/2000/svg"
-  }, /*#__PURE__*/compat_module.createElement("g", {
+  }, /*#__PURE__*/react.createElement("g", {
     transform: "translate(0 1)",
     fill: "none",
     fillRule: "evenodd"
-  }, /*#__PURE__*/compat_module.createElement("ellipse", {
+  }, /*#__PURE__*/react.createElement("ellipse", {
     className: "".concat(prefixCls, "-ellipse"),
     cx: "32",
     cy: "33",
     rx: "32",
     ry: "7"
-  }), /*#__PURE__*/compat_module.createElement("g", {
+  }), /*#__PURE__*/react.createElement("g", {
     className: "".concat(prefixCls, "-g"),
     fillRule: "nonzero"
-  }, /*#__PURE__*/compat_module.createElement("path", {
+  }, /*#__PURE__*/react.createElement("path", {
     d: "M55 12.76L44.854 1.258C44.367.474 43.656 0 42.907 0H21.093c-.749 0-1.46.474-1.947 1.257L9 12.761V22h46v-9.24z"
-  }), /*#__PURE__*/compat_module.createElement("path", {
+  }), /*#__PURE__*/react.createElement("path", {
     d: "M41.613 15.931c0-1.605.994-2.93 2.227-2.931H55v18.137C55 33.26 53.68 35 52.05 35h-40.1C10.32 35 9 33.259 9 31.137V13h11.16c1.233 0 2.227 1.323 2.227 2.928v.022c0 1.605 1.005 2.901 2.237 2.901h14.752c1.232 0 2.237-1.308 2.237-2.913v-.007z",
     className: "".concat(prefixCls, "-path")
   }))));
@@ -2788,8 +2788,8 @@ var __rest = undefined && undefined.__rest || function (s, e) {
 
 
 
-var defaultEmptyImg = /*#__PURE__*/compat_module.createElement(empty, null);
-var simpleEmptyImg = /*#__PURE__*/compat_module.createElement(simple, null);
+var defaultEmptyImg = /*#__PURE__*/react.createElement(empty, null);
+var simpleEmptyImg = /*#__PURE__*/react.createElement(simple, null);
 
 var empty_Empty = function Empty(_a) {
   var className = _a.className,
@@ -2801,11 +2801,11 @@ var empty_Empty = function Empty(_a) {
       imageStyle = _a.imageStyle,
       restProps = __rest(_a, ["className", "prefixCls", "image", "description", "children", "imageStyle"]);
 
-  var _React$useContext = compat_module.useContext(ConfigContext),
+  var _React$useContext = react.useContext(ConfigContext),
       getPrefixCls = _React$useContext.getPrefixCls,
       direction = _React$useContext.direction;
 
-  return /*#__PURE__*/compat_module.createElement(LocaleReceiver, {
+  return /*#__PURE__*/react.createElement(LocaleReceiver, {
     componentName: "Empty"
   }, function (locale) {
     var _classNames;
@@ -2816,7 +2816,7 @@ var empty_Empty = function Empty(_a) {
     var imageNode = null;
 
     if (typeof image === 'string') {
-      imageNode = /*#__PURE__*/compat_module.createElement("img", {
+      imageNode = /*#__PURE__*/react.createElement("img", {
         alt: alt,
         src: image
       });
@@ -2824,14 +2824,14 @@ var empty_Empty = function Empty(_a) {
       imageNode = image;
     }
 
-    return /*#__PURE__*/compat_module.createElement("div", (0,esm_extends/* default */.Z)({
+    return /*#__PURE__*/react.createElement("div", (0,esm_extends/* default */.Z)({
       className: classnames_default()(prefixCls, (_classNames = {}, (0,defineProperty/* default */.Z)(_classNames, "".concat(prefixCls, "-normal"), image === simpleEmptyImg), (0,defineProperty/* default */.Z)(_classNames, "".concat(prefixCls, "-rtl"), direction === 'rtl'), _classNames), className)
-    }, restProps), /*#__PURE__*/compat_module.createElement("div", {
+    }, restProps), /*#__PURE__*/react.createElement("div", {
       className: "".concat(prefixCls, "-image"),
       style: imageStyle
-    }, imageNode), des && /*#__PURE__*/compat_module.createElement("div", {
+    }, imageNode), des && /*#__PURE__*/react.createElement("div", {
       className: "".concat(prefixCls, "-description")
-    }, des), children && /*#__PURE__*/compat_module.createElement("div", {
+    }, des), children && /*#__PURE__*/react.createElement("div", {
       className: "".concat(prefixCls, "-footer")
     }, children));
   });
@@ -2846,14 +2846,14 @@ empty_Empty.PRESENTED_IMAGE_SIMPLE = simpleEmptyImg;
 
 
 var renderEmpty = function renderEmpty(componentName) {
-  return /*#__PURE__*/compat_module.createElement(ConfigConsumer, null, function (_ref) {
+  return /*#__PURE__*/react.createElement(ConfigConsumer, null, function (_ref) {
     var getPrefixCls = _ref.getPrefixCls;
     var prefix = getPrefixCls('empty');
 
     switch (componentName) {
       case 'Table':
       case 'List':
-        return /*#__PURE__*/compat_module.createElement(es_empty, {
+        return /*#__PURE__*/react.createElement(es_empty, {
           image: es_empty.PRESENTED_IMAGE_SIMPLE
         });
 
@@ -2862,13 +2862,13 @@ var renderEmpty = function renderEmpty(componentName) {
       case 'Cascader':
       case 'Transfer':
       case 'Mentions':
-        return /*#__PURE__*/compat_module.createElement(es_empty, {
+        return /*#__PURE__*/react.createElement(es_empty, {
           image: es_empty.PRESENTED_IMAGE_SIMPLE,
           className: "".concat(prefix, "-small")
         });
 
       default:
-        return /*#__PURE__*/compat_module.createElement(es_empty, null);
+        return /*#__PURE__*/react.createElement(es_empty, null);
     }
   });
 };
@@ -2884,7 +2884,7 @@ var defaultGetPrefixCls = function defaultGetPrefixCls(suffixCls, customizePrefi
   return suffixCls ? "ant-".concat(suffixCls) : 'ant';
 };
 
-var ConfigContext = /*#__PURE__*/compat_module.createContext({
+var ConfigContext = /*#__PURE__*/react.createContext({
   // We provide a default function for Context without provider
   getPrefixCls: defaultGetPrefixCls,
   renderEmpty: config_provider_renderEmpty
@@ -2930,8 +2930,8 @@ __webpack_require__.d(__webpack_exports__, {
 var esm_extends = __webpack_require__(7462);
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/defineProperty.js
 var defineProperty = __webpack_require__(4942);
-// EXTERNAL MODULE: ./node_modules/preact/compat/dist/compat.module.js + 1 modules
-var compat_module = __webpack_require__(9748);
+// EXTERNAL MODULE: ./node_modules/react/index.js
+var react = __webpack_require__(7294);
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/slicedToArray.js + 3 modules
 var slicedToArray = __webpack_require__(885);
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/objectWithoutProperties.js
@@ -3017,14 +3017,14 @@ function Dropdown(props, ref) {
       trigger = _props$trigger === void 0 ? ['hover'] : _props$trigger,
       otherProps = (0,objectWithoutProperties/* default */.Z)(props, ["arrow", "prefixCls", "transitionName", "animation", "align", "placement", "placements", "getPopupContainer", "showAction", "hideAction", "overlayClassName", "overlayStyle", "visible", "trigger"]);
 
-  var _React$useState = compat_module.useState(),
+  var _React$useState = react.useState(),
       _React$useState2 = (0,slicedToArray/* default */.Z)(_React$useState, 2),
       triggerVisible = _React$useState2[0],
       setTriggerVisible = _React$useState2[1];
 
   var mergedVisible = 'visible' in props ? visible : triggerVisible;
-  var triggerRef = compat_module.useRef(null);
-  compat_module.useImperativeHandle(ref, function () {
+  var triggerRef = react.useRef(null);
+  react.useImperativeHandle(ref, function () {
     return triggerRef.current;
   });
 
@@ -3075,9 +3075,9 @@ function Dropdown(props, ref) {
       delete extraOverlayProps.prefixCls;
     }
 
-    return compat_module.createElement(compat_module.Fragment, null, arrow && compat_module.createElement("div", {
+    return react.createElement(react.Fragment, null, arrow && react.createElement("div", {
       className: "".concat(prefixCls, "-arrow")
-    }), compat_module.cloneElement(overlayElement, extraOverlayProps));
+    }), react.cloneElement(overlayElement, extraOverlayProps));
   };
 
   var getMenuElementOrLambda = function getMenuElementOrLambda() {
@@ -3115,7 +3115,7 @@ function Dropdown(props, ref) {
     var children = props.children;
     var childrenProps = children.props ? children.props : {};
     var childClassName = classnames_default()(childrenProps.className, getOpenClassName());
-    return triggerVisible && children ? compat_module.cloneElement(children, {
+    return triggerVisible && children ? react.cloneElement(children, {
       className: childClassName
     }) : children;
   };
@@ -3126,7 +3126,7 @@ function Dropdown(props, ref) {
     triggerHideAction = ['click'];
   }
 
-  return compat_module.createElement(es/* default */.Z, Object.assign({}, otherProps, {
+  return react.createElement(es/* default */.Z, Object.assign({}, otherProps, {
     prefixCls: prefixCls,
     ref: triggerRef,
     popupClassName: classnames_default()(overlayClassName, (0,defineProperty/* default */.Z)({}, "".concat(prefixCls, "-show-arrow"), arrow)),
@@ -3147,7 +3147,7 @@ function Dropdown(props, ref) {
   }), renderChildren());
 }
 
-/* harmony default export */ const es_Dropdown = (compat_module.forwardRef(Dropdown));
+/* harmony default export */ const es_Dropdown = (react.forwardRef(Dropdown));
 ;// CONCATENATED MODULE: ./node_modules/rc-dropdown/es/index.js
 
 /* harmony default export */ const rc_dropdown_es = (es_Dropdown);
@@ -3196,7 +3196,7 @@ var __rest = undefined && undefined.__rest || function (s, e) {
 
 
 var ButtonGroup = function ButtonGroup(props) {
-  return /*#__PURE__*/compat_module.createElement(context/* ConfigConsumer */.C, null, function (_ref) {
+  return /*#__PURE__*/react.createElement(context/* ConfigConsumer */.C, null, function (_ref) {
     var _classNames;
 
     var getPrefixCls = _ref.getPrefixCls,
@@ -3231,7 +3231,7 @@ var ButtonGroup = function ButtonGroup(props) {
     }
 
     var classes = classnames_default()(prefixCls, (_classNames = {}, (0,defineProperty/* default */.Z)(_classNames, "".concat(prefixCls, "-").concat(sizeCls), sizeCls), (0,defineProperty/* default */.Z)(_classNames, "".concat(prefixCls, "-rtl"), direction === 'rtl'), _classNames), className);
-    return /*#__PURE__*/compat_module.createElement("div", (0,esm_extends/* default */.Z)({}, others, {
+    return /*#__PURE__*/react.createElement("div", (0,esm_extends/* default */.Z)({}, others, {
       className: classes
     }));
   });
@@ -3328,7 +3328,7 @@ var Wave = /*#__PURE__*/function (_React$Component) {
     (0,classCallCheck/* default */.Z)(this, Wave);
 
     _this = _super.apply(this, arguments);
-    _this.containerRef = /*#__PURE__*/compat_module.createRef();
+    _this.containerRef = /*#__PURE__*/react.createRef();
     _this.animationStart = false;
     _this.destroyed = false;
 
@@ -3434,7 +3434,7 @@ var Wave = /*#__PURE__*/function (_React$Component) {
       var csp = _ref.csp;
       var children = _this.props.children;
       _this.csp = csp;
-      if (! /*#__PURE__*/compat_module.isValidElement(children)) return children;
+      if (! /*#__PURE__*/react.isValidElement(children)) return children;
       var ref = _this.containerRef;
 
       if ((0,es_ref/* supportRef */.Yr)(children)) {
@@ -3509,12 +3509,12 @@ var Wave = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      return /*#__PURE__*/compat_module.createElement(context/* ConfigConsumer */.C, null, this.renderWave);
+      return /*#__PURE__*/react.createElement(context/* ConfigConsumer */.C, null, this.renderWave);
     }
   }]);
 
   return Wave;
-}(compat_module.Component);
+}(react.Component);
 
 
 Wave.contextType = context/* ConfigContext */.E_;
@@ -3524,7 +3524,7 @@ var type = __webpack_require__(3355);
 var devWarning = __webpack_require__(1687);
 ;// CONCATENATED MODULE: ./node_modules/antd/es/config-provider/SizeContext.js
 
-var SizeContext = /*#__PURE__*/compat_module.createContext(undefined);
+var SizeContext = /*#__PURE__*/react.createContext(undefined);
 var SizeContextProvider = function SizeContextProvider(_ref) {
   var children = _ref.children,
       size = _ref.size;
@@ -3555,14 +3555,14 @@ var AntdIcon = __webpack_require__(6988);
 
 
 var LoadingOutlined_LoadingOutlined = function LoadingOutlined(props, ref) {
-  return /*#__PURE__*/compat_module.createElement(AntdIcon/* default */.Z, (0,objectSpread2/* default */.Z)((0,objectSpread2/* default */.Z)({}, props), {}, {
+  return /*#__PURE__*/react.createElement(AntdIcon/* default */.Z, (0,objectSpread2/* default */.Z)((0,objectSpread2/* default */.Z)({}, props), {}, {
     ref: ref,
     icon: asn_LoadingOutlined
   }));
 };
 
 LoadingOutlined_LoadingOutlined.displayName = 'LoadingOutlined';
-/* harmony default export */ const icons_LoadingOutlined = (/*#__PURE__*/compat_module.forwardRef(LoadingOutlined_LoadingOutlined));
+/* harmony default export */ const icons_LoadingOutlined = (/*#__PURE__*/react.forwardRef(LoadingOutlined_LoadingOutlined));
 ;// CONCATENATED MODULE: ./node_modules/antd/es/button/LoadingIcon.js
 
 
@@ -3591,12 +3591,12 @@ var LoadingIcon = function LoadingIcon(_ref) {
   var visible = !!loading;
 
   if (existIcon) {
-    return /*#__PURE__*/compat_module["default"].createElement("span", {
+    return /*#__PURE__*/react.createElement("span", {
       className: "".concat(prefixCls, "-loading-icon")
-    }, /*#__PURE__*/compat_module["default"].createElement(icons_LoadingOutlined, null));
+    }, /*#__PURE__*/react.createElement(icons_LoadingOutlined, null));
   }
 
-  return /*#__PURE__*/compat_module["default"].createElement(rc_motion_es/* default */.Z, {
+  return /*#__PURE__*/react.createElement(rc_motion_es/* default */.Z, {
     visible: visible // We do not really use this motionName
     ,
     motionName: "".concat(prefixCls, "-loading-icon-motion"),
@@ -3610,11 +3610,11 @@ var LoadingIcon = function LoadingIcon(_ref) {
   }, function (_ref2, ref) {
     var className = _ref2.className,
         style = _ref2.style;
-    return /*#__PURE__*/compat_module["default"].createElement("span", {
+    return /*#__PURE__*/react.createElement("span", {
       className: "".concat(prefixCls, "-loading-icon"),
       style: style,
       ref: ref
-    }, /*#__PURE__*/compat_module["default"].createElement(icons_LoadingOutlined, {
+    }, /*#__PURE__*/react.createElement(icons_LoadingOutlined, {
       className: className
     }));
   });
@@ -3665,7 +3665,7 @@ function isUnborderedButtonType(type) {
 }
 
 function isReactFragment(node) {
-  return /*#__PURE__*/compat_module.isValidElement(node) && node.type === compat_module.Fragment;
+  return /*#__PURE__*/react.isValidElement(node) && node.type === react.Fragment;
 } // Insert one space between two chinese characters automatically.
 
 
@@ -3684,11 +3684,11 @@ function insertSpace(child, needInserted) {
   }
 
   if (typeof child === 'string') {
-    return isTwoCNChar(child) ? /*#__PURE__*/compat_module.createElement("span", null, child.split('').join(SPACE)) : /*#__PURE__*/compat_module.createElement("span", null, child);
+    return isTwoCNChar(child) ? /*#__PURE__*/react.createElement("span", null, child.split('').join(SPACE)) : /*#__PURE__*/react.createElement("span", null, child);
   }
 
   if (isReactFragment(child)) {
-    return /*#__PURE__*/compat_module.createElement("span", null, child);
+    return /*#__PURE__*/react.createElement("span", null, child);
   }
 
   return child;
@@ -3697,7 +3697,7 @@ function insertSpace(child, needInserted) {
 function spaceChildren(children, needInserted) {
   var isPrevChildPure = false;
   var childList = [];
-  compat_module.Children.forEach(children, function (child) {
+  react.Children.forEach(children, function (child) {
     var type = (0,esm_typeof/* default */.Z)(child);
 
     var isCurrentChildPure = type === 'string' || type === 'number';
@@ -3713,7 +3713,7 @@ function spaceChildren(children, needInserted) {
     isPrevChildPure = isCurrentChildPure;
   }); // Pass to React.Children.map to auto fill key
 
-  return compat_module.Children.map(childList, function (child) {
+  return react.Children.map(childList, function (child) {
     return insertSpace(child, needInserted);
   });
 }
@@ -3754,28 +3754,28 @@ var InternalButton = function InternalButton(props, ref) {
       htmlType = _props$htmlType === void 0 ? 'button' : _props$htmlType,
       rest = button_rest(props, ["loading", "prefixCls", "type", "danger", "shape", "size", "className", "children", "icon", "ghost", "block", "htmlType"]);
 
-  var size = compat_module.useContext(config_provider_SizeContext);
+  var size = react.useContext(config_provider_SizeContext);
 
-  var _React$useState = compat_module.useState(!!loading),
+  var _React$useState = react.useState(!!loading),
       _React$useState2 = (0,slicedToArray/* default */.Z)(_React$useState, 2),
       innerLoading = _React$useState2[0],
       setLoading = _React$useState2[1];
 
-  var _React$useState3 = compat_module.useState(false),
+  var _React$useState3 = react.useState(false),
       _React$useState4 = (0,slicedToArray/* default */.Z)(_React$useState3, 2),
       hasTwoCNChar = _React$useState4[0],
       setHasTwoCNChar = _React$useState4[1];
 
-  var _React$useContext = compat_module.useContext(context/* ConfigContext */.E_),
+  var _React$useContext = react.useContext(context/* ConfigContext */.E_),
       getPrefixCls = _React$useContext.getPrefixCls,
       autoInsertSpaceInButton = _React$useContext.autoInsertSpaceInButton,
       direction = _React$useContext.direction;
 
-  var buttonRef = ref || /*#__PURE__*/compat_module.createRef();
-  var delayTimeoutRef = compat_module.useRef();
+  var buttonRef = ref || /*#__PURE__*/react.createRef();
+  var delayTimeoutRef = react.useRef();
 
   var isNeedInserted = function isNeedInserted() {
-    return compat_module.Children.count(children) === 1 && !icon && !isUnborderedButtonType(type);
+    return react.Children.count(children) === 1 && !icon && !isUnborderedButtonType(type);
   };
 
   var fixTwoCNChar = function fixTwoCNChar() {
@@ -3804,7 +3804,7 @@ var InternalButton = function InternalButton(props, ref) {
     loadingOrDelay = !!loading;
   }
 
-  compat_module.useEffect(function () {
+  react.useEffect(function () {
     clearTimeout(delayTimeoutRef.current);
 
     if (typeof loadingOrDelay === 'number') {
@@ -3815,7 +3815,7 @@ var InternalButton = function InternalButton(props, ref) {
       setLoading(loadingOrDelay);
     }
   }, [loadingOrDelay]);
-  compat_module.useEffect(fixTwoCNChar, [buttonRef]);
+  react.useEffect(fixTwoCNChar, [buttonRef]);
 
   var handleClick = function handleClick(e) {
     var _a;
@@ -3854,7 +3854,7 @@ var InternalButton = function InternalButton(props, ref) {
 
   var iconType = innerLoading ? 'loading' : icon;
   var classes = classnames_default()(prefixCls, (_classNames = {}, (0,defineProperty/* default */.Z)(_classNames, "".concat(prefixCls, "-").concat(type), type), (0,defineProperty/* default */.Z)(_classNames, "".concat(prefixCls, "-").concat(shape), shape), (0,defineProperty/* default */.Z)(_classNames, "".concat(prefixCls, "-").concat(sizeCls), sizeCls), (0,defineProperty/* default */.Z)(_classNames, "".concat(prefixCls, "-icon-only"), !children && children !== 0 && !!iconType), (0,defineProperty/* default */.Z)(_classNames, "".concat(prefixCls, "-background-ghost"), ghost && !isUnborderedButtonType(type)), (0,defineProperty/* default */.Z)(_classNames, "".concat(prefixCls, "-loading"), innerLoading), (0,defineProperty/* default */.Z)(_classNames, "".concat(prefixCls, "-two-chinese-chars"), hasTwoCNChar && autoInsertSpace), (0,defineProperty/* default */.Z)(_classNames, "".concat(prefixCls, "-block"), block), (0,defineProperty/* default */.Z)(_classNames, "".concat(prefixCls, "-dangerous"), !!danger), (0,defineProperty/* default */.Z)(_classNames, "".concat(prefixCls, "-rtl"), direction === 'rtl'), _classNames), className);
-  var iconNode = icon && !innerLoading ? icon : /*#__PURE__*/compat_module.createElement(button_LoadingIcon, {
+  var iconNode = icon && !innerLoading ? icon : /*#__PURE__*/react.createElement(button_LoadingIcon, {
     existIcon: !!icon,
     prefixCls: prefixCls,
     loading: !!innerLoading
@@ -3863,14 +3863,14 @@ var InternalButton = function InternalButton(props, ref) {
   var linkButtonRestProps = (0,omit/* default */.Z)(rest, ['navigate']);
 
   if (linkButtonRestProps.href !== undefined) {
-    return /*#__PURE__*/compat_module.createElement("a", (0,esm_extends/* default */.Z)({}, linkButtonRestProps, {
+    return /*#__PURE__*/react.createElement("a", (0,esm_extends/* default */.Z)({}, linkButtonRestProps, {
       className: classes,
       onClick: handleClick,
       ref: buttonRef
     }), iconNode, kids);
   }
 
-  var buttonNode = /*#__PURE__*/compat_module.createElement("button", (0,esm_extends/* default */.Z)({}, rest, {
+  var buttonNode = /*#__PURE__*/react.createElement("button", (0,esm_extends/* default */.Z)({}, rest, {
     type: htmlType,
     className: classes,
     onClick: handleClick,
@@ -3881,10 +3881,10 @@ var InternalButton = function InternalButton(props, ref) {
     return buttonNode;
   }
 
-  return /*#__PURE__*/compat_module.createElement(Wave, null, buttonNode);
+  return /*#__PURE__*/react.createElement(Wave, null, buttonNode);
 };
 
-var Button = /*#__PURE__*/compat_module.forwardRef(InternalButton);
+var Button = /*#__PURE__*/react.forwardRef(InternalButton);
 Button.displayName = 'Button';
 Button.Group = button_group;
 Button.__ANT_BUTTON = true;
@@ -3918,7 +3918,7 @@ var dropdown_button_rest = undefined && undefined.__rest || function (s, e) {
 var dropdown_button_ButtonGroup = es_button.Group;
 
 var DropdownButton = function DropdownButton(props) {
-  var _React$useContext = compat_module.useContext(context/* ConfigContext */.E_),
+  var _React$useContext = react.useContext(context/* ConfigContext */.E_),
       getContextPopupContainer = _React$useContext.getPopupContainer,
       getPrefixCls = _React$useContext.getPrefixCls,
       direction = _React$useContext.direction;
@@ -3939,7 +3939,7 @@ var DropdownButton = function DropdownButton(props) {
       getPopupContainer = props.getPopupContainer,
       href = props.href,
       _props$icon = props.icon,
-      icon = _props$icon === void 0 ? /*#__PURE__*/compat_module.createElement(EllipsisOutlined/* default */.Z, null) : _props$icon,
+      icon = _props$icon === void 0 ? /*#__PURE__*/react.createElement(EllipsisOutlined/* default */.Z, null) : _props$icon,
       title = props.title,
       buttonsRender = props.buttonsRender,
       mouseEnterDelay = props.mouseEnterDelay,
@@ -3972,7 +3972,7 @@ var DropdownButton = function DropdownButton(props) {
     dropdownProps.placement = direction === 'rtl' ? 'bottomLeft' : 'bottomRight';
   }
 
-  var leftButton = /*#__PURE__*/compat_module.createElement(es_button, {
+  var leftButton = /*#__PURE__*/react.createElement(es_button, {
     type: type,
     disabled: disabled,
     onClick: onClick,
@@ -3980,7 +3980,7 @@ var DropdownButton = function DropdownButton(props) {
     href: href,
     title: title
   }, children);
-  var rightButton = /*#__PURE__*/compat_module.createElement(es_button, {
+  var rightButton = /*#__PURE__*/react.createElement(es_button, {
     type: type,
     icon: icon
   });
@@ -3990,9 +3990,9 @@ var DropdownButton = function DropdownButton(props) {
       leftButtonToRender = _buttonsRender2[0],
       rightButtonToRender = _buttonsRender2[1];
 
-  return /*#__PURE__*/compat_module.createElement(dropdown_button_ButtonGroup, (0,esm_extends/* default */.Z)({}, restProps, {
+  return /*#__PURE__*/react.createElement(dropdown_button_ButtonGroup, (0,esm_extends/* default */.Z)({}, restProps, {
     className: classnames_default()(prefixCls, className)
-  }), leftButtonToRender, /*#__PURE__*/compat_module.createElement(dropdown, dropdownProps, rightButtonToRender));
+  }), leftButtonToRender, /*#__PURE__*/react.createElement(dropdown, dropdownProps, rightButtonToRender));
 };
 
 DropdownButton.__ANT_BUTTON = true;
@@ -4018,7 +4018,7 @@ DropdownButton.defaultProps = {
 var Placements = (0,type/* tuple */.b)('topLeft', 'topCenter', 'topRight', 'bottomLeft', 'bottomCenter', 'bottomRight');
 
 var dropdown_Dropdown = function Dropdown(props) {
-  var _React$useContext = compat_module.useContext(context/* ConfigContext */.E_),
+  var _React$useContext = react.useContext(context/* ConfigContext */.E_),
       getContextPopupContainer = _React$useContext.getPopupContainer,
       getPrefixCls = _React$useContext.getPrefixCls,
       direction = _React$useContext.direction;
@@ -4052,7 +4052,7 @@ var dropdown_Dropdown = function Dropdown(props) {
       overlayNode = overlay;
     }
 
-    overlayNode = compat_module.Children.only(typeof overlayNode === 'string' ? /*#__PURE__*/compat_module.createElement("span", null, overlayNode) : overlayNode);
+    overlayNode = react.Children.only(typeof overlayNode === 'string' ? /*#__PURE__*/react.createElement("span", null, overlayNode) : overlayNode);
     var overlayProps = overlayNode.props; // Warning if use other mode
 
     (0,devWarning/* default */.Z)(!overlayProps.mode || overlayProps.mode === 'vertical', 'Dropdown', "mode=\"".concat(overlayProps.mode, "\" is not supported for Dropdown's Menu.")); // menu cannot be selectable in dropdown defaultly
@@ -4060,9 +4060,9 @@ var dropdown_Dropdown = function Dropdown(props) {
     var _overlayProps$selecta = overlayProps.selectable,
         selectable = _overlayProps$selecta === void 0 ? false : _overlayProps$selecta,
         expandIcon = overlayProps.expandIcon;
-    var overlayNodeExpandIcon = typeof expandIcon !== 'undefined' && /*#__PURE__*/compat_module.isValidElement(expandIcon) ? expandIcon : /*#__PURE__*/compat_module.createElement("span", {
+    var overlayNodeExpandIcon = typeof expandIcon !== 'undefined' && /*#__PURE__*/react.isValidElement(expandIcon) ? expandIcon : /*#__PURE__*/react.createElement("span", {
       className: "".concat(prefixCls, "-menu-submenu-arrow")
-    }, /*#__PURE__*/compat_module.createElement(RightOutlined/* default */.Z, {
+    }, /*#__PURE__*/react.createElement(RightOutlined/* default */.Z, {
       className: "".concat(prefixCls, "-menu-submenu-arrow-icon")
     }));
     var fixedModeOverlay = typeof overlayNode.type === 'string' ? overlayNode : (0,reactNode/* cloneElement */.Tm)(overlayNode, {
@@ -4091,7 +4091,7 @@ var dropdown_Dropdown = function Dropdown(props) {
       getPopupContainer = props.getPopupContainer,
       overlayClassName = props.overlayClassName;
   var prefixCls = getPrefixCls('dropdown', customizePrefixCls);
-  var child = compat_module.Children.only(children);
+  var child = react.Children.only(children);
   var dropdownTrigger = (0,reactNode/* cloneElement */.Tm)(child, {
     className: classnames_default()("".concat(prefixCls, "-trigger"), (0,defineProperty/* default */.Z)({}, "".concat(prefixCls, "-rtl"), direction === 'rtl'), child.props.className),
     disabled: disabled
@@ -4104,7 +4104,7 @@ var dropdown_Dropdown = function Dropdown(props) {
     alignPoint = true;
   }
 
-  return /*#__PURE__*/compat_module.createElement(rc_dropdown_es, (0,esm_extends/* default */.Z)({
+  return /*#__PURE__*/react.createElement(rc_dropdown_es, (0,esm_extends/* default */.Z)({
     arrow: arrow,
     alignPoint: alignPoint
   }, props, {
@@ -4152,8 +4152,8 @@ var createClass = __webpack_require__(3144);
 var inherits = __webpack_require__(136);
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/createSuper.js + 3 modules
 var createSuper = __webpack_require__(8557);
-// EXTERNAL MODULE: ./node_modules/preact/compat/dist/compat.module.js + 1 modules
-var compat_module = __webpack_require__(9748);
+// EXTERNAL MODULE: ./node_modules/react/index.js
+var react = __webpack_require__(7294);
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/defineProperty.js
 var defineProperty = __webpack_require__(4942);
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/objectSpread2.js
@@ -4180,7 +4180,7 @@ function useControlledState(defaultStateValue, option) {
       onChange = _ref.onChange,
       postState = _ref.postState;
 
-  var _React$useState = compat_module.useState(function () {
+  var _React$useState = react.useState(function () {
     if (value !== undefined) {
       return value;
     }
@@ -4210,8 +4210,8 @@ function useControlledState(defaultStateValue, option) {
   } // Effect of reset value to `undefined`
 
 
-  var firstRenderRef = compat_module.useRef(true);
-  compat_module.useEffect(function () {
+  var firstRenderRef = react.useRef(true);
+  react.useEffect(function () {
     if (firstRenderRef.current) {
       firstRenderRef.current = false;
       return;
@@ -4384,19 +4384,19 @@ var ReactResizeObserver = /*#__PURE__*/function (_React$Component) {
 
       var childNode = childNodes[0];
 
-      if ( /*#__PURE__*/compat_module.isValidElement(childNode) && (0,es_ref/* supportRef */.Yr)(childNode)) {
+      if ( /*#__PURE__*/react.isValidElement(childNode) && (0,es_ref/* supportRef */.Yr)(childNode)) {
         var ref = childNode.ref;
-        childNodes[0] = /*#__PURE__*/compat_module.cloneElement(childNode, {
+        childNodes[0] = /*#__PURE__*/react.cloneElement(childNode, {
           ref: (0,es_ref/* composeRef */.sQ)(ref, this.setChildNode)
         });
       }
 
       return childNodes.length === 1 ? childNodes[0] : childNodes.map(function (node, index) {
-        if (! /*#__PURE__*/compat_module.isValidElement(node) || 'key' in node && node.key !== null) {
+        if (! /*#__PURE__*/react.isValidElement(node) || 'key' in node && node.key !== null) {
           return node;
         }
 
-        return /*#__PURE__*/compat_module.cloneElement(node, {
+        return /*#__PURE__*/react.cloneElement(node, {
           key: "".concat(INTERNAL_PREFIX_KEY, "-").concat(index)
         });
       });
@@ -4404,7 +4404,7 @@ var ReactResizeObserver = /*#__PURE__*/function (_React$Component) {
   }]);
 
   return ReactResizeObserver;
-}(compat_module.Component);
+}(react.Component);
 
 ReactResizeObserver.displayName = 'ResizeObserver';
 /* harmony default export */ const es = (ReactResizeObserver);
@@ -4441,7 +4441,7 @@ function InternalItem(props, ref) {
     registerSize(itemKey, width);
   }
 
-  compat_module.useEffect(function () {
+  react.useEffect(function () {
     return function () {
       internalRegisterSize(null);
     };
@@ -4467,7 +4467,7 @@ function InternalItem(props, ref) {
     overflowProps['aria-hidden'] = true;
   }
 
-  var itemNode = /*#__PURE__*/compat_module.createElement(Component, (0,esm_extends/* default */.Z)({
+  var itemNode = /*#__PURE__*/react.createElement(Component, (0,esm_extends/* default */.Z)({
     className: classnames_default()(!invalidate && prefixCls, className),
     style: (0,objectSpread2/* default */.Z)((0,objectSpread2/* default */.Z)({}, overflowStyle), style)
   }, overflowProps, restProps, {
@@ -4475,7 +4475,7 @@ function InternalItem(props, ref) {
   }), childNode);
 
   if (responsive) {
-    itemNode = /*#__PURE__*/compat_module.createElement(es, {
+    itemNode = /*#__PURE__*/react.createElement(es, {
       onResize: function onResize(_ref) {
         var offsetWidth = _ref.offsetWidth;
         internalRegisterSize(offsetWidth);
@@ -4486,7 +4486,7 @@ function InternalItem(props, ref) {
   return itemNode;
 }
 
-var Item = /*#__PURE__*/compat_module.forwardRef(InternalItem);
+var Item = /*#__PURE__*/react.forwardRef(InternalItem);
 Item.displayName = 'Item';
 /* harmony default export */ const es_Item = (Item);
 // EXTERNAL MODULE: ./node_modules/rc-util/es/raf.js
@@ -4501,15 +4501,15 @@ var raf = __webpack_require__(5164);
  */
 
 function useBatchFrameState() {
-  var _useState = (0,compat_module.useState)({}),
+  var _useState = (0,react.useState)({}),
       _useState2 = (0,slicedToArray/* default */.Z)(_useState, 2),
       forceUpdate = _useState2[1];
 
-  var statesRef = (0,compat_module.useRef)([]);
-  var destroyRef = (0,compat_module.useRef)(false);
+  var statesRef = (0,react.useRef)([]);
+  var destroyRef = (0,react.useRef)(false);
   var walkingIndex = 0;
   var beforeFrameId = 0;
-  (0,compat_module.useEffect)(function () {
+  (0,react.useEffect)(function () {
     return function () {
       destroyRef.current = true;
     };
@@ -4551,14 +4551,14 @@ function useBatchFrameState() {
 
 
 var InternalRawItem = function InternalRawItem(props, ref) {
-  var context = compat_module.useContext(OverflowContext); // Render directly when context not provided
+  var context = react.useContext(OverflowContext); // Render directly when context not provided
 
   if (!context) {
     var _props$component = props.component,
         Component = _props$component === void 0 ? 'div' : _props$component,
         _restProps = (0,objectWithoutProperties/* default */.Z)(props, ["component"]);
 
-    return /*#__PURE__*/compat_module.createElement(Component, (0,esm_extends/* default */.Z)({}, _restProps, {
+    return /*#__PURE__*/react.createElement(Component, (0,esm_extends/* default */.Z)({}, _restProps, {
       ref: ref
     }));
   }
@@ -4570,15 +4570,15 @@ var InternalRawItem = function InternalRawItem(props, ref) {
       restProps = (0,objectWithoutProperties/* default */.Z)(props, ["className"]); // Do not pass context to sub item to avoid multiple measure
 
 
-  return /*#__PURE__*/compat_module.createElement(OverflowContext.Provider, {
+  return /*#__PURE__*/react.createElement(OverflowContext.Provider, {
     value: null
-  }, /*#__PURE__*/compat_module.createElement(es_Item, (0,esm_extends/* default */.Z)({
+  }, /*#__PURE__*/react.createElement(es_Item, (0,esm_extends/* default */.Z)({
     ref: ref,
     className: classnames_default()(contextClassName, className)
   }, restContext, restProps)));
 };
 
-var RawItem = /*#__PURE__*/compat_module.forwardRef(InternalRawItem);
+var RawItem = /*#__PURE__*/react.forwardRef(InternalRawItem);
 RawItem.displayName = 'RawItem';
 /* harmony default export */ const es_RawItem = (RawItem);
 ;// CONCATENATED MODULE: ./node_modules/rc-overflow/es/Overflow.js
@@ -4593,7 +4593,7 @@ RawItem.displayName = 'RawItem';
 
 
 
-var OverflowContext = /*#__PURE__*/compat_module.createContext(null);
+var OverflowContext = /*#__PURE__*/react.createContext(null);
 var RESPONSIVE = 'responsive';
 var INVALIDATE = 'invalidate';
 
@@ -4654,17 +4654,17 @@ function Overflow(props, ref) {
       suffixWidth = _createUseState10[0],
       setSuffixWidth = _createUseState10[1];
 
-  var _useState = (0,compat_module.useState)(null),
+  var _useState = (0,react.useState)(null),
       _useState2 = (0,slicedToArray/* default */.Z)(_useState, 2),
       suffixFixedStart = _useState2[0],
       setSuffixFixedStart = _useState2[1];
 
-  var _useState3 = (0,compat_module.useState)(null),
+  var _useState3 = (0,react.useState)(null),
       _useState4 = (0,slicedToArray/* default */.Z)(_useState3, 2),
       displayCount = _useState4[0],
       setDisplayCount = _useState4[1];
 
-  var mergedDisplayCount = compat_module.useMemo(function () {
+  var mergedDisplayCount = react.useMemo(function () {
     if (displayCount === null && fullySSR) {
       return Number.MAX_SAFE_INTEGER;
     }
@@ -4672,7 +4672,7 @@ function Overflow(props, ref) {
     return displayCount || 0;
   }, [displayCount, containerWidth]);
 
-  var _useState5 = (0,compat_module.useState)(false),
+  var _useState5 = (0,react.useState)(false),
       _useState6 = (0,slicedToArray/* default */.Z)(_useState5, 2),
       restReady = _useState6[0],
       setRestReady = _useState6[1];
@@ -4688,7 +4688,7 @@ function Overflow(props, ref) {
    */
 
   var showRest = isResponsive || typeof maxCount === 'number' && data.length > maxCount;
-  var mergedData = (0,compat_module.useMemo)(function () {
+  var mergedData = (0,react.useMemo)(function () {
     var items = data;
 
     if (isResponsive) {
@@ -4703,7 +4703,7 @@ function Overflow(props, ref) {
 
     return items;
   }, [data, itemWidth, containerWidth, maxCount, isResponsive]);
-  var omittedItems = (0,compat_module.useMemo)(function () {
+  var omittedItems = (0,react.useMemo)(function () {
     if (isResponsive) {
       return data.slice(mergedDisplayCount + 1);
     }
@@ -4711,7 +4711,7 @@ function Overflow(props, ref) {
     return data.slice(mergedData.length);
   }, [data, mergedData, isResponsive, mergedDisplayCount]); // ================================= Item =================================
 
-  var getKey = (0,compat_module.useCallback)(function (item, index) {
+  var getKey = (0,react.useCallback)(function (item, index) {
     var _ref;
 
     if (typeof itemKey === 'function') {
@@ -4720,7 +4720,7 @@ function Overflow(props, ref) {
 
     return (_ref = itemKey && (item === null || item === void 0 ? void 0 : item[itemKey])) !== null && _ref !== void 0 ? _ref : index;
   }, [itemKey]);
-  var mergedRenderItem = (0,compat_module.useCallback)(renderItem || function (item) {
+  var mergedRenderItem = (0,react.useCallback)(renderItem || function (item) {
     return item;
   }, [renderItem]);
 
@@ -4766,7 +4766,7 @@ function Overflow(props, ref) {
     return itemWidths.get(getKey(mergedData[index], index));
   }
 
-  compat_module.useLayoutEffect(function () {
+  react.useLayoutEffect(function () {
     if (mergedContainerWidth && mergedRestWidth && mergedData) {
       var totalWidth = suffixWidth;
       var len = mergedData.length;
@@ -4830,7 +4830,7 @@ function Overflow(props, ref) {
 
   var internalRenderItemNode = renderRawItem ? function (item, index) {
     var key = getKey(item, index);
-    return /*#__PURE__*/compat_module.createElement(OverflowContext.Provider, {
+    return /*#__PURE__*/react.createElement(OverflowContext.Provider, {
       key: key,
       value: (0,objectSpread2/* default */.Z)((0,objectSpread2/* default */.Z)({}, itemSharedProps), {}, {
         order: index,
@@ -4842,7 +4842,7 @@ function Overflow(props, ref) {
     }, renderRawItem(item, index));
   } : function (item, index) {
     var key = getKey(item, index);
-    return /*#__PURE__*/compat_module.createElement(es_Item, (0,esm_extends/* default */.Z)({}, itemSharedProps, {
+    return /*#__PURE__*/react.createElement(es_Item, (0,esm_extends/* default */.Z)({}, itemSharedProps, {
       order: index,
       key: key,
       item: item,
@@ -4863,18 +4863,18 @@ function Overflow(props, ref) {
 
   if (!renderRawRest) {
     var mergedRenderRest = renderRest || defaultRenderRest;
-    restNode = /*#__PURE__*/compat_module.createElement(es_Item, (0,esm_extends/* default */.Z)({}, itemSharedProps, restContextProps), typeof mergedRenderRest === 'function' ? mergedRenderRest(omittedItems) : mergedRenderRest);
+    restNode = /*#__PURE__*/react.createElement(es_Item, (0,esm_extends/* default */.Z)({}, itemSharedProps, restContextProps), typeof mergedRenderRest === 'function' ? mergedRenderRest(omittedItems) : mergedRenderRest);
   } else if (renderRawRest) {
-    restNode = /*#__PURE__*/compat_module.createElement(OverflowContext.Provider, {
+    restNode = /*#__PURE__*/react.createElement(OverflowContext.Provider, {
       value: (0,objectSpread2/* default */.Z)((0,objectSpread2/* default */.Z)({}, itemSharedProps), restContextProps)
     }, renderRawRest(omittedItems));
   }
 
-  var overflowNode = /*#__PURE__*/compat_module.createElement(Component, (0,esm_extends/* default */.Z)({
+  var overflowNode = /*#__PURE__*/react.createElement(Component, (0,esm_extends/* default */.Z)({
     className: classnames_default()(!invalidate && prefixCls, className),
     style: style,
     ref: ref
-  }, restProps), mergedData.map(internalRenderItemNode), showRest ? restNode : null, suffix && /*#__PURE__*/compat_module.createElement(es_Item, (0,esm_extends/* default */.Z)({}, itemSharedProps, {
+  }, restProps), mergedData.map(internalRenderItemNode), showRest ? restNode : null, suffix && /*#__PURE__*/react.createElement(es_Item, (0,esm_extends/* default */.Z)({}, itemSharedProps, {
     order: mergedDisplayCount,
     className: "".concat(itemPrefixCls, "-suffix"),
     registerSize: registerSuffixSize,
@@ -4883,7 +4883,7 @@ function Overflow(props, ref) {
   }), suffix));
 
   if (isResponsive) {
-    overflowNode = /*#__PURE__*/compat_module.createElement(es, {
+    overflowNode = /*#__PURE__*/react.createElement(es, {
       onResize: onOverflowResize
     }, overflowNode);
   }
@@ -4891,7 +4891,7 @@ function Overflow(props, ref) {
   return overflowNode;
 }
 
-var ForwardOverflow = /*#__PURE__*/compat_module.forwardRef(Overflow);
+var ForwardOverflow = /*#__PURE__*/react.forwardRef(Overflow);
 ForwardOverflow.displayName = 'Overflow';
 ForwardOverflow.Item = es_RawItem;
 ForwardOverflow.RESPONSIVE = RESPONSIVE;
@@ -5529,7 +5529,7 @@ var omit = __webpack_require__(8423);
 ;// CONCATENATED MODULE: ./node_modules/rc-util/es/hooks/useMemo.js
 
 function useMemo(getValue, condition, shouldUpdate) {
-  var cacheRef = compat_module.useRef({});
+  var cacheRef = react.useRef({});
 
   if (!('value' in cacheRef.current) || shouldUpdate(cacheRef.current.condition, condition)) {
     cacheRef.current.value = getValue();
@@ -5545,7 +5545,7 @@ var _excluded = ["children", "locked"];
 
 
 
-var MenuContext = /*#__PURE__*/compat_module.createContext(null);
+var MenuContext = /*#__PURE__*/react.createContext(null);
 
 function mergeProps(origin, target) {
   var clone = (0,objectSpread2/* default */.Z)({}, origin);
@@ -5565,13 +5565,13 @@ function InheritableContextProvider(_ref) {
       locked = _ref.locked,
       restProps = (0,objectWithoutProperties/* default */.Z)(_ref, _excluded);
 
-  var context = compat_module.useContext(MenuContext);
+  var context = react.useContext(MenuContext);
   var inheritableContext = useMemo(function () {
     return mergeProps(context, restProps);
   }, [context, restProps], function (prev, next) {
     return !locked && (prev[0] !== next[0] || !shallowequal_default()(prev[1], next[1]));
   });
-  return /*#__PURE__*/compat_module.createElement(MenuContext.Provider, {
+  return /*#__PURE__*/react.createElement(MenuContext.Provider, {
     value: inheritableContext
   }, children);
 }
@@ -5579,7 +5579,7 @@ function InheritableContextProvider(_ref) {
 
 
 function useActive(eventKey, disabled, onMouseEnter, onMouseLeave) {
-  var _React$useContext = compat_module.useContext(MenuContext),
+  var _React$useContext = react.useContext(MenuContext),
       activeKey = _React$useContext.activeKey,
       onActive = _React$useContext.onActive,
       onInactive = _React$useContext.onInactive;
@@ -5639,7 +5639,7 @@ function Icon(_ref) {
   var iconNode;
 
   if (typeof icon === 'function') {
-    iconNode = /*#__PURE__*/compat_module.createElement(icon, (0,objectSpread2/* default */.Z)({}, props));
+    iconNode = /*#__PURE__*/react.createElement(icon, (0,objectSpread2/* default */.Z)({}, props));
   } else {
     // Compatible for origin definition
     iconNode = icon;
@@ -5651,7 +5651,7 @@ function Icon(_ref) {
 
 
 function useDirectionStyle(level) {
-  var _React$useContext = compat_module.useContext(MenuContext),
+  var _React$useContext = react.useContext(MenuContext),
       mode = _React$useContext.mode,
       rtl = _React$useContext.rtl,
       inlineIndent = _React$useContext.inlineIndent;
@@ -5671,22 +5671,22 @@ function useDirectionStyle(level) {
 
 
 var EmptyList = [];
-var PathRegisterContext = /*#__PURE__*/compat_module.createContext(null);
+var PathRegisterContext = /*#__PURE__*/react.createContext(null);
 function useMeasure() {
-  return compat_module.useContext(PathRegisterContext);
+  return react.useContext(PathRegisterContext);
 } // ========================= Path Tracker ==========================
 
-var PathTrackerContext = /*#__PURE__*/compat_module.createContext(EmptyList);
+var PathTrackerContext = /*#__PURE__*/react.createContext(EmptyList);
 function useFullPath(eventKey) {
-  var parentKeyPath = compat_module.useContext(PathTrackerContext);
-  return compat_module.useMemo(function () {
+  var parentKeyPath = react.useContext(PathTrackerContext);
+  return react.useMemo(function () {
     return eventKey !== undefined ? [].concat((0,toConsumableArray/* default */.Z)(parentKeyPath), [eventKey]) : parentKeyPath;
   }, [parentKeyPath, eventKey]);
 }
-var PathUserContext = /*#__PURE__*/compat_module.createContext(null);
+var PathUserContext = /*#__PURE__*/react.createContext(null);
 ;// CONCATENATED MODULE: ./node_modules/rc-menu/es/context/IdContext.js
 
-var IdContext = /*#__PURE__*/compat_module.createContext(null);
+var IdContext = /*#__PURE__*/react.createContext(null);
 function getMenuId(uuid, eventKey) {
   if (uuid === undefined) {
     return null;
@@ -5699,7 +5699,7 @@ function getMenuId(uuid, eventKey) {
  */
 
 function useMenuId(eventKey) {
-  var id = compat_module.useContext(IdContext);
+  var id = react.useContext(IdContext);
   return getMenuId(id, eventKey);
 }
 ;// CONCATENATED MODULE: ./node_modules/rc-menu/es/MenuItem.js
@@ -5753,7 +5753,7 @@ var LegacyMenuItem = /*#__PURE__*/function (_React$Component) {
 
       var passedProps = (0,omit/* default */.Z)(restProps, ['eventKey']);
       (0,warning/* default */.ZP)(!attribute, '`attribute` of Menu.Item is deprecated. Please pass attribute directly.');
-      return /*#__PURE__*/compat_module.createElement(rc_overflow_es.Item, (0,esm_extends/* default */.Z)({}, attribute, {
+      return /*#__PURE__*/react.createElement(rc_overflow_es.Item, (0,esm_extends/* default */.Z)({}, attribute, {
         title: typeof title === 'string' ? title : undefined
       }, passedProps, {
         ref: elementRef
@@ -5762,7 +5762,7 @@ var LegacyMenuItem = /*#__PURE__*/function (_React$Component) {
   }]);
 
   return LegacyMenuItem;
-}(compat_module.Component);
+}(react.Component);
 /**
  * Real Menu Item component
  */
@@ -5788,7 +5788,7 @@ var InternalMenuItem = function InternalMenuItem(props) {
 
   var domDataId = useMenuId(eventKey);
 
-  var _React$useContext = compat_module.useContext(MenuContext),
+  var _React$useContext = react.useContext(MenuContext),
       prefixCls = _React$useContext.prefixCls,
       onItemClick = _React$useContext.onItemClick,
       contextDisabled = _React$useContext.disabled,
@@ -5798,8 +5798,8 @@ var InternalMenuItem = function InternalMenuItem(props) {
       onActive = _React$useContext.onActive;
 
   var itemCls = "".concat(prefixCls, "-item");
-  var legacyMenuItemRef = compat_module.useRef();
-  var elementRef = compat_module.useRef();
+  var legacyMenuItemRef = react.useRef();
+  var elementRef = react.useRef();
   var mergedDisabled = contextDisabled || disabled;
   var connectedKeys = useFullPath(eventKey); // ================================ Warn ================================
 
@@ -5866,7 +5866,7 @@ var InternalMenuItem = function InternalMenuItem(props) {
     optionRoleProps['aria-selected'] = selected;
   }
 
-  return /*#__PURE__*/compat_module.createElement(LegacyMenuItem, (0,esm_extends/* default */.Z)({
+  return /*#__PURE__*/react.createElement(LegacyMenuItem, (0,esm_extends/* default */.Z)({
     ref: legacyMenuItemRef,
     elementRef: elementRef,
     role: role === null ? 'none' : role || 'menuitem',
@@ -5880,7 +5880,7 @@ var InternalMenuItem = function InternalMenuItem(props) {
     onClick: onInternalClick,
     onKeyDown: onInternalKeyDown,
     onFocus: onInternalFocus
-  }), children, /*#__PURE__*/compat_module.createElement(Icon, {
+  }), children, /*#__PURE__*/react.createElement(Icon, {
     props: (0,objectSpread2/* default */.Z)((0,objectSpread2/* default */.Z)({}, props), {}, {
       isSelected: selected
     }),
@@ -5894,7 +5894,7 @@ function MenuItem(props) {
   var measure = useMeasure();
   var connectedKeyPath = useFullPath(eventKey); // eslint-disable-next-line consistent-return
 
-  compat_module.useEffect(function () {
+  react.useEffect(function () {
     if (measure) {
       measure.registerPath(eventKey, connectedKeyPath);
       return function () {
@@ -5908,7 +5908,7 @@ function MenuItem(props) {
   } // ======================== Render ========================
 
 
-  return /*#__PURE__*/compat_module.createElement(InternalMenuItem, props);
+  return /*#__PURE__*/react.createElement(InternalMenuItem, props);
 }
 
 /* harmony default export */ const es_MenuItem = (MenuItem);
@@ -5918,7 +5918,7 @@ function MenuItem(props) {
 
 function parseChildren(children, keyPath) {
   return (0,toArray/* default */.Z)(children).map(function (child, index) {
-    if ( /*#__PURE__*/compat_module.isValidElement(child)) {
+    if ( /*#__PURE__*/react.isValidElement(child)) {
       var _child$props$eventKey, _child$props;
 
       var key = child.key;
@@ -5936,7 +5936,7 @@ function parseChildren(children, keyPath) {
 
       if (false) {}
 
-      return /*#__PURE__*/compat_module.cloneElement(child, cloneProps);
+      return /*#__PURE__*/react.cloneElement(child, cloneProps);
     }
 
     return child;
@@ -5950,9 +5950,9 @@ function parseChildren(children, keyPath) {
  */
 
 function useMemoCallback(func) {
-  var funRef = compat_module.useRef(func);
+  var funRef = react.useRef(func);
   funRef.current = func;
-  var callback = compat_module.useCallback(function () {
+  var callback = react.useCallback(function () {
     var _funRef$current;
 
     for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
@@ -5976,12 +5976,12 @@ var InternalSubMenuList = function InternalSubMenuList(_ref, ref) {
       children = _ref.children,
       restProps = (0,objectWithoutProperties/* default */.Z)(_ref, SubMenuList_excluded);
 
-  var _React$useContext = compat_module.useContext(MenuContext),
+  var _React$useContext = react.useContext(MenuContext),
       prefixCls = _React$useContext.prefixCls,
       mode = _React$useContext.mode,
       rtl = _React$useContext.rtl;
 
-  return /*#__PURE__*/compat_module.createElement("ul", (0,esm_extends/* default */.Z)({
+  return /*#__PURE__*/react.createElement("ul", (0,esm_extends/* default */.Z)({
     className: classnames_default()(prefixCls, rtl && "".concat(prefixCls, "-rtl"), "".concat(prefixCls, "-sub"), "".concat(prefixCls, "-").concat(mode === 'inline' ? 'inline' : 'vertical'), className)
   }, restProps, {
     "data-menu-list": true,
@@ -5989,7 +5989,7 @@ var InternalSubMenuList = function InternalSubMenuList(_ref, ref) {
   }), children);
 };
 
-var SubMenuList = /*#__PURE__*/compat_module.forwardRef(InternalSubMenuList);
+var SubMenuList = /*#__PURE__*/react.forwardRef(InternalSubMenuList);
 SubMenuList.displayName = 'SubMenuList';
 /* harmony default export */ const SubMenu_SubMenuList = (SubMenuList);
 // EXTERNAL MODULE: ./node_modules/rc-trigger/es/index.js + 19 modules
@@ -6084,7 +6084,7 @@ function PopupTrigger(_ref) {
       mode = _ref.mode,
       onVisibleChange = _ref.onVisibleChange;
 
-  var _React$useContext = compat_module.useContext(MenuContext),
+  var _React$useContext = react.useContext(MenuContext),
       getPopupContainer = _React$useContext.getPopupContainer,
       rtl = _React$useContext.rtl,
       subMenuOpenDelay = _React$useContext.subMenuOpenDelay,
@@ -6095,7 +6095,7 @@ function PopupTrigger(_ref) {
       motion = _React$useContext.motion,
       defaultMotions = _React$useContext.defaultMotions;
 
-  var _React$useState = compat_module.useState(false),
+  var _React$useState = react.useState(false),
       _React$useState2 = (0,slicedToArray/* default */.Z)(_React$useState, 2),
       innerVisible = _React$useState2[0],
       setInnerVisible = _React$useState2[1];
@@ -6111,8 +6111,8 @@ function PopupTrigger(_ref) {
   }); // Delay to change visible
 
 
-  var visibleRef = compat_module.useRef();
-  compat_module.useEffect(function () {
+  var visibleRef = react.useRef();
+  react.useEffect(function () {
     visibleRef.current = (0,raf/* default */.Z)(function () {
       setInnerVisible(visible);
     });
@@ -6120,7 +6120,7 @@ function PopupTrigger(_ref) {
       raf/* default.cancel */.Z.cancel(visibleRef.current);
     };
   }, [visible]);
-  return /*#__PURE__*/compat_module.createElement(rc_trigger_es/* default */.Z, {
+  return /*#__PURE__*/react.createElement(rc_trigger_es/* default */.Z, {
     prefixCls: prefixCls,
     popupClassName: classnames_default()("".concat(prefixCls, "-popup"), (0,defineProperty/* default */.Z)({}, "".concat(prefixCls, "-rtl"), rtl), popupClassName),
     stretch: mode === 'horizontal' ? 'minWidth' : null,
@@ -6158,7 +6158,7 @@ function InlineSubMenuList(_ref) {
       children = _ref.children;
   var fixedMode = 'inline';
 
-  var _React$useContext = compat_module.useContext(MenuContext),
+  var _React$useContext = react.useContext(MenuContext),
       prefixCls = _React$useContext.prefixCls,
       forceSubMenuRender = _React$useContext.forceSubMenuRender,
       motion = _React$useContext.motion,
@@ -6166,11 +6166,11 @@ function InlineSubMenuList(_ref) {
       mode = _React$useContext.mode; // Always use latest mode check
 
 
-  var sameModeRef = compat_module.useRef(false);
+  var sameModeRef = react.useRef(false);
   sameModeRef.current = mode === fixedMode; // We record `destroy` mark here since when mode change from `inline` to others.
   // The inline list should remove when motion end.
 
-  var _React$useState = compat_module.useState(!sameModeRef.current),
+  var _React$useState = react.useState(!sameModeRef.current),
       _React$useState2 = (0,slicedToArray/* default */.Z)(_React$useState, 2),
       destroy = _React$useState2[0],
       setDestroy = _React$useState2[1];
@@ -6178,7 +6178,7 @@ function InlineSubMenuList(_ref) {
   var mergedOpen = sameModeRef.current ? open : false; // ================================= Effect =================================
   // Reset destroy state when mode change back
 
-  compat_module.useEffect(function () {
+  react.useEffect(function () {
     if (sameModeRef.current) {
       setDestroy(false);
     }
@@ -6206,10 +6206,10 @@ function InlineSubMenuList(_ref) {
     return null;
   }
 
-  return /*#__PURE__*/compat_module.createElement(InheritableContextProvider, {
+  return /*#__PURE__*/react.createElement(InheritableContextProvider, {
     mode: fixedMode,
     locked: !sameModeRef.current
-  }, /*#__PURE__*/compat_module.createElement(rc_motion_es/* default */.Z, (0,esm_extends/* default */.Z)({
+  }, /*#__PURE__*/react.createElement(rc_motion_es/* default */.Z, (0,esm_extends/* default */.Z)({
     visible: mergedOpen
   }, mergedMotion, {
     forceRender: forceSubMenuRender,
@@ -6218,7 +6218,7 @@ function InlineSubMenuList(_ref) {
   }), function (_ref2) {
     var motionClassName = _ref2.className,
         motionStyle = _ref2.style;
-    return /*#__PURE__*/compat_module.createElement(SubMenu_SubMenuList, {
+    return /*#__PURE__*/react.createElement(SubMenu_SubMenuList, {
       id: id,
       className: motionClassName,
       style: motionStyle
@@ -6275,7 +6275,7 @@ var InternalSubMenu = function InternalSubMenu(props) {
 
   var domDataId = useMenuId(eventKey);
 
-  var _React$useContext = compat_module.useContext(MenuContext),
+  var _React$useContext = react.useContext(MenuContext),
       prefixCls = _React$useContext.prefixCls,
       mode = _React$useContext.mode,
       openKeys = _React$useContext.openKeys,
@@ -6289,14 +6289,14 @@ var InternalSubMenu = function InternalSubMenu(props) {
       onOpenChange = _React$useContext.onOpenChange,
       onActive = _React$useContext.onActive;
 
-  var _React$useContext2 = compat_module.useContext(PathUserContext),
+  var _React$useContext2 = react.useContext(PathUserContext),
       isSubPathKey = _React$useContext2.isSubPathKey;
 
   var connectedPath = useFullPath();
   var subMenuPrefixCls = "".concat(prefixCls, "-submenu");
   var mergedDisabled = contextDisabled || disabled;
-  var elementRef = compat_module.useRef();
-  var popupRef = compat_module.useRef(); // ================================ Warn ================================
+  var elementRef = react.useRef();
+  var popupRef = react.useRef(); // ================================ Warn ================================
 
   if (false) {} // ================================ Icon ================================
 
@@ -6314,7 +6314,7 @@ var InternalSubMenu = function InternalSubMenu(props) {
       activeProps = (0,objectWithoutProperties/* default */.Z)(_useActive, SubMenu_excluded2); // Fallback of active check to avoid hover on menu title or disabled item
 
 
-  var _React$useState = compat_module.useState(false),
+  var _React$useState = react.useState(false),
       _React$useState2 = (0,slicedToArray/* default */.Z)(_React$useState, 2),
       childrenActive = _React$useState2[0],
       setChildrenActive = _React$useState2[1];
@@ -6341,7 +6341,7 @@ var InternalSubMenu = function InternalSubMenu(props) {
     });
   };
 
-  var mergedActive = compat_module.useMemo(function () {
+  var mergedActive = react.useMemo(function () {
     if (active) {
       return active;
     }
@@ -6396,7 +6396,7 @@ var InternalSubMenu = function InternalSubMenu(props) {
 
   var popupId = domDataId && "".concat(domDataId, "-popup"); // >>>>> Title
 
-  var titleNode = /*#__PURE__*/compat_module.createElement("div", (0,esm_extends/* default */.Z)({
+  var titleNode = /*#__PURE__*/react.createElement("div", (0,esm_extends/* default */.Z)({
     role: "menuitem",
     style: directionStyle,
     className: "".concat(subMenuPrefixCls, "-title"),
@@ -6410,18 +6410,18 @@ var InternalSubMenu = function InternalSubMenu(props) {
     "aria-disabled": mergedDisabled,
     onClick: onInternalTitleClick,
     onFocus: onInternalFocus
-  }, activeProps), title, /*#__PURE__*/compat_module.createElement(Icon, {
+  }, activeProps), title, /*#__PURE__*/react.createElement(Icon, {
     icon: mode !== 'horizontal' ? mergedExpandIcon : null,
     props: (0,objectSpread2/* default */.Z)((0,objectSpread2/* default */.Z)({}, props), {}, {
       isOpen: open,
       // [Legacy] Not sure why need this mark
       isSubMenu: true
     })
-  }, /*#__PURE__*/compat_module.createElement("i", {
+  }, /*#__PURE__*/react.createElement("i", {
     className: "".concat(subMenuPrefixCls, "-arrow")
   }))); // Cache mode if it change to `inline` which do not have popup motion
 
-  var triggerModeRef = compat_module.useRef(mode);
+  var triggerModeRef = react.useRef(mode);
 
   if (mode !== 'inline') {
     triggerModeRef.current = connectedPath.length > 1 ? 'vertical' : mode;
@@ -6431,16 +6431,16 @@ var InternalSubMenu = function InternalSubMenu(props) {
     var triggerMode = triggerModeRef.current; // Still wrap with Trigger here since we need avoid react re-mount dom node
     // Which makes motion failed
 
-    titleNode = /*#__PURE__*/compat_module.createElement(PopupTrigger, {
+    titleNode = /*#__PURE__*/react.createElement(PopupTrigger, {
       mode: triggerMode,
       prefixCls: subMenuPrefixCls,
       visible: !internalPopupClose && open && mode !== 'inline',
       popupClassName: popupClassName,
       popupOffset: popupOffset,
-      popup: /*#__PURE__*/compat_module.createElement(InheritableContextProvider // Special handle of horizontal mode
+      popup: /*#__PURE__*/react.createElement(InheritableContextProvider // Special handle of horizontal mode
       , {
         mode: triggerMode === 'horizontal' ? 'vertical' : triggerMode
-      }, /*#__PURE__*/compat_module.createElement(SubMenu_SubMenuList, {
+      }, /*#__PURE__*/react.createElement(SubMenu_SubMenuList, {
         id: popupId,
         ref: popupRef
       }, children)),
@@ -6450,12 +6450,12 @@ var InternalSubMenu = function InternalSubMenu(props) {
   } // >>>>> Render
 
 
-  return /*#__PURE__*/compat_module.createElement(InheritableContextProvider, {
+  return /*#__PURE__*/react.createElement(InheritableContextProvider, {
     onItemClick: onMergedItemClick,
     mode: mode === 'horizontal' ? 'vertical' : mode,
     itemIcon: mergedItemIcon,
     expandIcon: mergedExpandIcon
-  }, /*#__PURE__*/compat_module.createElement(rc_overflow_es.Item, (0,esm_extends/* default */.Z)({
+  }, /*#__PURE__*/react.createElement(rc_overflow_es.Item, (0,esm_extends/* default */.Z)({
     role: "none"
   }, restProps, {
     component: "li",
@@ -6463,7 +6463,7 @@ var InternalSubMenu = function InternalSubMenu(props) {
     className: classnames_default()(subMenuPrefixCls, "".concat(subMenuPrefixCls, "-").concat(mode), className, (_classNames = {}, (0,defineProperty/* default */.Z)(_classNames, "".concat(subMenuPrefixCls, "-open"), open), (0,defineProperty/* default */.Z)(_classNames, "".concat(subMenuPrefixCls, "-active"), mergedActive), (0,defineProperty/* default */.Z)(_classNames, "".concat(subMenuPrefixCls, "-selected"), childrenSelected), (0,defineProperty/* default */.Z)(_classNames, "".concat(subMenuPrefixCls, "-disabled"), mergedDisabled), _classNames)),
     onMouseEnter: onInternalMouseEnter,
     onMouseLeave: onInternalMouseLeave
-  }), titleNode, !overflowDisabled && /*#__PURE__*/compat_module.createElement(InlineSubMenuList, {
+  }), titleNode, !overflowDisabled && /*#__PURE__*/react.createElement(InlineSubMenuList, {
     id: popupId,
     open: open,
     keyPath: connectedPath
@@ -6478,7 +6478,7 @@ function SubMenu(props) {
 
   var measure = useMeasure(); // eslint-disable-next-line consistent-return
 
-  compat_module.useEffect(function () {
+  react.useEffect(function () {
     if (measure) {
       measure.registerPath(eventKey, connectedKeyPath);
       return function () {
@@ -6491,10 +6491,10 @@ function SubMenu(props) {
   if (measure) {
     renderNode = childList;
   } else {
-    renderNode = /*#__PURE__*/compat_module.createElement(InternalSubMenu, props, childList);
+    renderNode = /*#__PURE__*/react.createElement(InternalSubMenu, props, childList);
   }
 
-  return /*#__PURE__*/compat_module.createElement(PathTrackerContext.Provider, {
+  return /*#__PURE__*/react.createElement(PathTrackerContext.Provider, {
     value: connectedKeyPath
   }, renderNode);
 }
@@ -6737,15 +6737,15 @@ function getNextFocusElement(parentQueryContainer, elements, focusMenuElement) {
 }
 
 function useAccessibility(mode, activeKey, isRtl, id, containerRef, getKeys, getKeyPath, triggerActiveKey, triggerAccessibilityOpen, originOnKeyDown) {
-  var rafRef = compat_module.useRef();
-  var activeRef = compat_module.useRef();
+  var rafRef = react.useRef();
+  var activeRef = react.useRef();
   activeRef.current = activeKey;
 
   var cleanRaf = function cleanRaf() {
     raf/* default.cancel */.Z.cancel(rafRef.current);
   };
 
-  compat_module.useEffect(function () {
+  react.useEffect(function () {
     return function () {
       cleanRaf();
     };
@@ -6878,7 +6878,7 @@ function useUUID(id) {
       uuid = _useMergedState2[0],
       setUUID = _useMergedState2[1];
 
-  compat_module.useEffect(function () {
+  react.useEffect(function () {
     internalId += 1;
     var newId =  false ? 0 : "".concat(uniquePrefix, "-").concat(internalId);
     setUUID("rc-menu-uuid-".concat(newId));
@@ -6909,20 +6909,20 @@ var getPathKeys = function getPathKeys(keyPathStr) {
 
 var OVERFLOW_KEY = 'rc-menu-more';
 function useKeyRecords() {
-  var _React$useState = compat_module.useState({}),
+  var _React$useState = react.useState({}),
       _React$useState2 = (0,slicedToArray/* default */.Z)(_React$useState, 2),
       internalForceUpdate = _React$useState2[1];
 
-  var key2pathRef = (0,compat_module.useRef)(new Map());
-  var path2keyRef = (0,compat_module.useRef)(new Map());
+  var key2pathRef = (0,react.useRef)(new Map());
+  var path2keyRef = (0,react.useRef)(new Map());
 
-  var _React$useState3 = compat_module.useState([]),
+  var _React$useState3 = react.useState([]),
       _React$useState4 = (0,slicedToArray/* default */.Z)(_React$useState3, 2),
       overflowKeys = _React$useState4[0],
       setOverflowKeys = _React$useState4[1];
 
-  var updateRef = (0,compat_module.useRef)(0);
-  var destroyRef = (0,compat_module.useRef)(false);
+  var updateRef = (0,react.useRef)(0);
+  var destroyRef = (0,react.useRef)(false);
 
   var forceUpdate = function forceUpdate() {
     if (!destroyRef.current) {
@@ -6930,7 +6930,7 @@ function useKeyRecords() {
     }
   };
 
-  var registerPath = (0,compat_module.useCallback)(function (key, keyPath) {
+  var registerPath = (0,react.useCallback)(function (key, keyPath) {
     // Warning for invalidate or duplicated `key`
     if (false) {} // Fill map
 
@@ -6946,15 +6946,15 @@ function useKeyRecords() {
       }
     });
   }, []);
-  var unregisterPath = (0,compat_module.useCallback)(function (key, keyPath) {
+  var unregisterPath = (0,react.useCallback)(function (key, keyPath) {
     var connectedPath = getPathStr(keyPath);
     path2keyRef.current.delete(connectedPath);
     key2pathRef.current.delete(key);
   }, []);
-  var refreshOverflowKeys = (0,compat_module.useCallback)(function (keys) {
+  var refreshOverflowKeys = (0,react.useCallback)(function (keys) {
     setOverflowKeys(keys);
   }, []);
-  var getKeyPath = (0,compat_module.useCallback)(function (eventKey, includeOverflow) {
+  var getKeyPath = (0,react.useCallback)(function (eventKey, includeOverflow) {
     var fullPath = key2pathRef.current.get(eventKey) || '';
     var keys = getPathKeys(fullPath);
 
@@ -6964,7 +6964,7 @@ function useKeyRecords() {
 
     return keys;
   }, [overflowKeys]);
-  var isSubPathKey = (0,compat_module.useCallback)(function (pathKeys, eventKey) {
+  var isSubPathKey = (0,react.useCallback)(function (pathKeys, eventKey) {
     return pathKeys.some(function (pathKey) {
       var pathKeyList = getKeyPath(pathKey, true);
       return pathKeyList.includes(eventKey);
@@ -6985,7 +6985,7 @@ function useKeyRecords() {
    */
 
 
-  var getSubPathKeys = (0,compat_module.useCallback)(function (key) {
+  var getSubPathKeys = (0,react.useCallback)(function (key) {
     var connectedPath = "".concat(key2pathRef.current.get(key)).concat(PATH_SPLIT);
     var pathKeys = new Set();
 
@@ -6997,7 +6997,7 @@ function useKeyRecords() {
 
     return pathKeys;
   }, []);
-  compat_module.useEffect(function () {
+  react.useEffect(function () {
     return function () {
       destroyRef.current = true;
     };
@@ -7111,19 +7111,19 @@ var Menu = function Menu(props) {
 
   var childList = parseChildren(children, EMPTY_LIST);
 
-  var _React$useState = compat_module.useState(false),
+  var _React$useState = react.useState(false),
       _React$useState2 = (0,slicedToArray/* default */.Z)(_React$useState, 2),
       mounted = _React$useState2[0],
       setMounted = _React$useState2[1];
 
-  var containerRef = compat_module.useRef();
+  var containerRef = react.useRef();
   var uuid = useUUID(id);
   var isRtl = direction === 'rtl'; // ========================= Warn =========================
 
   if (false) {} // ========================= Mode =========================
 
 
-  var _React$useMemo = compat_module.useMemo(function () {
+  var _React$useMemo = react.useMemo(function () {
     if ((mode === 'inline' || mode === 'vertical') && inlineCollapsed) {
       return ['vertical', inlineCollapsed];
     }
@@ -7135,7 +7135,7 @@ var Menu = function Menu(props) {
       mergedInlineCollapsed = _React$useMemo2[1]; // ====================== Responsive ======================
 
 
-  var _React$useState3 = compat_module.useState(0),
+  var _React$useState3 = react.useState(0),
       _React$useState4 = (0,slicedToArray/* default */.Z)(_React$useState3, 2),
       lastVisibleIndex = _React$useState4[0],
       setLastVisibleIndex = _React$useState4[1];
@@ -7158,21 +7158,21 @@ var Menu = function Menu(props) {
   }; // >>>>> Cache & Reset open keys when inlineCollapsed changed
 
 
-  var _React$useState5 = compat_module.useState(mergedOpenKeys),
+  var _React$useState5 = react.useState(mergedOpenKeys),
       _React$useState6 = (0,slicedToArray/* default */.Z)(_React$useState5, 2),
       inlineCacheOpenKeys = _React$useState6[0],
       setInlineCacheOpenKeys = _React$useState6[1];
 
   var isInlineMode = mergedMode === 'inline';
-  var mountRef = compat_module.useRef(false); // Cache
+  var mountRef = react.useRef(false); // Cache
 
-  compat_module.useEffect(function () {
+  react.useEffect(function () {
     if (isInlineMode) {
       setInlineCacheOpenKeys(mergedOpenKeys);
     }
   }, [mergedOpenKeys]); // Restore
 
-  compat_module.useEffect(function () {
+  react.useEffect(function () {
     if (!mountRef.current) {
       mountRef.current = true;
       return;
@@ -7195,18 +7195,18 @@ var Menu = function Menu(props) {
       getKeys = _useKeyRecords.getKeys,
       getSubPathKeys = _useKeyRecords.getSubPathKeys;
 
-  var registerPathContext = compat_module.useMemo(function () {
+  var registerPathContext = react.useMemo(function () {
     return {
       registerPath: registerPath,
       unregisterPath: unregisterPath
     };
   }, [registerPath, unregisterPath]);
-  var pathUserContext = compat_module.useMemo(function () {
+  var pathUserContext = react.useMemo(function () {
     return {
       isSubPathKey: isSubPathKey
     };
   }, [isSubPathKey]);
-  compat_module.useEffect(function () {
+  react.useEffect(function () {
     refreshOverflowKeys(allVisible ? EMPTY_LIST : childList.slice(lastVisibleIndex + 1).map(function (child) {
       return child.key;
     }));
@@ -7322,7 +7322,7 @@ var Menu = function Menu(props) {
 
   var onInternalKeyDown = useAccessibility(mergedMode, mergedActiveKey, isRtl, uuid, containerRef, getKeys, getKeyPath, setMergedActiveKey, triggerAccessibilityOpen, onKeyDown); // ======================== Effect ========================
 
-  compat_module.useEffect(function () {
+  react.useEffect(function () {
     setMounted(true);
   }, []); // ======================== Render ========================
   // >>>>> Children
@@ -7332,14 +7332,14 @@ var Menu = function Menu(props) {
     return (
       /*#__PURE__*/
       // Always wrap provider to avoid sub node re-mount
-      compat_module.createElement(InheritableContextProvider, {
+      react.createElement(InheritableContextProvider, {
         key: child.key,
         overflowDisabled: index > lastVisibleIndex
       }, child)
     );
   }); // >>>>> Container
 
-  var container = /*#__PURE__*/compat_module.createElement(rc_overflow_es, (0,esm_extends/* default */.Z)({
+  var container = /*#__PURE__*/react.createElement(rc_overflow_es, (0,esm_extends/* default */.Z)({
     id: id,
     ref: containerRef,
     prefixCls: "".concat(prefixCls, "-overflow"),
@@ -7358,7 +7358,7 @@ var Menu = function Menu(props) {
       // We use origin list since wrapped list use context to prevent open
       var len = omitItems.length;
       var originOmitItems = len ? childList.slice(-len) : null;
-      return /*#__PURE__*/compat_module.createElement(SubMenu, {
+      return /*#__PURE__*/react.createElement(SubMenu, {
         eventKey: OVERFLOW_KEY,
         title: overflowedIndicator,
         disabled: allVisible,
@@ -7375,9 +7375,9 @@ var Menu = function Menu(props) {
     onKeyDown: onInternalKeyDown
   }, restProps)); // >>>>> Render
 
-  return /*#__PURE__*/compat_module.createElement(IdContext.Provider, {
+  return /*#__PURE__*/react.createElement(IdContext.Provider, {
     value: uuid
-  }, /*#__PURE__*/compat_module.createElement(InheritableContextProvider, {
+  }, /*#__PURE__*/react.createElement(InheritableContextProvider, {
     prefixCls: prefixCls,
     mode: mergedMode,
     openKeys: mergedOpenKeys,
@@ -7408,14 +7408,14 @@ var Menu = function Menu(props) {
     ,
     onItemClick: onInternalClick,
     onOpenChange: onInternalOpenChange
-  }, /*#__PURE__*/compat_module.createElement(PathUserContext.Provider, {
+  }, /*#__PURE__*/react.createElement(PathUserContext.Provider, {
     value: pathUserContext
-  }, container), /*#__PURE__*/compat_module.createElement("div", {
+  }, container), /*#__PURE__*/react.createElement("div", {
     style: {
       display: 'none'
     },
     "aria-hidden": true
-  }, /*#__PURE__*/compat_module.createElement(PathRegisterContext.Provider, {
+  }, /*#__PURE__*/react.createElement(PathRegisterContext.Provider, {
     value: registerPathContext
   }, childList))));
 };
@@ -7440,19 +7440,19 @@ var InternalMenuItemGroup = function InternalMenuItemGroup(_ref) {
       children = _ref.children,
       restProps = (0,objectWithoutProperties/* default */.Z)(_ref, MenuItemGroup_excluded);
 
-  var _React$useContext = compat_module.useContext(MenuContext),
+  var _React$useContext = react.useContext(MenuContext),
       prefixCls = _React$useContext.prefixCls;
 
   var groupPrefixCls = "".concat(prefixCls, "-item-group");
-  return /*#__PURE__*/compat_module.createElement("li", (0,esm_extends/* default */.Z)({}, restProps, {
+  return /*#__PURE__*/react.createElement("li", (0,esm_extends/* default */.Z)({}, restProps, {
     onClick: function onClick(e) {
       return e.stopPropagation();
     },
     className: classnames_default()(groupPrefixCls, className)
-  }), /*#__PURE__*/compat_module.createElement("div", {
+  }), /*#__PURE__*/react.createElement("div", {
     className: "".concat(groupPrefixCls, "-title"),
     title: typeof title === 'string' ? title : undefined
-  }, title), /*#__PURE__*/compat_module.createElement("ul", {
+  }, title), /*#__PURE__*/react.createElement("ul", {
     className: "".concat(groupPrefixCls, "-list")
   }, children));
 };
@@ -7469,7 +7469,7 @@ function MenuItemGroup(_ref2) {
     return childList;
   }
 
-  return /*#__PURE__*/compat_module.createElement(InternalMenuItemGroup, (0,omit/* default */.Z)(props, ['warnKey']), childList);
+  return /*#__PURE__*/react.createElement(InternalMenuItemGroup, (0,omit/* default */.Z)(props, ['warnKey']), childList);
 }
 ;// CONCATENATED MODULE: ./node_modules/rc-menu/es/Divider.js
 
@@ -7480,7 +7480,7 @@ function Divider(_ref) {
   var className = _ref.className,
       style = _ref.style;
 
-  var _React$useContext = compat_module.useContext(MenuContext),
+  var _React$useContext = react.useContext(MenuContext),
       prefixCls = _React$useContext.prefixCls;
 
   var measure = useMeasure();
@@ -7489,7 +7489,7 @@ function Divider(_ref) {
     return null;
   }
 
-  return /*#__PURE__*/compat_module.createElement("li", {
+  return /*#__PURE__*/react.createElement("li", {
     className: classnames_default()("".concat(prefixCls, "-item-divider"), className),
     style: style
   });
@@ -7515,7 +7515,7 @@ ExportMenu.Divider = Divider;
 var EllipsisOutlined = __webpack_require__(4545);
 ;// CONCATENATED MODULE: ./node_modules/antd/es/menu/MenuContext.js
 
-var MenuContext_MenuContext = /*#__PURE__*/(0,compat_module.createContext)({
+var MenuContext_MenuContext = /*#__PURE__*/(0,react.createContext)({
   prefixCls: '',
   firstLevel: true,
   inlineCollapsed: false
@@ -7538,7 +7538,7 @@ function SubMenu_SubMenu(props) {
   var popupClassName = props.popupClassName,
       icon = props.icon,
       title = props.title;
-  var context = compat_module.useContext(menu_MenuContext);
+  var context = react.useContext(menu_MenuContext);
   var prefixCls = context.prefixCls,
       inlineCollapsed = context.inlineCollapsed,
       antdMenuTheme = context.antdMenuTheme;
@@ -7546,27 +7546,27 @@ function SubMenu_SubMenu(props) {
   var titleNode;
 
   if (!icon) {
-    titleNode = inlineCollapsed && !parentPath.length && title && typeof title === 'string' ? /*#__PURE__*/compat_module.createElement("div", {
+    titleNode = inlineCollapsed && !parentPath.length && title && typeof title === 'string' ? /*#__PURE__*/react.createElement("div", {
       className: "".concat(prefixCls, "-inline-collapsed-noicon")
-    }, title.charAt(0)) : /*#__PURE__*/compat_module.createElement("span", {
+    }, title.charAt(0)) : /*#__PURE__*/react.createElement("span", {
       className: "".concat(prefixCls, "-title-content")
     }, title);
   } else {
     // inline-collapsed.md demo 依赖 span 来隐藏文字,有 icon 属性，则内部包裹一个 span
     // ref: https://github.com/ant-design/ant-design/pull/23456
     var titleIsSpan = (0,reactNode/* isValidElement */.l$)(title) && title.type === 'span';
-    titleNode = /*#__PURE__*/compat_module.createElement(compat_module.Fragment, null, (0,reactNode/* cloneElement */.Tm)(icon, {
+    titleNode = /*#__PURE__*/react.createElement(react.Fragment, null, (0,reactNode/* cloneElement */.Tm)(icon, {
       className: classnames_default()((0,reactNode/* isValidElement */.l$)(icon) ? (_a = icon.props) === null || _a === void 0 ? void 0 : _a.className : '', "".concat(prefixCls, "-item-icon"))
-    }), titleIsSpan ? title : /*#__PURE__*/compat_module.createElement("span", {
+    }), titleIsSpan ? title : /*#__PURE__*/react.createElement("span", {
       className: "".concat(prefixCls, "-title-content")
     }, title));
   }
 
-  return /*#__PURE__*/compat_module.createElement(menu_MenuContext.Provider, {
+  return /*#__PURE__*/react.createElement(menu_MenuContext.Provider, {
     value: (0,esm_extends/* default */.Z)((0,esm_extends/* default */.Z)({}, context), {
       firstLevel: false
     })
-  }, /*#__PURE__*/compat_module.createElement(SubMenu, (0,esm_extends/* default */.Z)({}, (0,omit/* default */.Z)(props, ['icon']), {
+  }, /*#__PURE__*/react.createElement(SubMenu, (0,esm_extends/* default */.Z)({}, (0,omit/* default */.Z)(props, ['icon']), {
     title: titleNode,
     popupClassName: classnames_default()(prefixCls, "".concat(prefixCls, "-").concat(antdMenuTheme), popupClassName)
   })));
@@ -7664,7 +7664,7 @@ var Content = function Content(props) {
       prefixCls = props.prefixCls,
       id = props.id,
       overlayInnerStyle = props.overlayInnerStyle;
-  return /*#__PURE__*/compat_module.createElement("div", {
+  return /*#__PURE__*/react.createElement("div", {
     className: "".concat(prefixCls, "-inner"),
     id: id,
     role: "tooltip",
@@ -7712,8 +7712,8 @@ var Tooltip = function Tooltip(props, ref) {
       overlayInnerStyle = props.overlayInnerStyle,
       restProps = (0,objectWithoutProperties/* default */.Z)(props, ["overlayClassName", "trigger", "mouseEnterDelay", "mouseLeaveDelay", "overlayStyle", "prefixCls", "children", "onVisibleChange", "afterVisibleChange", "transitionName", "animation", "motion", "placement", "align", "destroyTooltipOnHide", "defaultVisible", "getTooltipContainer", "overlayInnerStyle"]);
 
-  var domRef = (0,compat_module.useRef)(null);
-  (0,compat_module.useImperativeHandle)(ref, function () {
+  var domRef = (0,react.useRef)(null);
+  (0,react.useImperativeHandle)(ref, function () {
     return domRef.current;
   });
 
@@ -7728,10 +7728,10 @@ var Tooltip = function Tooltip(props, ref) {
         arrowContent = _props$arrowContent === void 0 ? null : _props$arrowContent,
         overlay = props.overlay,
         id = props.id;
-    return [/*#__PURE__*/compat_module.createElement("div", {
+    return [/*#__PURE__*/react.createElement("div", {
       className: "".concat(prefixCls, "-arrow"),
       key: "arrow"
-    }, arrowContent), /*#__PURE__*/compat_module.createElement(es_Content, {
+    }, arrowContent), /*#__PURE__*/react.createElement(es_Content, {
       key: "content",
       prefixCls: prefixCls,
       id: id,
@@ -7751,7 +7751,7 @@ var Tooltip = function Tooltip(props, ref) {
     autoDestroy = keepParent === false;
   }
 
-  return /*#__PURE__*/compat_module.createElement(rc_trigger_es/* default */.Z, (0,esm_extends/* default */.Z)({
+  return /*#__PURE__*/react.createElement(rc_trigger_es/* default */.Z, (0,esm_extends/* default */.Z)({
     popupClassName: overlayClassName,
     prefixCls: prefixCls,
     popup: getPopupElement,
@@ -7775,7 +7775,7 @@ var Tooltip = function Tooltip(props, ref) {
   }, extraProps), children);
 };
 
-/* harmony default export */ const es_Tooltip = (/*#__PURE__*/(0,compat_module.forwardRef)(Tooltip));
+/* harmony default export */ const es_Tooltip = (/*#__PURE__*/(0,react.forwardRef)(Tooltip));
 ;// CONCATENATED MODULE: ./node_modules/rc-tooltip/es/index.js
 
 /* harmony default export */ const rc_tooltip_es = (es_Tooltip);
@@ -7952,7 +7952,7 @@ function getDisabledCompatibleChildren(element, prefixCls) {
       style: buttonStyle,
       className: null
     });
-    return /*#__PURE__*/compat_module.createElement("span", {
+    return /*#__PURE__*/react.createElement("span", {
       style: spanStyle,
       className: classnames_default()(element.props.className, "".concat(prefixCls, "-disabled-compatible-wrapper"))
     }, child);
@@ -7961,10 +7961,10 @@ function getDisabledCompatibleChildren(element, prefixCls) {
   return element;
 }
 
-var tooltip_Tooltip = /*#__PURE__*/compat_module.forwardRef(function (props, ref) {
+var tooltip_Tooltip = /*#__PURE__*/react.forwardRef(function (props, ref) {
   var _classNames2;
 
-  var _React$useContext = compat_module.useContext(context/* ConfigContext */.E_),
+  var _React$useContext = react.useContext(context/* ConfigContext */.E_),
       getContextPopupContainer = _React$useContext.getPopupContainer,
       getPrefixCls = _React$useContext.getPrefixCls,
       direction = _React$useContext.direction;
@@ -8066,7 +8066,7 @@ var tooltip_Tooltip = /*#__PURE__*/compat_module.forwardRef(function (props, ref
     tempVisible = false;
   }
 
-  var child = getDisabledCompatibleChildren((0,reactNode/* isValidElement */.l$)(children) ? children : /*#__PURE__*/compat_module.createElement("span", null, children), prefixCls);
+  var child = getDisabledCompatibleChildren((0,reactNode/* isValidElement */.l$)(children) ? children : /*#__PURE__*/react.createElement("span", null, children), prefixCls);
   var childProps = child.props;
   var childCls = classnames_default()(childProps.className, (0,defineProperty/* default */.Z)({}, openClassName || "".concat(prefixCls, "-open"), true));
   var customOverlayClassName = classnames_default()(overlayClassName, (_classNames2 = {}, (0,defineProperty/* default */.Z)(_classNames2, "".concat(prefixCls, "-rtl"), direction === 'rtl'), (0,defineProperty/* default */.Z)(_classNames2, "".concat(prefixCls, "-").concat(color), color && PresetColorRegex.test(color)), _classNames2));
@@ -8082,7 +8082,7 @@ var tooltip_Tooltip = /*#__PURE__*/compat_module.forwardRef(function (props, ref
     };
   }
 
-  return /*#__PURE__*/compat_module.createElement(rc_tooltip_es, (0,esm_extends/* default */.Z)({}, otherProps, {
+  return /*#__PURE__*/react.createElement(rc_tooltip_es, (0,esm_extends/* default */.Z)({}, otherProps, {
     prefixCls: prefixCls,
     overlayClassName: customOverlayClassName,
     getTooltipContainer: getPopupContainer || getTooltipContainer || getContextPopupContainer,
@@ -8093,7 +8093,7 @@ var tooltip_Tooltip = /*#__PURE__*/compat_module.forwardRef(function (props, ref
     onVisibleChange: onVisibleChange,
     onPopupAlign: onPopupAlign,
     overlayInnerStyle: formattedOverlayInnerStyle,
-    arrowContent: /*#__PURE__*/compat_module.createElement("span", {
+    arrowContent: /*#__PURE__*/react.createElement("span", {
       className: "".concat(prefixCls, "-arrow-content"),
       style: arrowContentStyle
     }),
@@ -8130,14 +8130,14 @@ var AntdIcon = __webpack_require__(6988);
 
 
 var BarsOutlined_BarsOutlined = function BarsOutlined(props, ref) {
-  return /*#__PURE__*/compat_module.createElement(AntdIcon/* default */.Z, (0,objectSpread2/* default */.Z)((0,objectSpread2/* default */.Z)({}, props), {}, {
+  return /*#__PURE__*/react.createElement(AntdIcon/* default */.Z, (0,objectSpread2/* default */.Z)((0,objectSpread2/* default */.Z)({}, props), {}, {
     ref: ref,
     icon: asn_BarsOutlined
   }));
 };
 
 BarsOutlined_BarsOutlined.displayName = 'BarsOutlined';
-/* harmony default export */ const icons_BarsOutlined = (/*#__PURE__*/compat_module.forwardRef(BarsOutlined_BarsOutlined));
+/* harmony default export */ const icons_BarsOutlined = (/*#__PURE__*/react.forwardRef(BarsOutlined_BarsOutlined));
 // EXTERNAL MODULE: ./node_modules/@ant-design/icons/es/icons/RightOutlined.js + 1 modules
 var RightOutlined = __webpack_require__(8812);
 ;// CONCATENATED MODULE: ./node_modules/@ant-design/icons-svg/es/asn/LeftOutlined.js
@@ -8154,14 +8154,14 @@ var LeftOutlined = { "icon": { "tag": "svg", "attrs": { "viewBox": "64 64 896 89
 
 
 var LeftOutlined_LeftOutlined = function LeftOutlined(props, ref) {
-  return /*#__PURE__*/compat_module.createElement(AntdIcon/* default */.Z, (0,objectSpread2/* default */.Z)((0,objectSpread2/* default */.Z)({}, props), {}, {
+  return /*#__PURE__*/react.createElement(AntdIcon/* default */.Z, (0,objectSpread2/* default */.Z)((0,objectSpread2/* default */.Z)({}, props), {}, {
     ref: ref,
     icon: asn_LeftOutlined
   }));
 };
 
 LeftOutlined_LeftOutlined.displayName = 'LeftOutlined';
-/* harmony default export */ const icons_LeftOutlined = (/*#__PURE__*/compat_module.forwardRef(LeftOutlined_LeftOutlined));
+/* harmony default export */ const icons_LeftOutlined = (/*#__PURE__*/react.forwardRef(LeftOutlined_LeftOutlined));
 ;// CONCATENATED MODULE: ./node_modules/antd/es/layout/layout.js
 
 
@@ -8184,7 +8184,7 @@ var layout_rest = undefined && undefined.__rest || function (s, e) {
 
 
 
-var LayoutContext = /*#__PURE__*/compat_module.createContext({
+var LayoutContext = /*#__PURE__*/react.createContext({
   siderHook: {
     addSider: function addSider() {
       return null;
@@ -8201,12 +8201,12 @@ function generator(_ref) {
       displayName = _ref.displayName;
   return function (BasicComponent) {
     var Adapter = function Adapter(props) {
-      var _React$useContext = compat_module.useContext(context/* ConfigContext */.E_),
+      var _React$useContext = react.useContext(context/* ConfigContext */.E_),
           getPrefixCls = _React$useContext.getPrefixCls;
 
       var customizePrefixCls = props.prefixCls;
       var prefixCls = getPrefixCls(suffixCls, customizePrefixCls);
-      return /*#__PURE__*/compat_module.createElement(BasicComponent, (0,esm_extends/* default */.Z)({
+      return /*#__PURE__*/react.createElement(BasicComponent, (0,esm_extends/* default */.Z)({
         prefixCls: prefixCls,
         tagName: tagName
       }, props));
@@ -8225,7 +8225,7 @@ var Basic = function Basic(props) {
       others = layout_rest(props, ["prefixCls", "className", "children", "tagName"]);
 
   var classString = classnames_default()(prefixCls, className);
-  return /*#__PURE__*/compat_module.createElement(tagName, (0,esm_extends/* default */.Z)({
+  return /*#__PURE__*/react.createElement(tagName, (0,esm_extends/* default */.Z)({
     className: classString
   }, others), children);
 };
@@ -8233,10 +8233,10 @@ var Basic = function Basic(props) {
 var BasicLayout = function BasicLayout(props) {
   var _classNames;
 
-  var _React$useContext2 = compat_module.useContext(context/* ConfigContext */.E_),
+  var _React$useContext2 = react.useContext(context/* ConfigContext */.E_),
       direction = _React$useContext2.direction;
 
-  var _React$useState = compat_module.useState([]),
+  var _React$useState = react.useState([]),
       _React$useState2 = (0,slicedToArray/* default */.Z)(_React$useState, 2),
       siders = _React$useState2[0],
       setSiders = _React$useState2[1];
@@ -8249,7 +8249,7 @@ var BasicLayout = function BasicLayout(props) {
       others = layout_rest(props, ["prefixCls", "className", "children", "hasSider", "tagName"]);
 
   var classString = classnames_default()(prefixCls, (_classNames = {}, (0,defineProperty/* default */.Z)(_classNames, "".concat(prefixCls, "-has-sider"), typeof hasSider === 'boolean' ? hasSider : siders.length > 0), (0,defineProperty/* default */.Z)(_classNames, "".concat(prefixCls, "-rtl"), direction === 'rtl'), _classNames), className);
-  return /*#__PURE__*/compat_module.createElement(LayoutContext.Provider, {
+  return /*#__PURE__*/react.createElement(LayoutContext.Provider, {
     value: {
       siderHook: {
         addSider: function addSider(id) {
@@ -8266,7 +8266,7 @@ var BasicLayout = function BasicLayout(props) {
         }
       }
     }
-  }, /*#__PURE__*/compat_module.createElement(Tag, (0,esm_extends/* default */.Z)({
+  }, /*#__PURE__*/react.createElement(Tag, (0,esm_extends/* default */.Z)({
     className: classString
   }, others), children));
 };
@@ -8335,7 +8335,7 @@ var dimensionMaxMap = {
   xl: '1199.98px',
   xxl: '1599.98px'
 };
-var SiderContext = /*#__PURE__*/compat_module.createContext({});
+var SiderContext = /*#__PURE__*/react.createContext({});
 
 var generateId = function () {
   var i = 0;
@@ -8346,7 +8346,7 @@ var generateId = function () {
   };
 }();
 
-var Sider = /*#__PURE__*/compat_module.forwardRef(function (_a, ref) {
+var Sider = /*#__PURE__*/react.forwardRef(function (_a, ref) {
   var customizePrefixCls = _a.prefixCls,
       className = _a.className,
       trigger = _a.trigger,
@@ -8371,20 +8371,20 @@ var Sider = /*#__PURE__*/compat_module.forwardRef(function (_a, ref) {
       onBreakpoint = _a.onBreakpoint,
       props = Sider_rest(_a, ["prefixCls", "className", "trigger", "children", "defaultCollapsed", "theme", "style", "collapsible", "reverseArrow", "width", "collapsedWidth", "zeroWidthTriggerStyle", "breakpoint", "onCollapse", "onBreakpoint"]);
 
-  var _useContext = (0,compat_module.useContext)(LayoutContext),
+  var _useContext = (0,react.useContext)(LayoutContext),
       siderHook = _useContext.siderHook;
 
-  var _useState = (0,compat_module.useState)('collapsed' in props ? props.collapsed : defaultCollapsed),
+  var _useState = (0,react.useState)('collapsed' in props ? props.collapsed : defaultCollapsed),
       _useState2 = (0,slicedToArray/* default */.Z)(_useState, 2),
       collapsed = _useState2[0],
       setCollapsed = _useState2[1];
 
-  var _useState3 = (0,compat_module.useState)(false),
+  var _useState3 = (0,react.useState)(false),
       _useState4 = (0,slicedToArray/* default */.Z)(_useState3, 2),
       below = _useState4[0],
       setBelow = _useState4[1];
 
-  (0,compat_module.useEffect)(function () {
+  (0,react.useEffect)(function () {
     if ('collapsed' in props) {
       setCollapsed(props.collapsed);
     }
@@ -8399,7 +8399,7 @@ var Sider = /*#__PURE__*/compat_module.forwardRef(function (_a, ref) {
   }; // ========================= Responsive =========================
 
 
-  var responsiveHandlerRef = (0,compat_module.useRef)();
+  var responsiveHandlerRef = (0,react.useRef)();
 
   responsiveHandlerRef.current = function (mql) {
     setBelow(mql.matches);
@@ -8410,7 +8410,7 @@ var Sider = /*#__PURE__*/compat_module.forwardRef(function (_a, ref) {
     }
   };
 
-  (0,compat_module.useEffect)(function () {
+  (0,react.useEffect)(function () {
     function responsiveHandler(mql) {
       return responsiveHandlerRef.current(mql);
     }
@@ -8442,7 +8442,7 @@ var Sider = /*#__PURE__*/compat_module.forwardRef(function (_a, ref) {
       }
     };
   }, []);
-  (0,compat_module.useEffect)(function () {
+  (0,react.useEffect)(function () {
     var uniqueId = generateId('ant-sider-');
     siderHook.addSider(uniqueId);
     return function () {
@@ -8454,7 +8454,7 @@ var Sider = /*#__PURE__*/compat_module.forwardRef(function (_a, ref) {
     handleSetCollapsed(!collapsed, 'clickTrigger');
   };
 
-  var _useContext2 = (0,compat_module.useContext)(context/* ConfigContext */.E_),
+  var _useContext2 = (0,react.useContext)(context/* ConfigContext */.E_),
       getPrefixCls = _useContext2.getPrefixCls;
 
   var renderSider = function renderSider() {
@@ -8466,18 +8466,18 @@ var Sider = /*#__PURE__*/compat_module.forwardRef(function (_a, ref) {
 
     var siderWidth = _util_isNumeric(rawWidth) ? "".concat(rawWidth, "px") : String(rawWidth); // special trigger when collapsedWidth == 0
 
-    var zeroWidthTrigger = parseFloat(String(collapsedWidth || 0)) === 0 ? /*#__PURE__*/compat_module.createElement("span", {
+    var zeroWidthTrigger = parseFloat(String(collapsedWidth || 0)) === 0 ? /*#__PURE__*/react.createElement("span", {
       onClick: toggle,
       className: classnames_default()("".concat(prefixCls, "-zero-width-trigger"), "".concat(prefixCls, "-zero-width-trigger-").concat(reverseArrow ? 'right' : 'left')),
       style: zeroWidthTriggerStyle
-    }, trigger || /*#__PURE__*/compat_module.createElement(icons_BarsOutlined, null)) : null;
+    }, trigger || /*#__PURE__*/react.createElement(icons_BarsOutlined, null)) : null;
     var iconObj = {
-      expanded: reverseArrow ? /*#__PURE__*/compat_module.createElement(RightOutlined/* default */.Z, null) : /*#__PURE__*/compat_module.createElement(icons_LeftOutlined, null),
-      collapsed: reverseArrow ? /*#__PURE__*/compat_module.createElement(icons_LeftOutlined, null) : /*#__PURE__*/compat_module.createElement(RightOutlined/* default */.Z, null)
+      expanded: reverseArrow ? /*#__PURE__*/react.createElement(RightOutlined/* default */.Z, null) : /*#__PURE__*/react.createElement(icons_LeftOutlined, null),
+      collapsed: reverseArrow ? /*#__PURE__*/react.createElement(icons_LeftOutlined, null) : /*#__PURE__*/react.createElement(RightOutlined/* default */.Z, null)
     };
     var status = collapsed ? 'collapsed' : 'expanded';
     var defaultTrigger = iconObj[status];
-    var triggerDom = trigger !== null ? zeroWidthTrigger || /*#__PURE__*/compat_module.createElement("div", {
+    var triggerDom = trigger !== null ? zeroWidthTrigger || /*#__PURE__*/react.createElement("div", {
       className: "".concat(prefixCls, "-trigger"),
       onClick: toggle,
       style: {
@@ -8493,17 +8493,17 @@ var Sider = /*#__PURE__*/compat_module.forwardRef(function (_a, ref) {
     });
 
     var siderCls = classnames_default()(prefixCls, "".concat(prefixCls, "-").concat(theme), (_classNames = {}, (0,defineProperty/* default */.Z)(_classNames, "".concat(prefixCls, "-collapsed"), !!collapsed), (0,defineProperty/* default */.Z)(_classNames, "".concat(prefixCls, "-has-trigger"), collapsible && trigger !== null && !zeroWidthTrigger), (0,defineProperty/* default */.Z)(_classNames, "".concat(prefixCls, "-below"), !!below), (0,defineProperty/* default */.Z)(_classNames, "".concat(prefixCls, "-zero-width"), parseFloat(siderWidth) === 0), _classNames), className);
-    return /*#__PURE__*/compat_module.createElement("aside", (0,esm_extends/* default */.Z)({
+    return /*#__PURE__*/react.createElement("aside", (0,esm_extends/* default */.Z)({
       className: siderCls
     }, divProps, {
       style: divStyle,
       ref: ref
-    }), /*#__PURE__*/compat_module.createElement("div", {
+    }), /*#__PURE__*/react.createElement("div", {
       className: "".concat(prefixCls, "-children")
     }, children), collapsible || below && zeroWidthTrigger ? triggerDom : null);
   };
 
-  return /*#__PURE__*/compat_module.createElement(SiderContext.Provider, {
+  return /*#__PURE__*/react.createElement(SiderContext.Provider, {
     value: {
       siderCollapsed: collapsed
     }
@@ -8595,10 +8595,10 @@ var MenuItem_MenuItem = /*#__PURE__*/function (_React$Component) {
       }
 
       var childrenLength = (0,toArray/* default */.Z)(children).length;
-      return /*#__PURE__*/compat_module.createElement(tooltip, (0,esm_extends/* default */.Z)({}, tooltipProps, {
+      return /*#__PURE__*/react.createElement(tooltip, (0,esm_extends/* default */.Z)({}, tooltipProps, {
         placement: direction === 'rtl' ? 'left' : 'right',
         overlayClassName: "".concat(prefixCls, "-inline-collapsed-tooltip")
-      }), /*#__PURE__*/compat_module.createElement(es_MenuItem, (0,esm_extends/* default */.Z)({}, rest, {
+      }), /*#__PURE__*/react.createElement(es_MenuItem, (0,esm_extends/* default */.Z)({}, rest, {
         className: classnames_default()((_classNames = {}, (0,defineProperty/* default */.Z)(_classNames, "".concat(prefixCls, "-item-danger"), danger), (0,defineProperty/* default */.Z)(_classNames, "".concat(prefixCls, "-item-only-child"), (icon ? childrenLength + 1 : childrenLength) === 1), _classNames), className),
         title: typeof title === 'string' ? title : undefined
       }), (0,reactNode/* cloneElement */.Tm)(icon, {
@@ -8618,14 +8618,14 @@ var MenuItem_MenuItem = /*#__PURE__*/function (_React$Component) {
       var _this$props2 = this.props,
           icon = _this$props2.icon,
           children = _this$props2.children;
-      var wrapNode = /*#__PURE__*/compat_module.createElement("span", {
+      var wrapNode = /*#__PURE__*/react.createElement("span", {
         className: "".concat(prefixCls, "-title-content")
       }, children); // inline-collapsed.md demo 依赖 span 来隐藏文字,有 icon 属性，则内部包裹一个 span
       // ref: https://github.com/ant-design/ant-design/pull/23456
 
       if (!icon || (0,reactNode/* isValidElement */.l$)(children) && children.type === 'span') {
         if (children && inlineCollapsed && firstLevel && typeof children === 'string') {
-          return /*#__PURE__*/compat_module.createElement("div", {
+          return /*#__PURE__*/react.createElement("div", {
             className: "".concat(prefixCls, "-inline-collapsed-noicon")
           }, children.charAt(0));
         }
@@ -8636,12 +8636,12 @@ var MenuItem_MenuItem = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      return /*#__PURE__*/compat_module.createElement(SiderContext.Consumer, null, this.renderItem);
+      return /*#__PURE__*/react.createElement(SiderContext.Consumer, null, this.renderItem);
     }
   }]);
 
   return MenuItem;
-}(compat_module.Component);
+}(react.Component);
 
 
 MenuItem_MenuItem.contextType = menu_MenuContext;
@@ -8721,7 +8721,7 @@ var InternalMenu = /*#__PURE__*/function (_React$Component) {
       };
       var prefixCls = getPrefixCls('menu', customizePrefixCls);
       var menuClassName = classnames_default()("".concat(prefixCls, "-").concat(theme), className);
-      return /*#__PURE__*/compat_module.createElement(menu_MenuContext.Provider, {
+      return /*#__PURE__*/react.createElement(menu_MenuContext.Provider, {
         value: {
           prefixCls: prefixCls,
           inlineCollapsed: inlineCollapsed || false,
@@ -8729,9 +8729,9 @@ var InternalMenu = /*#__PURE__*/function (_React$Component) {
           direction: direction,
           firstLevel: true
         }
-      }, /*#__PURE__*/compat_module.createElement(rc_menu_es, (0,esm_extends/* default */.Z)({
+      }, /*#__PURE__*/react.createElement(rc_menu_es, (0,esm_extends/* default */.Z)({
         getPopupContainer: getPopupContainer,
-        overflowedIndicator: /*#__PURE__*/compat_module.createElement(EllipsisOutlined/* default */.Z, null),
+        overflowedIndicator: /*#__PURE__*/react.createElement(EllipsisOutlined/* default */.Z, null),
         overflowedIndicatorPopupClassName: "".concat(prefixCls, "-").concat(theme)
       }, passedProps, {
         inlineCollapsed: inlineCollapsed,
@@ -8766,12 +8766,12 @@ var InternalMenu = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      return /*#__PURE__*/compat_module.createElement(context/* ConfigConsumer */.C, null, this.renderMenu);
+      return /*#__PURE__*/react.createElement(context/* ConfigConsumer */.C, null, this.renderMenu);
     }
   }]);
 
   return InternalMenu;
-}(compat_module.Component);
+}(react.Component);
 
 InternalMenu.defaultProps = {
   theme: 'light' // or dark
@@ -8794,14 +8794,14 @@ var menu_Menu = /*#__PURE__*/function (_React$Component2) {
     value: function render() {
       var _this2 = this;
 
-      return /*#__PURE__*/compat_module.createElement(SiderContext.Consumer, null, function (context) {
-        return /*#__PURE__*/compat_module.createElement(InternalMenu, (0,esm_extends/* default */.Z)({}, _this2.props, context));
+      return /*#__PURE__*/react.createElement(SiderContext.Consumer, null, function (context) {
+        return /*#__PURE__*/react.createElement(InternalMenu, (0,esm_extends/* default */.Z)({}, _this2.props, context));
       });
     }
   }]);
 
   return Menu;
-}(compat_module.Component);
+}(react.Component);
 
 menu_Menu.Divider = Divider;
 menu_Menu.Item = MenuItem_MenuItem;
@@ -11818,8 +11818,8 @@ var objectSpread2 = __webpack_require__(1413);
 var slicedToArray = __webpack_require__(885);
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/typeof.js
 var esm_typeof = __webpack_require__(1002);
-// EXTERNAL MODULE: ./node_modules/preact/compat/dist/compat.module.js + 1 modules
-var compat_module = __webpack_require__(9748);
+// EXTERNAL MODULE: ./node_modules/react/index.js
+var react = __webpack_require__(7294);
 // EXTERNAL MODULE: ./node_modules/rc-util/es/Dom/findDOMNode.js
 var findDOMNode = __webpack_require__(4203);
 // EXTERNAL MODULE: ./node_modules/rc-util/es/ref.js
@@ -11926,9 +11926,9 @@ var STEP_ACTIVATED = 'end';
 
 
 function useMountStatus(defaultValue) {
-  var destroyRef = (0,compat_module.useRef)(false);
+  var destroyRef = (0,react.useRef)(false);
 
-  var _useState = (0,compat_module.useState)(defaultValue),
+  var _useState = (0,react.useState)(defaultValue),
       _useState2 = (0,slicedToArray/* default */.Z)(_useState, 2),
       val = _useState2[0],
       setVal = _useState2[1];
@@ -11939,7 +11939,7 @@ function useMountStatus(defaultValue) {
     }
   }
 
-  (0,compat_module.useEffect)(function () {
+  (0,react.useEffect)(function () {
     return function () {
       destroyRef.current = true;
     };
@@ -11950,7 +11950,7 @@ function useMountStatus(defaultValue) {
 
  // It's safe to use `useLayoutEffect` but the warning is annoying
 
-var useIsomorphicLayoutEffect = (0,canUseDom/* default */.Z)() ? compat_module.useLayoutEffect : compat_module.useEffect;
+var useIsomorphicLayoutEffect = (0,canUseDom/* default */.Z)() ? react.useLayoutEffect : react.useEffect;
 /* harmony default export */ const hooks_useIsomorphicLayoutEffect = (useIsomorphicLayoutEffect);
 // EXTERNAL MODULE: ./node_modules/rc-util/es/raf.js
 var raf = __webpack_require__(5164);
@@ -11958,7 +11958,7 @@ var raf = __webpack_require__(5164);
 
 
 /* harmony default export */ const useNextFrame = (function () {
-  var nextFrameRef = compat_module.useRef(null);
+  var nextFrameRef = react.useRef(null);
 
   function cancelNextFrame() {
     raf/* default.cancel */.Z.cancel(nextFrameRef.current);
@@ -11981,7 +11981,7 @@ var raf = __webpack_require__(5164);
     nextFrameRef.current = nextFrameId;
   }
 
-  compat_module.useEffect(function () {
+  react.useEffect(function () {
     return function () {
       cancelNextFrame();
     };
@@ -12005,7 +12005,7 @@ function isActive(step) {
   return step === STEP_ACTIVE || step === STEP_ACTIVATED;
 }
 /* harmony default export */ const useStepQueue = (function (status, callback) {
-  var _React$useState = compat_module.useState(STEP_NONE),
+  var _React$useState = react.useState(STEP_NONE),
       _React$useState2 = (0,slicedToArray/* default */.Z)(_React$useState, 2),
       step = _React$useState2[0],
       setStep = _React$useState2[1];
@@ -12047,7 +12047,7 @@ function isActive(step) {
       }
     }
   }, [status, step]);
-  compat_module.useEffect(function () {
+  react.useEffect(function () {
     return function () {
       cancelNextFrame();
     };
@@ -12059,12 +12059,12 @@ function isActive(step) {
 
 
 /* harmony default export */ const useDomMotionEvents = (function (callback) {
-  var cacheElementRef = (0,compat_module.useRef)(); // Cache callback
+  var cacheElementRef = (0,react.useRef)(); // Cache callback
 
-  var callbackRef = (0,compat_module.useRef)(callback);
+  var callbackRef = (0,react.useRef)(callback);
   callbackRef.current = callback; // Internal motion event handler
 
-  var onInternalMotionEnd = compat_module.useCallback(function (event) {
+  var onInternalMotionEnd = react.useCallback(function (event) {
     callbackRef.current(event);
   }, []); // Remove events
 
@@ -12090,7 +12090,7 @@ function isActive(step) {
   } // Clean up when removed
 
 
-  compat_module.useEffect(function () {
+  react.useEffect(function () {
     return function () {
       removeMotionEvents(cacheElementRef.current);
     };
@@ -12147,11 +12147,11 @@ function useStatus(supportMotion, visible, getElement, _ref) {
       style = _useState6[0],
       setStyle = _useState6[1];
 
-  var mountedRef = (0,compat_module.useRef)(false);
-  var deadlineRef = (0,compat_module.useRef)(null);
-  var destroyedRef = (0,compat_module.useRef)(false); // =========================== Dom Node ===========================
+  var mountedRef = (0,react.useRef)(false);
+  var deadlineRef = (0,react.useRef)(null);
+  var destroyedRef = (0,react.useRef)(false); // =========================== Dom Node ===========================
 
-  var cacheElementRef = (0,compat_module.useRef)(null);
+  var cacheElementRef = (0,react.useRef)(null);
 
   function getDomElement() {
     var element = getElement();
@@ -12159,7 +12159,7 @@ function useStatus(supportMotion, visible, getElement, _ref) {
   } // ========================== Motion End ==========================
 
 
-  var activeRef = (0,compat_module.useRef)(false);
+  var activeRef = (0,react.useRef)(false);
 
   function onInternalMotionEnd(event) {
     var element = getDomElement();
@@ -12193,7 +12193,7 @@ function useStatus(supportMotion, visible, getElement, _ref) {
       patchMotionEvents = _useDomMotionEvents2[0]; // ============================= Step =============================
 
 
-  var eventHandlers = compat_module.useMemo(function () {
+  var eventHandlers = react.useMemo(function () {
     var _ref2, _ref3, _ref4;
 
     switch (status) {
@@ -12288,7 +12288,7 @@ function useStatus(supportMotion, visible, getElement, _ref) {
   }, [visible]); // ============================ Effect ============================
   // Reset when motion changed
 
-  (0,compat_module.useEffect)(function () {
+  (0,react.useEffect)(function () {
     if ( // Cancel appear
     status === STATUS_APPEAR && !motionAppear || // Cancel enter
     status === STATUS_ENTER && !motionEnter || // Cancel leave
@@ -12296,14 +12296,14 @@ function useStatus(supportMotion, visible, getElement, _ref) {
       setStatus(STATUS_NONE);
     }
   }, [motionAppear, motionEnter, motionLeave]);
-  (0,compat_module.useEffect)(function () {
+  (0,react.useEffect)(function () {
     return function () {
       clearTimeout(deadlineRef.current);
       destroyedRef.current = true;
     };
   }, []); // Trigger `onVisibleChanged`
 
-  (0,compat_module.useEffect)(function () {
+  (0,react.useEffect)(function () {
     if (asyncVisible !== undefined && status === STATUS_NONE) {
       onVisibleChanged === null || onVisibleChanged === void 0 ? void 0 : onVisibleChanged(asyncVisible);
     }
@@ -12353,7 +12353,7 @@ var DomWrapper = /*#__PURE__*/function (_React$Component) {
   }]);
 
   return DomWrapper;
-}(compat_module.Component);
+}(react.Component);
 
 /* harmony default export */ const es_DomWrapper = (DomWrapper);
 ;// CONCATENATED MODULE: ./node_modules/rc-motion/es/CSSMotion.js
@@ -12389,7 +12389,7 @@ function genCSSMotion(config) {
     return !!(props.motionName && transitionSupport);
   }
 
-  var CSSMotion = /*#__PURE__*/compat_module.forwardRef(function (props, ref) {
+  var CSSMotion = /*#__PURE__*/react.forwardRef(function (props, ref) {
     var _props$visible = props.visible,
         visible = _props$visible === void 0 ? true : _props$visible,
         _props$removeOnLeave = props.removeOnLeave,
@@ -12401,9 +12401,9 @@ function genCSSMotion(config) {
         eventProps = props.eventProps;
     var supportMotion = isSupportTransition(props); // Ref to the react node, it may be a HTMLElement
 
-    var nodeRef = (0,compat_module.useRef)(); // Ref to the dom wrapper in case ref can not pass to HTMLElement
+    var nodeRef = (0,react.useRef)(); // Ref to the dom wrapper in case ref can not pass to HTMLElement
 
-    var wrapperNodeRef = (0,compat_module.useRef)();
+    var wrapperNodeRef = (0,react.useRef)();
 
     function getDomElement() {
       try {
@@ -12423,16 +12423,16 @@ function genCSSMotion(config) {
     // Will return null for un-rendered even when `removeOnLeave={false}`
 
 
-    var renderedRef = compat_module.useRef(mergedVisible);
+    var renderedRef = react.useRef(mergedVisible);
 
     if (mergedVisible) {
       renderedRef.current = true;
     } // ====================== Refs ======================
 
 
-    var originRef = (0,compat_module.useRef)(ref);
+    var originRef = (0,react.useRef)(ref);
     originRef.current = ref;
-    var setNodeRef = compat_module.useCallback(function (node) {
+    var setNodeRef = react.useCallback(function (node) {
       nodeRef.current = node;
       (0,es_ref/* fillRef */.mH)(originRef.current, node);
     }, []); // ===================== Render =====================
@@ -12483,7 +12483,7 @@ function genCSSMotion(config) {
       }), setNodeRef);
     }
 
-    return /*#__PURE__*/compat_module.createElement(es_DomWrapper, {
+    return /*#__PURE__*/react.createElement(es_DomWrapper, {
       ref: wrapperNodeRef
     }, motionChildren);
   });
@@ -12671,19 +12671,19 @@ function genCSSMotionList(transitionSupport) {
             _onVisibleChanged = _this$props.onVisibleChanged,
             restProps = (0,objectWithoutProperties/* default */.Z)(_this$props, ["component", "children", "onVisibleChanged"]);
 
-        var Component = component || compat_module.Fragment;
+        var Component = component || react.Fragment;
         var motionProps = {};
         MOTION_PROP_NAMES.forEach(function (prop) {
           motionProps[prop] = restProps[prop];
           delete restProps[prop];
         });
         delete restProps.keys;
-        return /*#__PURE__*/compat_module.createElement(Component, restProps, keyEntities.map(function (_ref2) {
+        return /*#__PURE__*/react.createElement(Component, restProps, keyEntities.map(function (_ref2) {
           var status = _ref2.status,
               eventProps = (0,objectWithoutProperties/* default */.Z)(_ref2, ["status"]);
 
           var visible = status === STATUS_ADD || status === STATUS_KEEP;
-          return /*#__PURE__*/compat_module.createElement(CSSMotion, (0,esm_extends/* default */.Z)({}, motionProps, {
+          return /*#__PURE__*/react.createElement(CSSMotion, (0,esm_extends/* default */.Z)({}, motionProps, {
             key: eventProps.key,
             visible: visible,
             eventProps: eventProps,
@@ -12724,7 +12724,7 @@ function genCSSMotionList(transitionSupport) {
     }]);
 
     return CSSMotionList;
-  }(compat_module.Component);
+  }(react.Component);
 
   CSSMotionList.defaultProps = {
     component: 'div'
@@ -12766,8 +12766,10 @@ var assertThisInitialized = __webpack_require__(7326);
 var inherits = __webpack_require__(136);
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/createSuper.js + 3 modules
 var createSuper = __webpack_require__(8557);
-// EXTERNAL MODULE: ./node_modules/preact/compat/dist/compat.module.js + 1 modules
-var compat_module = __webpack_require__(9748);
+// EXTERNAL MODULE: ./node_modules/react/index.js
+var react = __webpack_require__(7294);
+// EXTERNAL MODULE: ./node_modules/react-dom/index.js
+var react_dom = __webpack_require__(3935);
 // EXTERNAL MODULE: ./node_modules/rc-util/es/raf.js
 var raf = __webpack_require__(5164);
 ;// CONCATENATED MODULE: ./node_modules/rc-util/es/Dom/contains.js
@@ -12786,8 +12788,8 @@ var es_ref = __webpack_require__(2550);
 
 function addEventListenerWrap(target, eventType, cb, option) {
   /* eslint camelcase: 2 */
-  var callback = compat_module["default"].unstable_batchedUpdates ? function run(e) {
-    compat_module["default"].unstable_batchedUpdates(cb, e);
+  var callback = react_dom.unstable_batchedUpdates ? function run(e) {
+    react_dom.unstable_batchedUpdates(cb, e);
   } : cb;
 
   if (target.addEventListener) {
@@ -12808,17 +12810,17 @@ var canUseDom = __webpack_require__(8924);
 
 
 
-var Portal = /*#__PURE__*/(0,compat_module.forwardRef)(function (props, ref) {
+var Portal = /*#__PURE__*/(0,react.forwardRef)(function (props, ref) {
   var didUpdate = props.didUpdate,
       getContainer = props.getContainer,
       children = props.children;
-  var containerRef = (0,compat_module.useRef)(); // Ref return nothing, only for wrapper check exist
+  var containerRef = (0,react.useRef)(); // Ref return nothing, only for wrapper check exist
 
-  (0,compat_module.useImperativeHandle)(ref, function () {
+  (0,react.useImperativeHandle)(ref, function () {
     return {};
   }); // Create container in client side with sync to avoid useEffect not get ref
 
-  var initRef = (0,compat_module.useRef)(false);
+  var initRef = (0,react.useRef)(false);
 
   if (!initRef.current && (0,canUseDom/* default */.Z)()) {
     containerRef.current = getContainer();
@@ -12826,10 +12828,10 @@ var Portal = /*#__PURE__*/(0,compat_module.forwardRef)(function (props, ref) {
   } // [Legacy] Used by `rc-trigger`
 
 
-  (0,compat_module.useEffect)(function () {
+  (0,react.useEffect)(function () {
     didUpdate === null || didUpdate === void 0 ? void 0 : didUpdate(props);
   });
-  (0,compat_module.useEffect)(function () {
+  (0,react.useEffect)(function () {
     return function () {
       var _containerRef$current, _containerRef$current2;
 
@@ -12838,7 +12840,7 @@ var Portal = /*#__PURE__*/(0,compat_module.forwardRef)(function (props, ref) {
       (_containerRef$current = containerRef.current) === null || _containerRef$current === void 0 ? void 0 : (_containerRef$current2 = _containerRef$current.parentNode) === null || _containerRef$current2 === void 0 ? void 0 : _containerRef$current2.removeChild(containerRef.current);
     };
   }, []);
-  return containerRef.current ? /*#__PURE__*/compat_module["default"].createPortal(children, containerRef.current) : null;
+  return containerRef.current ? /*#__PURE__*/react_dom.createPortal(children, containerRef.current) : null;
 });
 /* harmony default export */ const es_Portal = (Portal);
 // EXTERNAL MODULE: ./node_modules/classnames/index.js
@@ -12951,12 +12953,12 @@ function Mask(props) {
     }));
   }
 
-  return /*#__PURE__*/compat_module.createElement(es/* default */.Z, (0,esm_extends/* default */.Z)({}, motion, {
+  return /*#__PURE__*/react.createElement(es/* default */.Z, (0,esm_extends/* default */.Z)({}, motion, {
     visible: visible,
     removeOnLeave: true
   }), function (_ref) {
     var className = _ref.className;
-    return /*#__PURE__*/compat_module.createElement("div", {
+    return /*#__PURE__*/react.createElement("div", {
       style: {
         zIndex: zIndex
       },
@@ -14385,8 +14387,8 @@ function monitorResize(element, callback) {
 ;// CONCATENATED MODULE: ./node_modules/rc-align/es/hooks/useBuffer.js
 
 /* harmony default export */ const useBuffer = (function (callback, buffer) {
-  var calledRef = compat_module["default"].useRef(false);
-  var timeoutRef = compat_module["default"].useRef(null);
+  var calledRef = react.useRef(false);
+  var timeoutRef = react.useRef(null);
 
   function cancelTrigger() {
     window.clearTimeout(timeoutRef.current);
@@ -14454,12 +14456,12 @@ var Align = function Align(_ref, ref) {
       monitorWindowResize = _ref.monitorWindowResize,
       _ref$monitorBufferTim = _ref.monitorBufferTime,
       monitorBufferTime = _ref$monitorBufferTim === void 0 ? 0 : _ref$monitorBufferTim;
-  var cacheRef = compat_module["default"].useRef({});
-  var nodeRef = compat_module["default"].useRef();
-  var childNode = compat_module["default"].Children.only(children); // ===================== Align ======================
+  var cacheRef = react.useRef({});
+  var nodeRef = react.useRef();
+  var childNode = react.Children.only(children); // ===================== Align ======================
   // We save the props here to avoid closure makes props ood
 
-  var forceAlignPropsRef = compat_module["default"].useRef({});
+  var forceAlignPropsRef = react.useRef({});
   forceAlignPropsRef.current.disabled = disabled;
   forceAlignPropsRef.current.target = target;
   forceAlignPropsRef.current.align = align;
@@ -14511,14 +14513,14 @@ var Align = function Align(_ref, ref) {
   // Listen for target updated
 
 
-  var resizeMonitor = compat_module["default"].useRef({
+  var resizeMonitor = react.useRef({
     cancel: function cancel() {}
   }); // Listen for source updated
 
-  var sourceResizeMonitor = compat_module["default"].useRef({
+  var sourceResizeMonitor = react.useRef({
     cancel: function cancel() {}
   });
-  compat_module["default"].useEffect(function () {
+  react.useEffect(function () {
     var element = getElement(target);
     var point = getPoint(target);
 
@@ -14540,7 +14542,7 @@ var Align = function Align(_ref, ref) {
     }
   }); // Listen for disabled change
 
-  compat_module["default"].useEffect(function () {
+  react.useEffect(function () {
     if (!disabled) {
       _forceAlign();
     } else {
@@ -14548,8 +14550,8 @@ var Align = function Align(_ref, ref) {
     }
   }, [disabled]); // Listen for window resize
 
-  var winResizeRef = compat_module["default"].useRef(null);
-  compat_module["default"].useEffect(function () {
+  var winResizeRef = react.useRef(null);
+  react.useEffect(function () {
     if (monitorWindowResize) {
       if (!winResizeRef.current) {
         winResizeRef.current = addEventListenerWrap(window, 'resize', _forceAlign);
@@ -14560,7 +14562,7 @@ var Align = function Align(_ref, ref) {
     }
   }, [monitorWindowResize]); // Clear all if unmount
 
-  compat_module["default"].useEffect(function () {
+  react.useEffect(function () {
     return function () {
       resizeMonitor.current.cancel();
       sourceResizeMonitor.current.cancel();
@@ -14569,7 +14571,7 @@ var Align = function Align(_ref, ref) {
     };
   }, []); // ====================== Ref =======================
 
-  compat_module["default"].useImperativeHandle(ref, function () {
+  react.useImperativeHandle(ref, function () {
     return {
       forceAlign: function forceAlign() {
         return _forceAlign(true);
@@ -14577,8 +14579,8 @@ var Align = function Align(_ref, ref) {
     };
   }); // ===================== Render =====================
 
-  if ( /*#__PURE__*/compat_module["default"].isValidElement(childNode)) {
-    childNode = /*#__PURE__*/compat_module["default"].cloneElement(childNode, {
+  if ( /*#__PURE__*/react.isValidElement(childNode)) {
+    childNode = /*#__PURE__*/react.cloneElement(childNode, {
       ref: (0,es_ref/* composeRef */.sQ)(childNode.ref, nodeRef)
     });
   }
@@ -14586,7 +14588,7 @@ var Align = function Align(_ref, ref) {
   return childNode;
 };
 
-var RcAlign = /*#__PURE__*/compat_module["default"].forwardRef(Align);
+var RcAlign = /*#__PURE__*/react.forwardRef(Align);
 RcAlign.displayName = 'Align';
 /* harmony default export */ const es_Align = (RcAlign);
 ;// CONCATENATED MODULE: ./node_modules/rc-align/es/index.js
@@ -14640,13 +14642,13 @@ function _asyncToGenerator(fn) {
 
 var StatusQueue = ['measure', 'align', null, 'motion'];
 /* harmony default export */ const useVisibleStatus = (function (visible, doMeasure) {
-  var _useState = (0,compat_module.useState)(null),
+  var _useState = (0,react.useState)(null),
       _useState2 = (0,slicedToArray/* default */.Z)(_useState, 2),
       status = _useState2[0],
       setInternalStatus = _useState2[1];
 
-  var rafRef = (0,compat_module.useRef)();
-  var destroyRef = (0,compat_module.useRef)(false);
+  var rafRef = (0,react.useRef)();
+  var destroyRef = (0,react.useRef)(false);
 
   function setStatus(nextStatus) {
     if (!destroyRef.current) {
@@ -14680,11 +14682,11 @@ var StatusQueue = ['measure', 'align', null, 'motion'];
   } // Init status
 
 
-  (0,compat_module.useEffect)(function () {
+  (0,react.useEffect)(function () {
     setStatus('measure');
   }, [visible]); // Go next status
 
-  (0,compat_module.useEffect)(function () {
+  (0,react.useEffect)(function () {
     switch (status) {
       case 'measure':
         doMeasure();
@@ -14716,7 +14718,7 @@ var StatusQueue = ['measure', 'align', null, 'motion'];
       })));
     }
   }, [status]);
-  (0,compat_module.useEffect)(function () {
+  (0,react.useEffect)(function () {
     return function () {
       destroyRef.current = true;
       cancelRaf();
@@ -14728,7 +14730,7 @@ var StatusQueue = ['measure', 'align', null, 'motion'];
 
 
 /* harmony default export */ const useStretchStyle = (function (stretch) {
-  var _React$useState = compat_module.useState({
+  var _React$useState = react.useState({
     width: 0,
     height: 0
   }),
@@ -14744,7 +14746,7 @@ var StatusQueue = ['measure', 'align', null, 'motion'];
   } // Merge stretch style
 
 
-  var style = compat_module.useMemo(function () {
+  var style = react.useMemo(function () {
     var sizeStyle = {};
 
     if (stretch) {
@@ -14780,7 +14782,7 @@ var StatusQueue = ['measure', 'align', null, 'motion'];
 
 
 
-var PopupInner = /*#__PURE__*/compat_module.forwardRef(function (props, ref) {
+var PopupInner = /*#__PURE__*/react.forwardRef(function (props, ref) {
   var visible = props.visible,
       prefixCls = props.prefixCls,
       className = props.className,
@@ -14799,10 +14801,10 @@ var PopupInner = /*#__PURE__*/compat_module.forwardRef(function (props, ref) {
       onMouseLeave = props.onMouseLeave,
       onMouseDown = props.onMouseDown,
       onTouchStart = props.onTouchStart;
-  var alignRef = (0,compat_module.useRef)();
-  var elementRef = (0,compat_module.useRef)();
+  var alignRef = (0,react.useRef)();
+  var elementRef = (0,react.useRef)();
 
-  var _useState = (0,compat_module.useState)(),
+  var _useState = (0,react.useState)(),
       _useState2 = (0,slicedToArray/* default */.Z)(_useState, 2),
       alignedClassName = _useState2[0],
       setAlignedClassName = _useState2[1]; // ======================= Measure ========================
@@ -14826,7 +14828,7 @@ var PopupInner = /*#__PURE__*/compat_module.forwardRef(function (props, ref) {
       goNextStatus = _useVisibleStatus2[1]; // ======================== Aligns ========================
 
 
-  var prepareResolveRef = (0,compat_module.useRef)(); // `target` on `rc-align` can accept as a function to get the bind element or a point.
+  var prepareResolveRef = (0,react.useRef)(); // `target` on `rc-align` can accept as a function to get the bind element or a point.
   // ref: https://www.npmjs.com/package/rc-align
 
   function getAlignTarget() {
@@ -14887,13 +14889,13 @@ var PopupInner = /*#__PURE__*/compat_module.forwardRef(function (props, ref) {
   } // Go to stable directly when motion not provided
 
 
-  compat_module.useEffect(function () {
+  react.useEffect(function () {
     if (!motion.motionName && status === 'motion') {
       goNextStatus();
     }
   }, [motion.motionName, status]); // ========================= Refs =========================
 
-  compat_module.useImperativeHandle(ref, function () {
+  react.useImperativeHandle(ref, function () {
     return {
       forceAlign: forceAlign,
       getElement: function getElement() {
@@ -14917,13 +14919,13 @@ var PopupInner = /*#__PURE__*/compat_module.forwardRef(function (props, ref) {
 
   var childNode = children; // Wrapper when multiple children
 
-  if (compat_module.Children.count(children) > 1) {
-    childNode = /*#__PURE__*/compat_module.createElement("div", {
+  if (react.Children.count(children) > 1) {
+    childNode = /*#__PURE__*/react.createElement("div", {
       className: "".concat(prefixCls, "-content")
     }, children);
   }
 
-  return /*#__PURE__*/compat_module.createElement(es/* default */.Z, (0,esm_extends/* default */.Z)({
+  return /*#__PURE__*/react.createElement(es/* default */.Z, (0,esm_extends/* default */.Z)({
     visible: visible,
     ref: elementRef,
     leavedClassName: "".concat(prefixCls, "-hidden")
@@ -14936,7 +14938,7 @@ var PopupInner = /*#__PURE__*/compat_module.forwardRef(function (props, ref) {
     var motionClassName = _ref.className,
         motionStyle = _ref.style;
     var mergedClassName = classnames_default()(prefixCls, className, alignedClassName, motionClassName);
-    return /*#__PURE__*/compat_module.createElement(rc_align_es, {
+    return /*#__PURE__*/react.createElement(rc_align_es, {
       target: getAlignTarget(),
       key: "popup",
       ref: alignRef,
@@ -14944,7 +14946,7 @@ var PopupInner = /*#__PURE__*/compat_module.forwardRef(function (props, ref) {
       disabled: alignDisabled,
       align: align,
       onAlign: onInternalAlign
-    }, /*#__PURE__*/compat_module.createElement("div", {
+    }, /*#__PURE__*/react.createElement("div", {
       ref: motionRef,
       className: mergedClassName,
       onMouseEnter: onMouseEnter,
@@ -14963,7 +14965,7 @@ PopupInner.displayName = 'PopupInner';
 
 
 
-var MobilePopupInner = /*#__PURE__*/compat_module.forwardRef(function (props, ref) {
+var MobilePopupInner = /*#__PURE__*/react.forwardRef(function (props, ref) {
   var prefixCls = props.prefixCls,
       visible = props.visible,
       zIndex = props.zIndex,
@@ -14975,9 +14977,9 @@ var MobilePopupInner = /*#__PURE__*/compat_module.forwardRef(function (props, re
       _props$mobile$popupMo = _props$mobile.popupMotion,
       popupMotion = _props$mobile$popupMo === void 0 ? {} : _props$mobile$popupMo,
       popupRender = _props$mobile.popupRender;
-  var elementRef = compat_module.useRef(); // ========================= Refs =========================
+  var elementRef = react.useRef(); // ========================= Refs =========================
 
-  compat_module.useImperativeHandle(ref, function () {
+  react.useImperativeHandle(ref, function () {
     return {
       forceAlign: function forceAlign() {},
       getElement: function getElement() {
@@ -14992,8 +14994,8 @@ var MobilePopupInner = /*#__PURE__*/compat_module.forwardRef(function (props, re
 
   var childNode = children; // Wrapper when multiple children
 
-  if (compat_module.Children.count(children) > 1) {
-    childNode = /*#__PURE__*/compat_module.createElement("div", {
+  if (react.Children.count(children) > 1) {
+    childNode = /*#__PURE__*/react.createElement("div", {
       className: "".concat(prefixCls, "-content")
     }, children);
   } // Mobile support additional render
@@ -15003,7 +15005,7 @@ var MobilePopupInner = /*#__PURE__*/compat_module.forwardRef(function (props, re
     childNode = popupRender(childNode);
   }
 
-  return /*#__PURE__*/compat_module.createElement(es/* default */.Z, (0,esm_extends/* default */.Z)({
+  return /*#__PURE__*/react.createElement(es/* default */.Z, (0,esm_extends/* default */.Z)({
     visible: visible,
     ref: elementRef,
     removeOnLeave: true
@@ -15011,7 +15013,7 @@ var MobilePopupInner = /*#__PURE__*/compat_module.forwardRef(function (props, re
     var motionClassName = _ref.className,
         motionStyle = _ref.style;
     var mergedClassName = classnames_default()(prefixCls, popupClassName, motionClassName);
-    return /*#__PURE__*/compat_module.createElement("div", {
+    return /*#__PURE__*/react.createElement("div", {
       ref: motionRef,
       className: mergedClassName,
       style: (0,objectSpread2/* default */.Z)((0,objectSpread2/* default */.Z)({}, motionStyle), mergedStyle)
@@ -15032,17 +15034,17 @@ var _excluded = ["visible", "mobile"];
 
 
 
-var Popup = /*#__PURE__*/compat_module.forwardRef(function (_ref, ref) {
+var Popup = /*#__PURE__*/react.forwardRef(function (_ref, ref) {
   var visible = _ref.visible,
       mobile = _ref.mobile,
       props = (0,objectWithoutProperties/* default */.Z)(_ref, _excluded);
 
-  var _useState = (0,compat_module.useState)(visible),
+  var _useState = (0,react.useState)(visible),
       _useState2 = (0,slicedToArray/* default */.Z)(_useState, 2),
       innerVisible = _useState2[0],
       serInnerVisible = _useState2[1];
 
-  var _useState3 = (0,compat_module.useState)(false),
+  var _useState3 = (0,react.useState)(false),
       _useState4 = (0,slicedToArray/* default */.Z)(_useState3, 2),
       inMobile = _useState4[0],
       setInMobile = _useState4[1];
@@ -15053,27 +15055,27 @@ var Popup = /*#__PURE__*/compat_module.forwardRef(function (_ref, ref) {
   // And this also delay set `innerVisible` to avoid popup component render flash
 
 
-  (0,compat_module.useEffect)(function () {
+  (0,react.useEffect)(function () {
     serInnerVisible(visible);
 
     if (visible && mobile) {
       setInMobile(isMobile());
     }
   }, [visible, mobile]);
-  var popupNode = inMobile ? /*#__PURE__*/compat_module.createElement(Popup_MobilePopupInner, (0,esm_extends/* default */.Z)({}, cloneProps, {
+  var popupNode = inMobile ? /*#__PURE__*/react.createElement(Popup_MobilePopupInner, (0,esm_extends/* default */.Z)({}, cloneProps, {
     mobile: mobile,
     ref: ref
-  })) : /*#__PURE__*/compat_module.createElement(Popup_PopupInner, (0,esm_extends/* default */.Z)({}, cloneProps, {
+  })) : /*#__PURE__*/react.createElement(Popup_PopupInner, (0,esm_extends/* default */.Z)({}, cloneProps, {
     ref: ref
   })); // We can use fragment directly but this may failed some selector usage. Keep as origin logic
 
-  return /*#__PURE__*/compat_module.createElement("div", null, /*#__PURE__*/compat_module.createElement(Mask, cloneProps), popupNode);
+  return /*#__PURE__*/react.createElement("div", null, /*#__PURE__*/react.createElement(Mask, cloneProps), popupNode);
 });
 Popup.displayName = 'Popup';
 /* harmony default export */ const es_Popup = (Popup);
 ;// CONCATENATED MODULE: ./node_modules/rc-trigger/es/context.js
 
-var TriggerContext = /*#__PURE__*/compat_module.createContext(null);
+var TriggerContext = /*#__PURE__*/react.createContext(null);
 /* harmony default export */ const context = (TriggerContext);
 ;// CONCATENATED MODULE: ./node_modules/rc-trigger/es/index.js
 
@@ -15127,8 +15129,8 @@ function generateTrigger(PortalComponent) {
       (0,classCallCheck/* default */.Z)(this, Trigger);
 
       _this = _super.call(this, props);
-      _this.popupRef = /*#__PURE__*/compat_module.createRef();
-      _this.triggerRef = /*#__PURE__*/compat_module.createRef();
+      _this.popupRef = /*#__PURE__*/react.createRef();
+      _this.triggerRef = /*#__PURE__*/react.createRef();
       _this.attachId = void 0;
       _this.clickOutsideHandler = void 0;
       _this.touchOutsideHandler = void 0;
@@ -15312,7 +15314,7 @@ function generateTrigger(PortalComponent) {
         } catch (err) {// Do nothing
         }
 
-        return compat_module["default"].findDOMNode((0,assertThisInitialized/* default */.Z)(_this));
+        return react_dom.findDOMNode((0,assertThisInitialized/* default */.Z)(_this));
       };
 
       _this.getPopupClassNameFromAlign = function (align) {
@@ -15373,7 +15375,7 @@ function generateTrigger(PortalComponent) {
 
         mouseProps.onMouseDown = _this.onPopupMouseDown;
         mouseProps.onTouchStart = _this.onPopupMouseDown;
-        return /*#__PURE__*/compat_module.createElement(es_Popup, (0,esm_extends/* default */.Z)({
+        return /*#__PURE__*/react.createElement(es_Popup, (0,esm_extends/* default */.Z)({
           prefixCls: prefixCls,
           destroyPopupOnHide: destroyPopupOnHide,
           visible: popupVisible,
@@ -15754,7 +15756,7 @@ function generateTrigger(PortalComponent) {
             alignPoint = _this$props11.alignPoint,
             className = _this$props11.className,
             autoDestroy = _this$props11.autoDestroy;
-        var child = compat_module.Children.only(children);
+        var child = react.Children.only(children);
         var newChildProps = {
           key: 'trigger'
         }; // ============================== Visible Handlers ==============================
@@ -15817,11 +15819,11 @@ function generateTrigger(PortalComponent) {
           cloneProps.ref = (0,es_ref/* composeRef */.sQ)(this.triggerRef, child.ref);
         }
 
-        var trigger = /*#__PURE__*/compat_module.cloneElement(child, cloneProps);
+        var trigger = /*#__PURE__*/react.cloneElement(child, cloneProps);
         var portal; // prevent unmounting after it's rendered
 
         if (popupVisible || this.popupRef.current || forceRender) {
-          portal = /*#__PURE__*/compat_module.createElement(PortalComponent, {
+          portal = /*#__PURE__*/react.createElement(PortalComponent, {
             key: "portal",
             getContainer: this.getContainer,
             didUpdate: this.handlePortalUpdate
@@ -15832,7 +15834,7 @@ function generateTrigger(PortalComponent) {
           portal = null;
         }
 
-        return /*#__PURE__*/compat_module.createElement(context.Provider, {
+        return /*#__PURE__*/react.createElement(context.Provider, {
           value: this.triggerContextValue
         }, trigger, portal);
       }
@@ -15852,7 +15854,7 @@ function generateTrigger(PortalComponent) {
     }]);
 
     return Trigger;
-  }(compat_module.Component);
+  }(react.Component);
 
   Trigger.contextType = context;
   Trigger.defaultProps = {
@@ -15891,14 +15893,14 @@ function generateTrigger(PortalComponent) {
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "Z": () => (/* binding */ toArray)
 /* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(9748);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(7294);
 /* harmony import */ var react_is__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(9864);
 
 
 function toArray(children) {
   var option = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
   var ret = [];
-  react__WEBPACK_IMPORTED_MODULE_0__["default"].Children.forEach(children, function (child) {
+  react__WEBPACK_IMPORTED_MODULE_0__.Children.forEach(children, function (child) {
     if ((child === undefined || child === null) && !option.keepEmpty) {
       return;
     }
@@ -16029,7 +16031,7 @@ function updateCSS(css, key) {
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "Z": () => (/* binding */ findDOMNode)
 /* harmony export */ });
-/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(9748);
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(3935);
 
 /**
  * Return if a node is a DOM node. Else will return by `findDOMNode`
@@ -16040,7 +16042,7 @@ function findDOMNode(node) {
     return node;
   }
 
-  return react_dom__WEBPACK_IMPORTED_MODULE_0__["default"].findDOMNode(node);
+  return react_dom__WEBPACK_IMPORTED_MODULE_0__.findDOMNode(node);
 }
 
 /***/ }),
