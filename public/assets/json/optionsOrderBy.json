@@ -1,0 +1,52 @@
+[
+  {
+    "id": "n7aak21",
+    "value": "the-most-new",
+    "name": "Lo más nuevo"
+  },
+  {
+    "id": "fj12la5",
+    "value": "the-most-old",
+    "name": "Lo más antiguo"
+  },
+  {
+    "id": "12olj8i",
+    "value": "ascending-name",
+    "name": "Nombre ascendente"
+  },
+  {
+    "id": "vaj90p3",
+    "value": "descending-name",
+    "name": "Nombre descendente"
+  },
+  {
+    "id": "mh4g17k",
+    "value": "greater-stock",
+    "name": "Mayor stock"
+  },
+  {
+    "id": "rtl3q78",
+    "value": "lower-stock",
+    "name": "Menor stock"
+  },
+  {
+    "id": "t6y80ka",
+    "value": "the-most-popular",
+    "name": "Lo más popular"
+  },
+  {
+    "id": "q3epj48",
+    "value": "the-least-popular",
+    "name": "Lo menos popular"
+  },
+  {
+    "id": "zs52x6d",
+    "value": "more-expensive-price",
+    "name": "Precio más costoso"
+  },
+  {
+    "id": "hgc70l3",
+    "value": "most-economical-price",
+    "name": "Precio más económico"
+  }
+]
