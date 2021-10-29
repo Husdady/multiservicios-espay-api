@@ -1,3 +1,1 @@
-const PATH = "Current Path";
-
-export { PATH };
+const PATH="Current Path";export{PATH};

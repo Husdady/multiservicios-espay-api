@@ -1,11 +1,1 @@
-const getKey = key => {
-  const storage = JSON.parse(localStorage.getItem(key));
-  return storage;
-}
-
-const setKey = (key, value) => {
-  const storage = localStorage.setItem(key, JSON.stringify(value));
-  return storage;
-}
-
-export { getKey, setKey }
+const getKey=e=>JSON.parse(localStorage.getItem(e)),setKey=(e,t)=>localStorage.setItem(e,JSON.stringify(t));export{getKey,setKey};
