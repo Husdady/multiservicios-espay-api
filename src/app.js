@@ -10,7 +10,6 @@ const app = express();
  */
 require("dotenv").config();
 require("module-alias/register");
-const admin = require("@routes/api/admin");
 
 /**
  * Base de datos
@@ -22,7 +21,11 @@ require("@database/connection");
  */
 app.use(compression());
 app.use(express.json());
-app.use("/admin", admin);
+
+/**
+ * Api Routers
+ */
+ require('@routes/api')(app)
 
 /**
  * Usar módulo morgan en desarrollo
