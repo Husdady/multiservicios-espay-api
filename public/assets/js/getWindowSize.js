@@ -1,1 +1,0 @@
-const getWindowSize=(i=1024)=>({width:window.innerWidth,height:window.innerHeight,isLessThanMQ:window.innerWidth<i,isGreaterThanMQ:window.innerWidth>i});export default getWindowSize;

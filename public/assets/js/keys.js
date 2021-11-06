@@ -1,1 +1,1 @@
-const PATH="Current Path";export{PATH};
+const EMAIL_CONFIRMATION="Email confirmation has been sent";export{EMAIL_CONFIRMATION};

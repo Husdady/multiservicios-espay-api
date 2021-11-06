@@ -1,0 +1,14 @@
+{
+  "createUsers": false,
+  "editUsers": false,
+  "deleteUsers": false,
+  "createRoles": false,
+  "editRoles": false,
+  "deleteRoles": false,
+  "createProducts": false,
+  "editProducts": false,
+  "deleteProducts": false,
+  "createTestimonials": false,
+  "editTestimonials": false,
+  "deleteTestimonials": false
+}
