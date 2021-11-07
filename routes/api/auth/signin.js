@@ -10,7 +10,7 @@ const { Admin } = require('@models/Admin')
 // Utils
 const { comparePassword, createToken } = require('@utils/Helper')
 
-router.post('/signin', body('email').isEmail(), body('password').isString(), async function signIn(req, res) {
+router.post('/', body('email').isEmail(), body('password').isString(), async function signIn(req, res) {
   try {
     const { email, password } = req.body
 
