@@ -3,7 +3,7 @@ const user = require("@routes/api/auth/user")
 const admin = require("@routes/api/auth/admin")
 
 // User admin
-const userAdmin = require("@routes/api/admin")
+const userAdmin = require("@routes/api/admin/user-admin")
 
 // Products
 const productosSeytu = require("@routes/api/products/seytu");
