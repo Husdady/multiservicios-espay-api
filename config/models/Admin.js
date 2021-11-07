@@ -14,7 +14,13 @@ const AdminSchema = new Schema(
       type: Object,
       required: true,
     },
-    verifiedEmail: Boolean
+    verifiedEmail: Boolean,
+    settings: {
+      avatar: {
+        photo: Object,
+        backgroundColor: String
+      }
+    }
   },
   {
     versionKey: false,

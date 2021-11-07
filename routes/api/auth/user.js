@@ -14,11 +14,4 @@ router.post(
   UserController.createUser
 );
 
-router.post(
-  "/signin",
-  body("email").isEmail(),
-  body("password").isString(),
-  UserController.signIn
-);
-
 module.exports = router;

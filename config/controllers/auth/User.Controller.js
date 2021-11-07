@@ -4,7 +4,7 @@ const { Admin } = require("@models/Admin");
 const { User, structure } = require("@models/User");
 
 // Utils
-const { validateRequest, encryptPassword, comparePassword, createToken } = require("@utils/Helper");
+const { validateRequest, encryptPassword, createToken } = require("@utils/Helper");
 
 async function createUser(req, res) {
   try {
@@ -48,25 +48,6 @@ async function createUser(req, res) {
   }
 }
 
-async function signIn(req, res) {
-  try {
-    const { email, password } = req.body
-    const userFound = await User.findOne({ email }).populate("role")
-
-    if (!userFound) throw new Error("User not found!") 
-
-    const matchPassword = await comparePassword(password, userFound.password)
-
-    if (!matchPassword) throw new Error("Invalid password!")
-
-    const token = createToken({ config: { id: userFound._id } })
-    return res.status(200).json({ access_token: token })
-  } catch (error) {
-    return res.status(400).send({ error: error.message });
-  }
-}
-
 module.exports = {
-  createUser,
-  signIn
+  createUser
 };

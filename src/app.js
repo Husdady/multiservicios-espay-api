@@ -11,13 +11,13 @@ const cors = require("cors")
  */
 require("dotenv").config();
 require("module-alias/register");
-const { createDefaultRoles } = require("@utils/Helper")
-createDefaultRoles();
 
 /**
  * Base de datos
  */
 require("@database/connection");
+const { createDefaultRoles } = require("@utils/Helper")
+createDefaultRoles();
 
 /**
  * Uso de Middlewares

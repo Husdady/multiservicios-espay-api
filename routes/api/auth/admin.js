@@ -14,11 +14,4 @@ router.post(
   AdminController.createAdmin
 );
 
-router.post(
-  "/signin",
-  body("email").isEmail(),
-  body("password").isString(),
-  AdminController.signIn
-);
-
 module.exports = router;

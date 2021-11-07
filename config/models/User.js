@@ -1,7 +1,5 @@
 "use strict";
 
-// Librarys
-const bcrypt = require("bcrypt");
 // Cargar esquema de mongoose
 const { Schema, mongoose } = require("@database/connection");
 
@@ -15,7 +13,13 @@ const UserSchema = new Schema(
       ref: "Role",
       type: Schema.Types.ObjectId,
     },
-    verifiedEmail: Boolean
+    verifiedEmail: Boolean,
+    settings: {
+      avatar: {
+        photo: Object,
+        backgroundColor: String
+      }
+    }
   },
   {
     versionKey: false,

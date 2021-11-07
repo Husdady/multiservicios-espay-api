@@ -21,7 +21,7 @@ class Helper {
       const roleCount = await Role.estimatedDocumentCount()
 
       if (roleCount > 0) return
-
+      
       const admin = { name: 'Administrador', permissions: adminPermissions }
       const manager = { name: 'Gerente', permissions: managerPermissions }
       const moderator = {
