@@ -34,10 +34,11 @@ async function createAdmin(req, res) {
 
     await newAdmin.save()
 
-    const token = createToken({ config: { id: newAdmin._id } })
+    // const token = createToken({ config: { id: newAdmin._id } })
+    createToken({ config: { id: newAdmin._id } })
     return res.status(200).json({
       message: 'A new administrator user has been created.',
-      access_token: token,
+      // access_token: token,
     })
   } catch (error) {
     return res.status(400).send({ error: error.message })

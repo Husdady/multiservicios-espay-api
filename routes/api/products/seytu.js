@@ -1,20 +1,21 @@
-const { Router } = require("express");
-const router = Router();
-const { createProductsSchema } = require("@models/Products");
+const { Router } = require('express')
+const router = Router()
+const Seytu = require('@controllers/products/seytu/Seytu.Controller')
+const { verifyToken } = require('@middlewares/token')
+const verifyUserRole = require('@middlewares/verifyUserRole')
 
-const SeytuProducts = createProductsSchema({
-  modelName: "SeytuProducts",
-  collectionName: "seytu-products",
-})
+// Roles requeridos para crear productos
+const rolesRequiredToCreateProducts = verifyUserRole([
+  'Administrador',
+  'Gerente',
+  'Moderador',
+])
 
-router.get('/seytu', async (req, res) => {
-  const result = await SeytuProducts.find({})
-  return res.json(result)
-})
-
-router.get('/seytu/:product', async (req, res) => {
-  const result = await SeytuProducts.find({})
-  return res.json(result)
-})
+// Obtener todos los productos
+router.get('/seytu', Seytu.getAllProducts)
+// Crear nuevo producto
+router.post('/seytu', [verifyToken, rolesRequiredToCreateProducts], Seytu.createProduct)
+// Eliminar producto
+router.delete('/seytu/:product', [verifyToken, rolesRequiredToCreateProducts], Seytu.deleteProduct)
 
 module.exports = router

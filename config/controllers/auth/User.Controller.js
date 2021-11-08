@@ -37,10 +37,11 @@ async function createUser(req, res) {
 
     await newUser.save();
 
-    const token = createToken({ config: { id: newUser._id } })
+    // const token = createToken({ config: { id: newUser._id } })
+    createToken({ config: { id: newUser._id } })
     return res.status(200).json({
       message: "A new user has been created.",
-      access_token: token,
+      // access_token: token,
     });
 
   } catch (error) {

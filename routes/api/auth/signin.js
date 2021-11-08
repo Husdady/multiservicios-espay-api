@@ -14,7 +14,10 @@ router.post('/', body('email').isEmail(), body('password').isString(), async fun
   try {
     const { email, password } = req.body
 
-    const userFounds = await Promise.all([Admin.findOne({ email }), User.findOne({ email }).populate('role')])
+    const userFounds = await Promise.all([
+      Admin.findOne({ email }, { email: 1, password: 1, verifiedEmail: 1 }),
+      User.findOne({ email }, { email: 1, password: 1, verifiedEmail: 1 })
+    ])
 
     const userFound = userFounds.find((user) => user !== null)
 
@@ -23,6 +26,7 @@ router.post('/', body('email').isEmail(), body('password').isString(), async fun
     const matchPassword = await comparePassword(password, userFound.password)
 
     if (!matchPassword) throw new Error('Invalid password!')
+    // if (!userFound.verifiedEmail) throw new Error('You need to verify your account')
 
     const token = createToken({
       config: { id: userFound._id },

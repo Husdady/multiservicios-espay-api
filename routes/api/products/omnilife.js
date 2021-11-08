@@ -1,22 +1,21 @@
-"use strict";
+const { Router } = require('express')
+const router = Router()
+const Omnilife = require('@controllers/products/omnilife/Omnilife.Controller')
+const { verifyToken } = require('@middlewares/token')
+const verifyUserRole = require('@middlewares/verifyUserRole')
 
-const { Router } = require("express");
-const router = Router();
-const { createProductsSchema } = require("@models/Products");
+// Roles requeridos para crear productos
+const rolesRequiredToCreateProducts = verifyUserRole([
+  'Administrador',
+  'Gerente',
+  'Moderador',
+])
 
-const OmnilifeProducts = createProductsSchema({
-  modelName: "OmnilifeProducts",
-  collectionName: "omnilife-products",
-})
-
-router.get('/omnilife', async (req, res) => {
-  const result = await OmnilifeProducts.find({})
-  return res.json(result)
-})
-
-router.get('/omnilife/:product', async (req, res) => {
-  const result = await OmnilifeProducts.findOne({})
-  return res.json(result)
-})
+// Obtener todos los productos
+router.get('/omnilife', Omnilife.getAllProducts)
+// Crear nuevo producto
+router.post('/omnilife', [verifyToken, rolesRequiredToCreateProducts], Omnilife.createProduct)
+// Eliminar producto
+router.delete('/omnilife/:product', [verifyToken, rolesRequiredToCreateProducts], Omnilife.deleteProduct)
 
 module.exports = router
