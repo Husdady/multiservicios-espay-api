@@ -16,12 +16,15 @@ const productosSeytu = require('@routes/api/products/seytu')
 const productosOmnilife = require('@routes/api/products/omnilife')
 
 const products = [productosSeytu, productosOmnilife]
-// const validate = require('@middlewares/protectApiRoutes')
-module.exports = function (app) {
-  app.use('/api/auth/user/', user)
-  app.use('/api/auth/admin/', admin)
-  app.use('/api/auth/signin/', signIn)
-  app.use('/api/admin/', userAdmin)
-  app.use('/api/users/', users)
-  app.use('/api/products/', products)
-}
+
+const publicRoutes = [user, admin, signIn, userAdmin, users, products]
+
+// module.exports = function (app) {
+//   app.use('/api/auth/user/', user)
+//   app.use('/api/auth/admin/', admin)
+//   app.use('/api/auth/signin', signIn)
+//   app.use('/api/admin/', userAdmin)
+//   app.use('/api/users/', users)
+//   app.use('/api/products/', products)
+// }
+module.exports = publicRoutes

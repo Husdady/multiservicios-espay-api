@@ -1,1 +1,0 @@
-function getKey(e){return JSON.parse(localStorage.getItem(e))}function setKey(e,t){return localStorage.setItem(e,JSON.stringify(t))}export{getKey,setKey};

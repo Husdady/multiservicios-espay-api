@@ -1,1 +1,0 @@
-const EMAIL_CONFIRMATION="Email confirmation has been sent";export{EMAIL_CONFIRMATION};

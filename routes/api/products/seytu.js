@@ -12,10 +12,10 @@ const rolesRequiredToCreateProducts = verifyUserRole([
 ])
 
 // Obtener todos los productos
-router.get('/seytu', Seytu.getAllProducts)
+router.get('/produts/seytu', Seytu.getAllProducts)
 // Crear nuevo producto
-router.post('/seytu', [verifyToken, rolesRequiredToCreateProducts], Seytu.createProduct)
+router.post('/produts/seytu', [verifyToken, rolesRequiredToCreateProducts], Seytu.createProduct)
 // Eliminar producto
-router.delete('/seytu/:product', [verifyToken, rolesRequiredToCreateProducts], Seytu.deleteProduct)
+router.delete('/produts/seytu/:product', [verifyToken, rolesRequiredToCreateProducts], Seytu.deleteProduct)
 
 module.exports = router

@@ -10,6 +10,25 @@ const createProductsSchema = function (schema) {
     {
       title: { type: String, require: true },
       description: { type: String, require: true },
+      defaultImage: {
+        type: Object,
+        require: true
+      },
+      images: [
+        {
+          image: Object
+        }
+      ],
+      benefits: [
+        {
+          benefit: {
+            type: String,
+            maxLength: 300
+          }
+        }
+      ],
+      stock: Number,
+      totalVisits: Number
     },
     {
       versionKey: false,
