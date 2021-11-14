@@ -1,7 +1,5 @@
 // Models
-const { Admin } = require('@models/Admin')
-
-// Utils
+const Admin = require('@models/Admin')
 
 async function count(_, res) {
   try {
