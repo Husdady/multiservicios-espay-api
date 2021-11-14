@@ -1,26 +1,8 @@
 // Librarys
 const { sign } = require('jsonwebtoken')
 const { genSalt, hash, compare } = require('bcrypt')
-const { validationResult } = require('express-validator')
 
 class Helper {
-  /**
-   *
-   * @param {request: Object, modelStructure: Object}
-   * @returns
-   */
-  static async validateRequest({ request, modelStructure }) {
-    // Validar datos del body
-    const errors = validationResult(request)
-
-    // Si existen errores, retornar el último error de todos
-    if (!errors.isEmpty()) {
-      // Obtener el campo del último error
-      const field = errors.array().slice(-1).pop().param
-      return new Error(`Invalid value received in ${field}. A ${modelStructure[field].instance} was expected`)
-    }
-  }
-
   /**
    *
    * @param {password: String}

@@ -29,7 +29,4 @@ const UserSchema = new Schema(
 );
 
 // Exportar esquema
-module.exports = {
-  structure: UserSchema.paths,
-  User: mongoose.model("User", UserSchema)
-};
+module.exports = mongoose.model("User", UserSchema)

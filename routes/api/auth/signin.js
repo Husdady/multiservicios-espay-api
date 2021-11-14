@@ -1,16 +1,16 @@
 // Librarys
-const { body } = require('express-validator')
 const { Router } = require('express')
 const router = Router()
 
 // Models
-const { User } = require('@models/User')
-const { Admin } = require('@models/Admin')
+const User = require('@models/User')
+const Admin = require('@models/Admin')
 
 // Utils
 const { comparePassword, createToken } = require('@utils/Helper')
 
-router.post('/', body('email').isEmail(), body('password').isString(), async function signIn(req, res) {
+router.post('/',
+async function signIn(req, res) {
   try {
     // Obtener el correo y la contraseña del usuario 
     const { email, password } = req.body
@@ -23,15 +23,16 @@ router.post('/', body('email').isEmail(), body('password').isString(), async fun
 
     // Encontrar un válido usuario
     const userFound = userFounds.find((user) => user !== null)
-    console.log('[User]',userFound)
-    if (!userFound) throw new Error('User not found!')
-
+    // Comprobar si existe un usuario
+    if (!userFound) throw new Error('The email was not found!. Please enter a valid email')
+    // Comprobar si la contraseña es correcta
     const matchPassword = await comparePassword(password, userFound.password)
 
-    if (!matchPassword) throw new Error('Invalid password!')
-    if (process.env.NODE_ENV === 'production' && !userFound.verifiedEmail) {
-      throw new Error('You need to verify your account!')
-    }
+    if (!matchPassword) throw new Error('The password does not match!. Make sure it is well written')
+    // Comprobar si un usuario a validado su email
+    // if (process.env.NODE_ENV === 'production' && !userFound.verifiedEmail) {
+    //   throw new Error('You need to verify your account!')
+    // }
 
     const token = createToken({
       config: { id: userFound._id },

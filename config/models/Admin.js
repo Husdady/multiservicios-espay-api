@@ -30,7 +30,4 @@ const AdminSchema = new Schema(
 );
 
 // Exportar esquema
-module.exports = {
-  structure: AdminSchema.paths,
-  Admin: mongoose.model("Admin", AdminSchema)
-}
+module.exports = mongoose.model("Admin", AdminSchema)

@@ -28,7 +28,10 @@ const createProductsSchema = function (schema) {
         }
       ],
       stock: Number,
-      totalVisits: Number
+      totalVisits: {
+        type: Number,
+        default: 0
+      }
     },
     {
       versionKey: false,

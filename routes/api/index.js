@@ -16,7 +16,7 @@ const productosSeytu = require('@routes/api/products/seytu')
 const productosOmnilife = require('@routes/api/products/omnilife')
 
 const products = [productosSeytu, productosOmnilife]
-// const validate = require('@middlewares/protectApiRoutes')
+
 module.exports = function (app) {
   app.use('/api/auth/user/', user)
   app.use('/api/auth/admin/', admin)

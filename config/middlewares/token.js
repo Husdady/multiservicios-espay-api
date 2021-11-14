@@ -4,9 +4,10 @@ const { verify } = require('jsonwebtoken')
 
 async function verifyToken(req, res, next) {
   try {
+    if (!req.headers['authorization']) throw new Error('You are not authorized to perform this operation!')
     const token = req.headers['authorization'].split(' ')[1]
 
-    if (!token) throw new Error('You do not have sufficient permissions')
+    if (!token) throw new Error('You do not have sufficient permissions!')
 
     const decodedToken = verify(token, process.env.JWT_SECRET)
     req.userId = decodedToken.id
