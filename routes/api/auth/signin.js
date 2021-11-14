@@ -3,7 +3,7 @@ const { Router } = require('express')
 const router = Router()
 
 // Middlewares
-const signIn = require('@middlewares/signin')
+const signIn = require('@middlewares/signIn')
 
 router.post('/', signIn)
 
