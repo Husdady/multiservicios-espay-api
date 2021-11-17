@@ -22,7 +22,7 @@ createDefaultRoles()
  * Uso de Middlewares
  */
 require('@utils/cors')(app)
-require('@utils/helmet')(app)
+// require('@utils/helmet')(app)
 app.use(compression())
 app.use(express.json())
 
