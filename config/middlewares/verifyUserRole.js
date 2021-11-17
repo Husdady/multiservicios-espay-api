@@ -3,7 +3,7 @@ const Roles = require('@models/Role')
 function verifyUserRole(roles) {
   return async (req, res, next) => {
     try {
-      // Verificar el rol del usuario;
+      // Verificar el rol del usuario
       const role = roles.find((role) => role === req.userRole)
       // Encontrar en la colección Roles, el rol que se a igual al del usuario
       const roleFound = await Roles.findOne({ name: role }, { _id: 0, name: 1 })

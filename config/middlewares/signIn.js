@@ -3,6 +3,7 @@ const User = require('@models/User')
 const Admin = require('@models/Admin')
 
 // Utils
+const { validateSecretPassword } = require('@utils/Validations')
 const { comparePassword, createToken } = require('@utils/Helper')
 
 async function signIn(req, res) {
@@ -33,15 +34,28 @@ async function signIn(req, res) {
       config: { id: userFound._id },
     })
 
-    return res.status(200).json({
-      user: {
-        id: userFound._id,
-        fullname: userFound.fullname,
-        email: userFound.email,
-        role: userFound.role,
-        verifiedEmail: userFound.verifiedEmail,
-        access_token: token,
-        expire_token: ''
+    // Comprobar si existe la clave secreta
+    validateSecretPassword({
+      secret_password: req.headers.secret_password,
+      onEqual: function() {
+        return res.status(200).json({
+          user: {
+            id: userFound._id,
+            fullname: userFound.fullname,
+            email: userFound.email,
+            role: userFound.role,
+            verifiedEmail: userFound.verifiedEmail,
+            access_token: token,
+            expire_token: ''
+          }
+        })
+      },
+      onDifferent: function() {
+        return res.status(401).json({
+          user: {},
+          status: 'processing',
+          message: 'A failure has occurred in our system'
+        })
       }
     })
   } catch (error) {

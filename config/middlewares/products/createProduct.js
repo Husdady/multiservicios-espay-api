@@ -1,5 +1,5 @@
 // Utils
-const { validateBody } = require("@utils/Validations");
+const { validateSchema } = require("@utils/Validations");
 
 const SchemaProductCreation = {
   title: {
@@ -15,7 +15,7 @@ const SchemaProductCreation = {
   }
 }
 
-const validateProductCreation = validateBody(SchemaProductCreation)
+const validateProductCreation = validateSchema(SchemaProductCreation)
 
 // Crear un producto
 function createProduct(Model) {

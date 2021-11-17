@@ -4,9 +4,10 @@ const Admin = require("@models/Admin");
 const User = require("@models/User");
 
 // Utils
-const { validateBody } = require("@utils/Validations");
 const { encryptPassword, createToken } = require("@utils/Helper");
+const { validateSchema, validateSecretPassword } = require("@utils/Validations");
 
+// Reglas para crear un usuario
 const SchemaUserCreation = {
   fullname: {
     type: String,
@@ -32,7 +33,8 @@ const SchemaUserCreation = {
   }
 }
 
-const validateUserCreation = validateBody(SchemaUserCreation)
+// Validar las reglas de un esquema
+const validateUserCreation = validateSchema(SchemaUserCreation)
 
 async function createUser(req, res) {
   try {
@@ -40,6 +42,17 @@ async function createUser(req, res) {
     const body = validateUserCreation(req.body)
     // Si existen errores en el body, devolver errores
     if (body.error) throw new Error(body.error)
+
+    // Comprobar si existe la clave secreta
+    validateSecretPassword({
+      secret_password: req.headers.secret_password,
+      onDifferent: function() {
+        return res.status(401).json({
+          message: 'You do not have permissions to create an user'
+        })
+      }
+    })
+
     const { fullname, email, password, role } = req.body;
     
     // Verificar si ya existe un usuario o un admin con ese correo
@@ -72,6 +85,7 @@ async function createUser(req, res) {
     await newUser.save();
 
     createToken({ config: { id: newUser._id } })
+
     return res.status(200).json({
       message: "A new user has been created!"
     });

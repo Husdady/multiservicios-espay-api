@@ -61,7 +61,12 @@ function isEmail(email) {
 }
 
 class Validations {
-  static validateBody(schema) {
+  /**
+   *
+   * @param {schema: Object}
+   * @returns
+   */
+  static validateSchema(schema) {
     return (body) => {
       try {
         // Si no se han asignado campos al body
@@ -101,15 +106,18 @@ class Validations {
 
         // Recorrer el body y obtener sus propiedades
         for (const value of Object.keys(body)) {
-          // Obtener el tipo de dato de la propiedad del esquema
-          const SchemaType = schema[value].type
-          // Si no existe la propiedad type
-          if (!SchemaType) throw new Error('You need to provide what kind of value it is')
-          // Obtener el nombre del constructor de un Objeto
-          const type = new SchemaType().constructor.name
-          // Si el tipo de dato de la propiedad del body no es igual al tipo establecido
-          if (typeof body[value] !== type.toLowerCase()) {
-            throw new Error(`The property value '${value}' must be of type ${type}`)
+          // Si existe propiedad en el esquema
+          if (schema[value]) {
+            // Obtener el tipo de dato de la propiedad del esquema
+            const SchemaType = schema[value].type
+            // Si no existe la propiedad type
+            if (!SchemaType) throw new Error('You need to provide what kind of value it is')
+            // Obtener el nombre del constructor de un Objeto
+            const type = new SchemaType().constructor.name
+            // Si el tipo de dato de la propiedad del body no es igual al tipo establecido
+            if (typeof body[value] !== type.toLowerCase()) {
+              throw new Error(`The property value '${value}' must be of type ${type}`)
+            }
           }
         }
 
@@ -117,6 +125,23 @@ class Validations {
       } catch (error) {
         return error && { error: error.message }
       }
+    }
+  }
+  /**
+   *
+   * @param {secretPassword: String}
+   * @returns
+   */
+  static validateSecretPassword({
+    onEqual,
+    onDifferent,
+    secret_password,
+  }) {
+    // Comprobar si existe la clave secreta
+    if (secret_password === process.env.SECRET_PASSWORD) {
+      isFunction(onEqual) && onEqual()
+    } else {
+      isFunction(onDifferent) && onDifferent()
     }
   }
 }
