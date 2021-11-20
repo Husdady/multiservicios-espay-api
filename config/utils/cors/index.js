@@ -13,6 +13,7 @@ module.exports = function(app) {
       'X-Requested-With',
       'Accept',
       'Authorization',
+      'SECRET_PASSWORD'
     ],
   }
   app.use(cors(corsOptions))

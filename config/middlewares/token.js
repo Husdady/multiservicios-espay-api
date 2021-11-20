@@ -25,15 +25,15 @@ async function verifyToken(req, res, next) {
         path: 'role',
         select: {
           _id: 0,
-          name: 1
-        }
+          name: 1,
+        },
       }),
-      Admin.findById(req.userId, { _id: 0, role: { name: 1 } })
+      Admin.findById(req.userId, { _id: 0, role: { name: 1 } }),
     ])
 
     const userFound = userFounds.find((user) => user !== null)
     if (!userFound) throw new Error('User not found!')
-    
+
     req.userRole = userFound.role.name
     next()
   } catch (error) {
@@ -46,25 +46,25 @@ function isValidToken(req, res) {
     // Comprobar si existe un header de autorización
     if (!req.headers['authorization']) throw new Error('You need to provide a "token".')
     const token = req.headers['authorization'].split(' ')[1]
-    
+
     // Comprobar si existe un token
     if (!token) throw new Error('You need to provide a valid "token".')
 
     // Verificar token
-    verify(token, process.env.JWT_SECRET, function(err) {
-      switch (err.name) {
-        case 'TokenExpiredError':
-          return res.status(400).json({ token: {
+    verify(token, process.env.JWT_SECRET, function (err) {
+      if (err) {
+        const tokenStatus = {
+          token: {
+            type: err.name,
             message: err.message,
-            expiredAt: err.expiredAt
-          } })
-        case 'JsonWebTokenError':
-          throw new Error(err.message)      
-        default:
-          break;
+          },
+        }
+        err.expiredAt && (tokenStatus.token.expiredAt = err.expiredAt)
+        return res.status(400).json({ ...tokenStatus })
       }
+      // Devolver un estado sin contenido
+      return res.status(204).json({ status: 'success' })
     })
-    
   } catch (error) {
     return res.status(400).send({ error: error.message })
   }
@@ -72,5 +72,5 @@ function isValidToken(req, res) {
 
 module.exports = {
   verifyToken,
-  isValidToken
+  isValidToken,
 }
