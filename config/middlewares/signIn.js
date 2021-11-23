@@ -20,11 +20,11 @@ async function signIn(req, res) {
     // Encontrar un válido usuario
     const userFound = userFounds.find((user) => user !== null)
     // Comprobar si existe un usuario
-    if (!userFound) throw new Error('The email was not found!. Please enter a valid email')
+    if (!userFound) throw new Error('El correo electrónico que has ingresado no existe')
     // Comprobar si la contraseña es correcta
     const matchPassword = await comparePassword(password, userFound.password)
 
-    if (!matchPassword) throw new Error('The password does not match!. Make sure it is well written')
+    if (!matchPassword) throw new Error('Contraseña incorrecta')
     // Comprobar si un usuario a validado su email
     // if (process.env.NODE_ENV === 'production' && !userFound.verifiedEmail) {
     //   throw new Error('You need to verify your account!')
@@ -45,8 +45,7 @@ async function signIn(req, res) {
             email: userFound.email,
             role: userFound.role,
             verifiedEmail: userFound.verifiedEmail,
-            access_token: token,
-            expire_token: ''
+            access_token: token
           }
         })
       },
@@ -54,7 +53,7 @@ async function signIn(req, res) {
         return res.status(401).json({
           user: {},
           status: 'processing',
-          message: 'A failure has occurred in our system'
+          error: 'Ha ocurrido una falla en nuestro sistema'
         })
       }
     })
