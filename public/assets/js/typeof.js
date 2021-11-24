@@ -1,1 +1,0 @@
-const isString=i=>"string"==typeof i,isNumber=i=>"number"==typeof i,isBoolean=i=>"boolean"==typeof i,isFunction=i=>"function"==typeof i,isArray=i=>Array.isArray(i),isUndefined=i=>void 0===i,isObject=i=>"object"==typeof i,isEmptyObject=i=>0===Object.keys(i).length;export{isString,isNumber,isBoolean,isFunction,isArray,isUndefined,isObject,isEmptyObject};
