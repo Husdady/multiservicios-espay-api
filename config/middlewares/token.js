@@ -5,21 +5,20 @@ const { verify } = require('jsonwebtoken')
 const User = require('@models/User')
 const Admin = require('@models/Admin')
 
-// Utils
-// const { comparePassword, createToken } = require('@utils/Helper')
-
 async function verifyToken(req, res, next) {
   try {
     // Comprobar si existe un header de autorización
-    if (!req.headers['authorization']) throw new Error('You are not authorized to perform this operation!')
+    if (!req.headers['authorization']) throw new Error('No estás autorizado para realizar esta operación!')
     const token = req.headers['authorization'].split(' ')[1]
 
     // Comprobar si existe un token
-    if (!token) throw new Error('You do not have sufficient permissions!')
+    if (!token) throw new Error('No tienes permisos suficientes!')
 
+    // Descifrar token
     const decodedToken = verify(token, process.env.JWT_SECRET)
     req.userId = decodedToken.id
 
+    // Buscar usuarios
     const userFounds = await Promise.all([
       User.findById(req.userId, { _id: 0, role: 1 }).populate({
         path: 'role',
@@ -31,8 +30,9 @@ async function verifyToken(req, res, next) {
       Admin.findById(req.userId, { _id: 0, role: { name: 1 } }),
     ])
 
+    // Verificar si se encontró un usuario
     const userFound = userFounds.find((user) => user !== null)
-    if (!userFound) throw new Error('User not found!')
+    if (!userFound) throw new Error('Usuario no encontrado!')
 
     req.userRole = userFound.role.name
     next()
@@ -44,7 +44,7 @@ async function verifyToken(req, res, next) {
 function isValidToken(req, res) {
   try {
     // Comprobar si existe un header de autorización
-    if (!req.headers['authorization']) throw new Error('You need to provide a "token".')
+    if (!req.headers['authorization']) throw new Error('You need to provide a "token"')
     const token = req.headers['authorization'].split(' ')[1]
 
     // Comprobar si existe un token

@@ -5,10 +5,13 @@
   "createRoles": false,
   "editRoles": false,
   "deleteRoles": false,
+  "createTestimonials": false,
+  "editTestimonials": false,
+  "deleteTestimonials": false,
   "createProducts": true,
   "editProducts": true,
   "deleteProducts": true,
-  "createTestimonials": false,
-  "editTestimonials": false,
-  "deleteTestimonials": false
+  "affiliateClients": true,
+  "affiliateEntrepreneurs": true,
+  "editContactInformacion": false
 }

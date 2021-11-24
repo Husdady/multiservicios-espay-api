@@ -7,16 +7,17 @@ const UserController = require("@controllers/auth/User.Controller");
 
 // Middlewares
 const { verifyToken } = require('@middlewares/token')
-const verifyUserRole = require('@middlewares/verifyUserRole')
+const verifyPermission = require('@middlewares/verifyPermission')
 
-// Roles requeridos para crear productos
-const rolesRequiredToCreateUsers = verifyUserRole([
-  'Administrador'
-])
+// Verificar un permiso
+const permissionRequiredToCreateUsers = verifyPermission({
+  permission: "createUsers",
+  action: "crear usuarios"
+})
 
 router.post(
   "/signup",
-  [verifyToken, rolesRequiredToCreateUsers],
+  [verifyToken, permissionRequiredToCreateUsers],
   UserController.createUser
 );
 
