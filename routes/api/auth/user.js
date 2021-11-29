@@ -11,8 +11,8 @@ const verifyPermission = require('@middlewares/verifyPermission')
 
 // Verificar un permiso
 const permissionRequiredToCreateUsers = verifyPermission({
+  action: "crear usuarios",
   permission: "createUsers",
-  action: "crear usuarios"
 })
 
 router.post(

@@ -61,7 +61,7 @@ async function createUser(req, res) {
       await User.findOne({ email })
     ])
 
-    if (existEmail[0] || existEmail[1]) throw new Error("Already exists a user with that email!")
+    if (existEmail[0] || existEmail[1]) throw new Error("¡Ya existe un usuario con ese correo electrónico!")
 
     // Crear nuevo usuario
     const newUser = new User({
@@ -87,11 +87,11 @@ async function createUser(req, res) {
     createToken({ config: { id: newUser._id } })
 
     return res.status(200).json({
-      message: "A new user has been created!"
+      message: "Se ha creado un nuevo usuario exitosamente!"
     });
 
   } catch (error) {
-    return res.status(400).send({ error: error.message });
+    return res.status(401).send({ error: error.message });
   }
 }
 

@@ -20,10 +20,10 @@ function verifyPermission({ permission, action }) {
       const roleFound = await Roles.findOne({ name: role }, { _id: 0, name: 1 })
       // Si no se encontró un rol o si el rol del usuario no cumple con un rol específico
       if (!roleFound || roleFound.name !== role) throw new Error(`Permiso denegado. Tu rol no tiene los permisos necesarios para ${action}`)
-
+      // Continuar al siguiente middleware
       next()
     } catch (error) {
-      return res.status(400).send({ error: error.message })
+      return res.status(403).send({ error: error.message })
     }
   }
 }
