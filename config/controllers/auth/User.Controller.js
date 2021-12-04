@@ -36,8 +36,9 @@ const SchemaUserCreation = {
 // Validar las reglas de un esquema
 const validateUserCreation = validateSchema(SchemaUserCreation)
 
-async function createUser(req, res) {
+async function createUser(req, res, next) {
   try {
+    console.log('[User.createUser]', req.body)
     // Validar el body
     const body = validateUserCreation(req.body)
     // Si existen errores en el body, devolver errores
@@ -53,6 +54,7 @@ async function createUser(req, res) {
       }
     })
 
+    // Obtener datos del body
     const { fullname, email, password, role } = req.body;
     
     // Verificar si ya existe un usuario o un admin con ese correo
@@ -84,12 +86,14 @@ async function createUser(req, res) {
     // Guardar usuario
     await newUser.save();
 
+    // Crear token de usuario
     createToken({ config: { id: newUser._id } })
+    
+    // Pasar id del usuario al siguiente middleware
+    req.userId = newUser._id
 
-    return res.status(200).json({
-      message: "Se ha creado un nuevo usuario exitosamente!"
-    });
-
+    // Continuar al siguiente middleware
+    next();
   } catch (error) {
     return res.status(401).send({ error: error.message });
   }

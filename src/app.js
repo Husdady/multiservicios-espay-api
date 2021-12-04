@@ -1,6 +1,7 @@
 'use strict'
 
 const path = require('path')
+// const multer  = require('multer')
 const compression = require('compression')
 const express = require('express')
 const app = express()
@@ -10,6 +11,8 @@ const app = express()
  */
 require('dotenv').config()
 require('module-alias/register')
+require('@utils/cors')(app)
+require('@utils/cloudinary')
 
 /**
  * Base de datos
@@ -21,10 +24,17 @@ createDefaultRoles()
 /**
  * Uso de Middlewares
  */
-require('@utils/cors')(app)
+// const multerStorage = multer.diskStorage({
+//   destination: path.join(__dirname + 'public/uploads'),
+//   filename: (req, file, cb) => {
+//     cb(null, new Date.getTime() * path.extname(file.originalname))
+//   }
+// })
 // require('@utils/helmet')(app)
 app.use(compression())
 app.use(express.json())
+app.use(express.urlencoded({ extended: false }))
+// app.use(multer({ storage: multerStorage }).single('image'))
 
 /**
  * Api Routers

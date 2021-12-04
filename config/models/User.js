@@ -15,10 +15,8 @@ const UserSchema = new Schema(
     },
     verifiedEmail: Boolean,
     settings: {
-      avatar: {
-        photo: Object,
-        backgroundColor: String
-      }
+      theme: String, 
+      avatar: Object
     }
   },
   {
