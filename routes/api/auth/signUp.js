@@ -28,9 +28,9 @@ router.post(
 router.post(
   '/signup/user',
   [verifyToken, permissionRequiredToCreateUsers],
-  setFileNameToUserProfilePhoto,
   upload.single('profilePhoto'),
   AuthUserController.createUser,
+  setFileNameToUserProfilePhoto,
   UploadController.uploadProfilePhoto,
 )
 

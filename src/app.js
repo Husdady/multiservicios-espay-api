@@ -32,13 +32,7 @@ app.use(express.urlencoded({ extended: false }))
 /**
  * Api Routers
  */
- require('@routes/api')(app)
-
-// Definir una carpeta publica
-app.use(express.static("public"));
-app.get('*', function(_, res) {
-  res.sendFile(path.join(__dirname, "../public/index.html"));
-});
+require('@routes/api')(app)
 
 /**
  * Usar módulo morgan en desarrollo
@@ -49,6 +43,12 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 if (process.env.NODE_ENV === 'production') {
+  // Definir una carpeta publica
+  app.use(express.static('public'))
+  app.get('*', function (_, res) {
+    res.sendFile(path.join(__dirname, '../public/index.html'))
+  })
+
   // Redireccionar a https
   app.use((req, res, next) => {
     if (req.header('x-forwarded-proto') !== 'https') {

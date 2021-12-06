@@ -5,6 +5,6 @@ const router = Router()
 // Middlewares
 const { isValidToken } = require('@middlewares/Auth/token')
 
-router.get('/', isValidToken)
+router.get('/verifyToken', isValidToken)
 
 module.exports = router

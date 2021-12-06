@@ -5,17 +5,19 @@ const cloudinary = require('@utils/cloudinary')
 // Subir foto de perfil de un usuario
 async function uploadProfilePhoto(req, res) {
   try {
+    console.log('[filename]', req.filename)
     // Subir imagen a Cloudinary
     await cloudinary.v2.uploader.upload(
       req.file.path,
       {
         folder: 'users',
-        public_id: req.filename
+        public_id: req.filename,
       },
       async function (error, result) {
         if (error) {
           throw new Error('Ha ocurrido un error al subir la foto de perfil')
         }
+        console.log('[Upload.profilePhoto]', result)
         await User.findByIdAndUpdate(req.userId, {
           settings: {
             avatar: {
@@ -25,9 +27,9 @@ async function uploadProfilePhoto(req, res) {
               created_at: result.created_at,
               format: result.format,
               width: result.width,
-              height: result.height
-            }
-          }
+              height: result.height,
+            },
+          },
         })
       },
     )
@@ -41,6 +43,22 @@ async function uploadProfilePhoto(req, res) {
   }
 }
 
+async function deleteProfilePhoto(req, res) {
+  try {
+    console.log(`user-${req.userId}`)
+    // Eliminar imagen de Cloudinary
+    cloudinary.v2.uploader.destroy(`users/user-${req.userId}`, function (error, result) {
+      console.log('[deleteImageFromCloudinary.error]', error)
+      console.log('[deleteImageFromCloudinary.result]', result)
+    })
+
+    res.status(204).json({})
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 module.exports = {
   uploadProfilePhoto,
+  deleteProfilePhoto,
 }

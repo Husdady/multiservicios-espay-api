@@ -16,18 +16,20 @@ async function verifyToken(req, res, next) {
 
     // Descifrar token
     const decodedToken = verify(token, process.env.JWT_SECRET)
-    req.userId = decodedToken.id
+    
+    // Obtener id de usuario proveniente del token
+    const userId = decodedToken.id
 
     // Buscar usuarios
     const userFounds = await Promise.all([
-      User.findById(req.userId, { _id: 0, role: 1 }).populate({
+      User.findById(userId, { _id: 0, role: 1 }).populate({
         path: 'role',
         select: {
           _id: 0,
           name: 1,
         },
       }),
-      Admin.findById(req.userId, { _id: 0, role: { name: 1 } }),
+      Admin.findById(userId, { _id: 0, role: { name: 1 } }),
     ])
 
     // Verificar si se encontró un usuario
