@@ -3,8 +3,8 @@ const { Router } = require('express')
 const router = Router()
 
 // Middlewares
-const signIn = require('@middlewares/signIn')
+const signin = require('@middlewares/Auth/signin')
 
-router.post('/', signIn)
+router.post('/signin', signin)
 
 module.exports = router

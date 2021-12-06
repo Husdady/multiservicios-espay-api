@@ -13,29 +13,22 @@ require('dotenv').config()
 require('module-alias/register')
 require('@utils/cors')(app)
 require('@utils/cloudinary')
+require('@graphql')(app)
 
 /**
  * Base de datos
  */
 require('@database/connection')
-const createDefaultRoles = require('@middlewares/createDefaultRoles')
+const createDefaultRoles = require('@middlewares/User/createDefaultRoles')
 createDefaultRoles()
 
 /**
  * Uso de Middlewares
  */
-// const multerStorage = multer.diskStorage({
-//   destination: path.join(__dirname + 'public/uploads'),
-//   filename: (req, file, cb) => {
-//     cb(null, new Date.getTime() * path.extname(file.originalname))
-//   }
-// })
-// require('@utils/helmet')(app)
 app.use(compression())
 app.use(express.json())
+// require('@utils/helmet')(app)
 app.use(express.urlencoded({ extended: false }))
-// app.use(multer({ storage: multerStorage }).single('image'))
-
 /**
  * Api Routers
  */

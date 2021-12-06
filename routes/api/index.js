@@ -1,31 +1,20 @@
-// Sign in
-const signIn = require('@routes/api/auth/signin')
+// Authentication
+const auth = require('./Auth')
 
-// Verify token
-const verifyToken = require('@routes/api/auth/verifyToken')
-
-// Auth user
-const user = require('@routes/api/auth/user')
-const admin = require('@routes/api/auth/admin')
+// Users
+const users = require('./Users')
 
 // User admin
-const userAdmin = require('@routes/api/admin/user-admin')
-
-// Usersa
-const users = require('@routes/api/users')
+const userAdmin = require('./Admin')
 
 // Products
-const productosSeytu = require('@routes/api/products/seytu')
-const productosOmnilife = require('@routes/api/products/omnilife')
+const seytuProducts = require('./Products/seytu')
+const omnilifeProducts = require('./Products/omnilife')
 
-const products = [productosSeytu, productosOmnilife]
-
-module.exports = function (app) {
-  app.use('/api/auth/user/', user)
-  app.use('/api/auth/admin/', admin)
-  app.use('/api/auth/signin/', signIn)
-  app.use('/api/auth/verifyToken/', verifyToken)
-  app.use('/api/admin/', userAdmin)
+module.exports = function(app) {
+  app.use('/api/auth/', auth)
   app.use('/api/users/', users)
-  app.use('/api/products/', products)
+  app.use('/api/admin/', userAdmin)
+  app.use('/api/products/seytu/', seytuProducts)
+  app.use('/api/products/omnilife/', omnilifeProducts)
 }

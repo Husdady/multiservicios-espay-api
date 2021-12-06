@@ -3,25 +3,21 @@ const { Router } = require('express')
 const router = Router()
 
 // Controllers
-const { getProducts, createProduct, deleteProduct } = require('@controllers/products/Products.Controller')
+const { getProducts, createProduct, deleteProduct } = require('@controllers/Products/Products.Controller')
 
 // Middlewares
-const { verifyToken } = require('@middlewares/token')
-const verifyUserRole = require('@middlewares/verifyUserRole')
+const { verifyToken } = require('@middlewares/Auth/token')
 
 // Models
-const { createProductsSchema } = require("@models/Products");
+const { createProductSchema } = require("@models/Products/Product");
 
 // Crear esquema de los Productos Seytú
-const SeytuProducts = createProductsSchema({
+const SeytuProducts = createProductSchema({
   modelName: "seytuProducts",
   collectionName: "seytu-products",
 })
 
 // Roles requeridos para crear productos
-const rolesRequiredToCreateProducts = verifyUserRole([
-  'Administrador', 'Gerente', 'Moderador'
-])
 
 const Seytu = {
   getProducts: getProducts(SeytuProducts),
@@ -34,13 +30,13 @@ router.get('/seytu', Seytu.getProducts)
 // Crear nuevo producto
 router.post(
   '/seytu',
-  [verifyToken, rolesRequiredToCreateProducts],
+  [verifyToken],
   Seytu.createProduct
 )
 // Eliminar producto
 router.delete(
   '/seytu/:product',
-  [verifyToken, rolesRequiredToCreateProducts],
+  [verifyToken],
   Seytu.deleteProduct
 )
 
