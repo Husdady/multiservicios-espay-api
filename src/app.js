@@ -11,7 +11,7 @@ const app = express()
 require('dotenv').config()
 require('module-alias/register')
 // require('@utils/cors')(app)
-require('@utils/cloudinary')
+// require('@utils/cloudinary')
 // require('@graphql')(app)
 
 /**
