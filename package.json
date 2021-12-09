@@ -1,8 +1,8 @@
 {
   "name": "emprendimiento-y-salud-servidor",
   "version": "1.0.0",
-  "description": "",
-  "main": "src/app",
+  "description": "API de emprendimiento-y-salud.com",
+  "main": "/",
   "scripts": {
     "dev": "nodemon src/app",
     "start": "node src/app"
