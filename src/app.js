@@ -17,9 +17,9 @@ require('module-alias/register')
 /**
  * Base de datos
  */
-require('@database/connection')
-const createDefaultRoles = require('@middlewares/User/createDefaultRoles')
-createDefaultRoles()
+// require('@database/connection')
+// const createDefaultRoles = require('@middlewares/User/createDefaultRoles')
+// createDefaultRoles()
 
 /**
  * Uso de Middlewares
@@ -31,7 +31,7 @@ app.use(express.urlencoded({ extended: false }))
 /**
  * Api Routers
  */
-require('@routes/api')(app)
+// require('@routes/api')(app)
 
 /**
  * Usar módulo morgan en desarrollo
