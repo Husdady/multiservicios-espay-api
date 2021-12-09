@@ -10,16 +10,16 @@ const app = express()
  */
 require('dotenv').config()
 require('module-alias/register')
-// require('@utils/cors')(app)
-// require('@utils/cloudinary')
-// require('@graphql')(app)
+require('../config/Utils/cors')(app)
+require('../config/Utils/cloudinary')
+require('../config/Graphql')(app)
 
 /**
  * Base de datos
  */
-// require('@database/connection')
-// const createDefaultRoles = require('@middlewares/User/createDefaultRoles')
-// createDefaultRoles()
+require('../config/Database/connection')
+const createDefaultRoles = require('../config/Middlewares/User/createDefaultRoles')
+createDefaultRoles()
 
 /**
  * Uso de Middlewares
@@ -31,7 +31,7 @@ app.use(express.urlencoded({ extended: false }))
 /**
  * Api Routers
  */
-// require('@routes/api')(app)
+require('../routes/api')(app)
 
 /**
  * Usar módulo morgan en desarrollo
