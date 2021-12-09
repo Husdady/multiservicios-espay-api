@@ -1,6 +1,7 @@
 // Models
 const User = require('@models/Users/User')
 const Role = require('@models/Users/Role')
+const Admin = require('@models/Users/Admin')
 
 // Editar un usuario por id
 async function editUser(req, res, next) {
@@ -9,7 +10,19 @@ async function editUser(req, res, next) {
     const { fullname, email, role, profilePhoto } = req.body
 
     // Encontrar al usuario que se va a editar su información
-    const userFound = await User.findOne({ email }, { _id: 0, fullname: 1, email: 1, role: 1, settings: { avatar: { url: 1 } } }).populate('role', { _id: 0, name: 1 })
+    // const userFound = await User.findOne({ email }, { _id: 0, fullname: 1, email: 1, role: 1, settings: { avatar: { url: 1 } } }).populate('role', { _id: 0, name: 1 })
+
+    // Encontrar si ya existe un admin con ese correo electrónico
+    const adminFound = await Admin.findOne({ email }, { email: 1 })
+
+    // Encontrar si ya existe un usuario con ese correo electrónico
+    const userFound = await User.findById(req.body.id, { fullname: 1, email: 1, settings: { avatar: { url: 1 } } }).populate('role', { name: 1 })
+
+    console.log('[Edit.user]', userFound)
+    console.log('[Edit.admin]', adminFound)
+    if (adminFound.email === email || userFound._id !== req.body.id) {
+      throw new Error('Ya existe un usuario registrado con ese correo electrónico')
+    }
 
     // Si el usuario no existe
     if (!userFound) {

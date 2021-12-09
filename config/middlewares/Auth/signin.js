@@ -13,8 +13,8 @@ async function signIn(req, res) {
 
     // Encontrar al admin o a un usuario por correo
     const userFounds = await Promise.all([
-      Admin.findOne({ email }, { createdAt: 0, updatedAt: 0 }), 
-      User.findOne({ email }, { createdAt: 0, updatedAt: 0 }).populate('role')
+      Admin.findOne({ email }, { fullname: 1, email: 1, password: 1, settings: { avatar: { url: 1 } }, theme: 1, role: { name: 1 } }),
+      User.findOne({ email }, { fullname: 1, email: 1, password: 1, settings: { avatar: { url: 1 } }, theme: 1 }).populate('role', { name: 1 })
     ])
 
     // Encontrar un válido usuario
@@ -45,12 +45,9 @@ async function signIn(req, res) {
             id: userFound._id,
             fullname: userFound.fullname,
             email: userFound.email,
-            role: userFound.role,
-            verifiedEmail: userFound.verifiedEmail,
+            role: userFound.role.name,
             profilePhoto: {
               url: userFound?.settings?.avatar?.url,
-              width: userFound?.settings?.avatar?.width,
-              height: userFound?.settings?.avatar?.height
             },
             access_token: token
           }
