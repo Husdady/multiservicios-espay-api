@@ -8,11 +8,11 @@ const app = express()
 /**
  * Configuración
  */
-require('module-alias/register')
 require('dotenv').config()
-require('@utils/cors')(app)
+require('module-alias/register')
+// require('@utils/cors')(app)
 require('@utils/cloudinary')
-require('@graphql')(app)
+// require('@graphql')(app)
 
 /**
  * Base de datos
