@@ -5,6 +5,8 @@ const cloudinary = require('@utils/cloudinary')
 // Subir foto de perfil de un usuario
 async function uploadProfilePhoto(req, res) {
   try {
+    // Setear nombre de imagen subida a Cloudinary
+    req.filename = `user-${req.userId}`
     console.log('[filename]', req.filename)
     // Subir imagen a Cloudinary
     await cloudinary.v2.uploader.upload(
@@ -45,7 +47,7 @@ async function uploadProfilePhoto(req, res) {
 
 async function deleteProfilePhoto(req, res) {
   try {
-    console.log(`user-${req.userId}`)
+    console.log('[deleteProfilePhoto]', `user-${req.userId}`)
     // Eliminar imagen de Cloudinary
     cloudinary.v2.uploader.destroy(`users/user-${req.userId}`, function (error, result) {
       console.log('[deleteImageFromCloudinary.error]', error)

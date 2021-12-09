@@ -35,13 +35,13 @@
     "npm": ">= 7.x"
   },
   "_moduleAliases": {
-    "@controllers": "./config/controllers",
-    "@database": "./config/database",
-    "@graphql": "./config/graphql",
-    "@middlewares": "./config/middlewares",
-    "@models": "./config/models",
-    "@services": "./config/services",
-    "@utils": "./config/utils",
+    "@controllers": "./config/Controllers",
+    "@database": "./config/Database",
+    "@graphql": "./config/Graphql",
+    "@middlewares": "./config/Middlewares",
+    "@models": "./config/Models",
+    "@services": "./config/Services",
+    "@utils": "./config/Utils",
     "@routes": "./routes"
   }
 }

@@ -39,7 +39,7 @@ async function verifyToken(req, res, next) {
     req.userRole = userFound.role.name
     next()
   } catch (error) {
-    return res.status(400).send({ error: error.message })
+    return res.status(401).send({ error: error.message })
   }
 }
 
@@ -68,7 +68,7 @@ function isValidToken(req, res) {
       return res.status(204).json({ status: 'success' })
     })
   } catch (error) {
-    return res.status(400).send({ error: error.message })
+    return res.status(403).send({ error: error.message })
   }
 }
 

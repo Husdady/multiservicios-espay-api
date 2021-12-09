@@ -2,10 +2,12 @@
 
 const GraphQLSchema = require('./schema')
 const { graphqlHTTP } = require('express-graphql')
+const { verifyToken } = require('@middlewares/Auth/token')
 
 module.exports = function(app) {
   app.post(
     '/api/graphql',
+    // verifyToken,
     graphqlHTTP(function(req) {
       return {
         rootValue: req,

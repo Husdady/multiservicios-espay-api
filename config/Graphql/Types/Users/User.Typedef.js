@@ -25,7 +25,7 @@ const RoleTypedef = Helper.createGraphQLObjectType('UserRole', {
 
 // User Typedef
 const UserTypedef = Helper.createGraphQLObjectType('User', {
-  id: GraphQLID,
+  _id: GraphQLID,
   fullname: GraphQLString,
   email: GraphQLString,
   role: RoleTypedef,

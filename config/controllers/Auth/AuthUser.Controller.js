@@ -94,16 +94,14 @@ async function createUser(req, res, next) {
     }
 
     req.createNewUser = {
-      successMessage
-    } 
-
-    if (req.file) {
-      // Continuar al siguiente middleware
-      next()
-    } else {
-      // Retornar mensaje exitoso
-      res.status(200).json(successMessage)
+      successMessage,
     }
+
+    // Continuar al siguiente middleware
+    req.file && next()
+
+    // Retornar mensaje exitoso
+    !req.file && res.status(200).json(successMessage)
   } catch (error) {
     return res.status(401).send({ error: error.message })
   }

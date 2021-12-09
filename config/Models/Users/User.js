@@ -14,10 +14,8 @@ const UserSchema = new Schema(
       type: Schema.Types.ObjectId,
     },
     verifiedEmail: Boolean,
-    settings: {
-      theme: String, 
-      avatar: Object
-    }
+    settings: Object,
+    
   },
   {
     versionKey: false,

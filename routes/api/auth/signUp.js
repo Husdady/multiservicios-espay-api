@@ -1,5 +1,4 @@
 // Librarys
-const { upload } = require('@utils/multer')
 const { Router } = require('express')
 const router = Router()
 
@@ -10,9 +9,11 @@ const { AuthUserController, AuthAdminController } = require("@controllers/Auth")
 // Middlewares
 const { verifyToken } = require('@middlewares/Auth/token')
 const verifyPermission = require('@middlewares/User/verifyPermission')
-const { setFileNameToUserProfilePhoto } = require('@middlewares/Upload/setFilename')
 
-// Verificar un permiso
+// Utils
+const { upload } = require('@utils/multer')
+
+// Verificar permiso para crear un usuario
 const permissionRequiredToCreateUsers = verifyPermission({
   action: 'crear usuarios',
   permission: 'createUsers',
@@ -30,7 +31,6 @@ router.post(
   [verifyToken, permissionRequiredToCreateUsers],
   upload.single('profilePhoto'),
   AuthUserController.createUser,
-  setFileNameToUserProfilePhoto,
   UploadController.uploadProfilePhoto,
 )
 
