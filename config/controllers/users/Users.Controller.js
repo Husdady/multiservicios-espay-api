@@ -3,63 +3,77 @@ const User = require('@models/Users/User')
 const Role = require('@models/Users/Role')
 const Admin = require('@models/Users/Admin')
 
+// Utils
+const cloudinary = require('@utils/cloudinary')
+
 // Editar un usuario por id
 async function editUser(req, res, next) {
   try {
     // Obtener datos del body
-    const { fullname, email, role, profilePhoto } = req.body
-
-    // Encontrar al usuario que se va a editar su información
-    // const userFound = await User.findOne({ email }, { _id: 0, fullname: 1, email: 1, role: 1, settings: { avatar: { url: 1 } } }).populate('role', { _id: 0, name: 1 })
+    const { fullname, email, role, userProfilePhoto } = req.body
 
     // Encontrar si ya existe un admin con ese correo electrónico
-    const adminFound = await Admin.findOne({ email }, { email: 1 })
+    const adminFound = await Admin.findOne({ email }, { _id: 0, email: 1 })
 
-    // Encontrar si ya existe un usuario con ese correo electrónico
-    const userFound = await User.findById(req.body.id, { fullname: 1, email: 1, settings: { avatar: { url: 1 } } }).populate('role', { name: 1 })
-
-    console.log('[Edit.user]', userFound)
-    console.log('[Edit.admin]', adminFound)
-    if (adminFound.email === email || userFound._id !== req.body.id) {
+    // Si ya existe un usuario o admin con ese correo electrónico
+    if (adminFound?.email === email) {
       throw new Error('Ya existe un usuario registrado con ese correo electrónico')
     }
 
+    // Encontrar al usuario que se va a editar
+    const user = await User.findById(req.body.id, { _id: 0, fullname: 1, email: 1, settings: { avatar: { url: 1 } } }).populate('role', { _id: 0, name: 1 })
+
     // Si el usuario no existe
-    if (!userFound) {
+    if (!user) {
       throw new Error(`No se ha encontrado al usuario ${fullname} para editar su información`)
     }
     
-    // Si la información del usuario sigue siendo la misma
-    const userInformationHasNotBeenEdited = (userFound.fullname === fullname) && (userFound.email === email) && (userFound.role.name === role) && (userFound?.settings?.avatar?.url == profilePhoto)
+    const userInformationHasNotBeenEdited = user.fullname === fullname && user.email === email && user.role.name === role
 
-    // Retornar error
-    if (userInformationHasNotBeenEdited) {
-      throw new Error(`La información del usuario es la misma, debe proporcionar nuevos datos`)
+    console.log('[body]', req.body)
+ 
+    // Si la información del usuario sigue siendo la misma
+    if (!JSON.parse(req.body.userInformationHasBeenEdited)) {
+      throw new Error('La información del usuario es la misma, debe proporcionar nuevos datos')
     }
 
     // Encontrar un rol del usuario
     const roleFound = await Role.findOne({ name: role })
 
-    // Actualizar usuario
-    await User.findByIdAndUpdate(req.params.userId, {
+    // Nueva información del usuario
+    const newDataUser = {
       fullname: fullname,
       email: email,
-      role: roleFound.id,
-    })
+      role: roleFound.id
+    }
+    
+    if (userProfilePhoto === 'null') {
+      // Eliminar imagen de Cloudinary
+      await cloudinary.v2.uploader.destroy(`users/user-${req.userId}`)
+
+      // Eliminar imagen de la información del usuario
+      Object.assign(newDataUser, {
+        settings: {
+          avatar: null
+        }
+      })
+    }
+
+    // Actualizar usuario
+    await User.findByIdAndUpdate(req.params.userId, newDataUser)
 
     // Mensaje existoso
     const successMessage = {
       message: 'Se ha actualizado exitosamente la información de ' + fullname,
     }
 
-    if (req.file) {
-      // Setear id de usuario actualizado
-      req.userId = req.params.userId
+    // Setear id de usuario
+    req.userId = req.params.userId
 
+    // Si existe una imagen como archivo
+    if (req.file) {
       // Setear mensaje exitoso
-      req.createNewUser = {
-        successMessage,
-      }
+      req.successMessage = successMessage
 
       // Continuar al siguiente middleware
       next()
@@ -68,7 +82,11 @@ async function editUser(req, res, next) {
     // Retornar mensaje exitoso
     !req.file && res.status(200).json(successMessage)
   } catch (error) {
-    res.status(400).send({ error: error.message })
+    if (error.codeName === 'DuplicateKey') {
+      res.status(400).send({ error: 'Ya existe un usuario registrado con ese correo electrónico' })
+    } else {
+      res.status(400).send({ error: error.message })
+    }
   }
 }
 
@@ -80,7 +98,7 @@ async function deleteUser(req, res, next) {
     console.log('[deleteUser]', result)
 
     // Si el usuario tiene foto de perfil
-    if (result.settings.avatar) {
+    if (result?.settings?.avatar) {
       // Setear foto de perfil
       req.userId = result._id
       // Continuar al siguiente middleware

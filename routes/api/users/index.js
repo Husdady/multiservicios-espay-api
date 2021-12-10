@@ -4,10 +4,10 @@ const router = Router()
 
 // Controllers
 const UsersController = require('@controllers/Users/Users.Controller')
-const UploadController = require('@controllers/Upload/Upload.Controller')
 
 // Middlewares
 const { verifyToken } = require('@middlewares/Auth/token')
+const { uploadProfilePhoto, deleteProfilePhoto } = require('@middlewares/Upload/Upload.Middleware')
 const verifyPermission = require('@middlewares/User/verifyPermission')
 
 // Utils
@@ -31,7 +31,7 @@ router.put(
   [verifyToken, permissionRequiredToEditUsers],
   upload.single('profilePhoto'),
   UsersController.editUser,
-  UploadController.uploadProfilePhoto
+  uploadProfilePhoto
 )
 
 // Eliminar usuario por id
@@ -39,7 +39,7 @@ router.delete(
   '/:userId',
   [verifyToken, permissionRequiredToDeleteUsers],
   UsersController.deleteUser,
-  UploadController.deleteProfilePhoto
+  deleteProfilePhoto
 )
 
 module.exports = router

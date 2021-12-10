@@ -93,9 +93,7 @@ async function createUser(req, res, next) {
       message: 'Se ha creado un nuevo usuario exitosamente!',
     }
 
-    req.createNewUser = {
-      successMessage,
-    }
+    req.successMessage = successMessage
 
     // Continuar al siguiente middleware
     req.file && next()

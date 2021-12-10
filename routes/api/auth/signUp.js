@@ -3,12 +3,12 @@ const { Router } = require('express')
 const router = Router()
 
 // Controllers
-const UploadController = require('@controllers/Upload/Upload.Controller')
 const { AuthUserController, AuthAdminController } = require("@controllers/Auth")
 
 // Middlewares
 const { verifyToken } = require('@middlewares/Auth/token')
 const verifyPermission = require('@middlewares/User/verifyPermission')
+const { uploadProfilePhoto } = require('@middlewares/Upload/Upload.Middleware')
 
 // Utils
 const { upload } = require('@utils/multer')
@@ -31,7 +31,7 @@ router.post(
   [verifyToken, permissionRequiredToCreateUsers],
   upload.single('profilePhoto'),
   AuthUserController.createUser,
-  UploadController.uploadProfilePhoto,
+  uploadProfilePhoto,
 )
 
 module.exports = router

@@ -1,11 +1,7 @@
 const multer = require('multer')
 
 const diskStorage = multer.diskStorage({
-  filename: (req, file, cb) => {
-    const fileExt = file.mimetype.split("/");
-    const ext = fileExt[fileExt.length - 1];
-    cb(null, req.filename + "." + ext)
-  },
+  filename: (_, file, cb) => cb(null, file.originalname)
 })
 
 const upload = multer({ storage: diskStorage })
