@@ -1,7 +1,8 @@
 const express = require('express')
 const app = express()
 
-require('./src/ga')
+require('module-alias/register')
+require('@graphql')
 
 const port = process.env.PORT
 app.listen(port || 4000, () => {
