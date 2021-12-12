@@ -1,5 +1,8 @@
 'use strict'
 
+require('dotenv').config()
+require('module-alias/register')
+
 const path = require('path')
 const compression = require('compression')
 const express = require('express')
@@ -8,8 +11,8 @@ const app = express()
 /**
  * Configuración
  */
-require('dotenv').config()
-require('module-alias/register')
+// require('dotenv').config()
+// require('module-alias/register')
 require('@utils/cors')(app)
 require('@utils/cloudinary')
 // require('@graphql')(app)
