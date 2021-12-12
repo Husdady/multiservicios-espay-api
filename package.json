@@ -5,7 +5,7 @@
   "main": "src/index",
   "scripts": {
     "dev": "nodemon src/app",
-    "start": "node src/app",
+    "start": "node main.js",
     "heroku": "git add . && git commit -m \"[]\" && git push heroku master"
   },
   "keywords": [],
