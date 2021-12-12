@@ -2,7 +2,7 @@ const express = require('express')
 const app = express()
 
 require('module-alias/register')
-require('@graphql')
+require('@graphql/index')
 
 const port = process.env.PORT
 app.listen(port || 4000, () => {
