@@ -31,7 +31,7 @@ if (process.env.NODE_ENV === 'production') {
   // Definir una carpeta publica
   app.use(express.static('public'))
   app.get('*', function (_, res) {
-    res.sendFile(path.join(__dirname, '../public/index.html'))
+    res.sendFile(path.join(__dirname, './public/index.html'))
   })
 
   // Redireccionar a https
