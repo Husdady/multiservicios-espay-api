@@ -3,12 +3,12 @@ const { Router } = require('express')
 const router = Router()
 
 // Controllers
-const { AuthUserController, AuthAdminController } = require("@controllers/Auth")
+const { AuthUserController, AuthAdminController } = require("@controllers/auth")
 
 // Middlewares
-const { verifyToken } = require('@middlewares/Auth/token')
-const verifyPermission = require('@middlewares/User/verifyPermission')
-const { uploadProfilePhoto } = require('@middlewares/Upload/Upload.Middleware')
+const { verifyToken } = require('@middlewares/auth/token')
+const verifyPermission = require('@middlewares/user/verifyPermission')
+const { uploadProfilePhoto } = require('@middlewares/upload/Upload.Middleware')
 
 // Utils
 const { upload } = require('@utils/multer')
