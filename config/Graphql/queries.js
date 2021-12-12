@@ -1,6 +1,6 @@
 // Queries
-const UserQuery = require('./Queries/Users/UserQuery')
-const RoleQuery = require('./Queries/Users/RoleQuery')
+const UserQuery = require('./Queries/users/UserQuery')
+const RoleQuery = require('./Queries/users/RoleQuery')
 
 module.exports = {
   user: UserQuery.user,
