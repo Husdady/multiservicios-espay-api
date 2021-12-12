@@ -1,12 +1,12 @@
 // Endpoints
-// const signIn = require('./signin')
-// const signUp = require('./signup')
+const signIn = require('./signIn')
+const signUp = require('./signUp')
 const verifyToken = require('./verifyToken')
 
 // Enrutar endpoints
 const router = [
-  // signIn,
-  // signUp,
+  signIn,
+  signUp,
   verifyToken
 ]
 
