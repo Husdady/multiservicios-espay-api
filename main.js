@@ -8,6 +8,9 @@ const app = express()
 // Configuración
 require('dotenv').config()
 
+// Base de datos
+require('@database/connection')
+
 // Uso de Middlewares
 app.use(compression())
 app.use(express.json())
