@@ -35,7 +35,6 @@
     "npm": ">= 7.x"
   },
   "_moduleAliases": {
-    "@zzzz": "./zzzz",
-    "@mayita": "./src/mayas/mayitas"
+    "@routes": "./routes"
   }
 }

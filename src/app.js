@@ -31,9 +31,7 @@ app.use(express.urlencoded({ extended: false }))
 /**
  * Api Routers
  */
-// require('@routes/api')(app)
-require('@mayita/mayita')
-require('@zzzz/ganster')
+require('@routes/api')(app)
 
 /**
  * Usar módulo morgan en desarrollo
