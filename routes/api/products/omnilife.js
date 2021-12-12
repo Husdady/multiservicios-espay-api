@@ -3,13 +3,13 @@ const { Router } = require('express')
 const router = Router()
 
 // Controllers
-const { getProducts, createProduct, deleteProduct } = require('@controllers/Products/Products.Controller')
+const { getProducts, createProduct, deleteProduct } = require('@controllers/products/Products.Controller')
 
 // Middlewares
-const { verifyToken } = require('@middlewares/Auth/token')
+const { verifyToken } = require('@middlewares/auth/token')
 
 // Models
-const { createProductSchema } = require("@models/Products/Product");
+const { createProductSchema } = require("@models/products/Product");
 
 // Crear esquema de los Productos Seytú
 const OmnilifeProducts = createProductSchema({

@@ -6,9 +6,9 @@ const router = Router()
 const UsersController = require('@controllers/Users/Users.Controller')
 
 // Middlewares
-const { verifyToken } = require('@middlewares/Auth/token')
-const { uploadProfilePhoto, deleteProfilePhoto } = require('@middlewares/Upload/Upload.Middleware')
-const verifyPermission = require('@middlewares/User/verifyPermission')
+const { verifyToken } = require('@middlewares/auth/token')
+const { uploadProfilePhoto, deleteProfilePhoto } = require('@middlewares/upload/Upload.Middleware')
+const verifyPermission = require('@middlewares/user/verifyPermission')
 
 // Utils
 const { upload } = require('@utils/multer')

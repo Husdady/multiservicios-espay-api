@@ -1,5 +1,5 @@
 // Controllers
-const AdminController = require('@controllers/Admin/Admin.Controller')
+const AdminController = require('@controllers/admin/Admin.Controller')
 
 // Librarys
 const { Router } = require('express')
