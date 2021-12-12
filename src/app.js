@@ -18,7 +18,7 @@ require('@utils/cloudinary')
  * Base de datos
  */
 require('@database/connection')
-const createDefaultRoles = require('@middlewares/User/createDefaultRoles')
+const createDefaultRoles = require('@middlewares/user/createDefaultRoles')
 createDefaultRoles()
 
 /**
