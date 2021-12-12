@@ -35,6 +35,6 @@
   },
   "_moduleAliases": {
     "@root": ".",
-    "@routes": "routes"
+    "@routes": "./routes"
   }
 }
