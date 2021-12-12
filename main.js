@@ -7,6 +7,7 @@ const app = express()
 
 // Configuración
 require('dotenv').config()
+require('module-alias/register')
 
 // Base de datos
 require('@database/connection')

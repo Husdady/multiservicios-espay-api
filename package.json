@@ -35,5 +35,15 @@
   "engines": {
     "node": ">= 14.x",
     "npm": ">= 7.x"
+  },
+  "_moduleAliases": {
+    "@controllers": "./config/controllers",
+    "@database": "./config/database",
+    "@graphql": "./config/graphql",
+    "@middlewares": "./config/middlewares",
+    "@models": "./config/models",
+    "@services": "./config/services",
+    "@utils": "./config/utils",
+    "@routes": "./routes"
   }
 }
