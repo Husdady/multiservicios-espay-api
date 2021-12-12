@@ -14,11 +14,15 @@ require('@graphql')(app)
 
 // Base de datos
 require('@database/connection')
+require('@middlewares/user/createDefaultRoles')()
 
 // Uso de Middlewares
 app.use(compression())
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
+
+// Rutas de la API
+require('@routes/api')(app)
 
 // App en modo de desarrollo
 if (process.env.NODE_ENV === 'development') {
