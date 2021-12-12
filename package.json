@@ -4,7 +4,8 @@
   "description": "API de emprendimiento-y-salud.com",
   "scripts": {
     "dev": "nodemon src/app",
-    "start": "node src/app"
+    "start": "node src/app",
+    "heroku": "git add . && git commit -m \"[]\" && git push heroku master"
   },
   "keywords": [],
   "author": "Husdady Mena",
@@ -34,7 +35,6 @@
     "npm": ">= 7.x"
   },
   "_moduleAliases": {
-    "@root": ".",
-    "@routes": "./routes"
+    "@mayita": "./mayas/mayitas"
   }
 }
