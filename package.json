@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "nodemon main",
     "start": "node main",
+    "reset heroku cache": "heroku builds:cache:purge -a emprendimientoysalud",
     "heroku": "git add . && git commit -m \"[]\" && git push heroku master"
   },
   "keywords": [],
