@@ -35,13 +35,6 @@
   },
   "_moduleAliases": {
     "@root": ".",
-    "@controllers": "./config/Controllers/",
-    "@database": "./config/Database/",
-    "@graphql": "./config/Graphql/",
-    "@middlewares": "./config/Middlewares/",
-    "@models": "./config/Models/",
-    "@services": "./config/Services/",
-    "@utils": "./config/Utils/",
-    "@routes": "./routes/"
+    "@routes": "routes"
   }
 }
