@@ -10,16 +10,16 @@ const app = express()
  */
 require('dotenv').config()
 require('module-alias/register')
-require('@utils/cors')(app)
-require('@utils/cloudinary')
-require('@graphql')(app)
+// require('@utils/cors')(app)
+// require('@utils/cloudinary')
+// require('@graphql')(app)
 
 /**
  * Base de datos
  */
-require('@database/connection')
-const createDefaultRoles = require('@middlewares/User/createDefaultRoles')
-createDefaultRoles()
+// require('@database/connection')
+// const createDefaultRoles = require('@middlewares/User/createDefaultRoles')
+// createDefaultRoles()
 
 /**
  * Uso de Middlewares
