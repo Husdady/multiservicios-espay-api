@@ -35,6 +35,6 @@
     "npm": ">= 7.x"
   },
   "_moduleAliases": {
-    "@mayita": "./mayas/mayitas"
+    "@mayita": "./src/mayas/mayitas"
   }
 }
