@@ -12,7 +12,7 @@ require('dotenv').config()
 require('module-alias/register')
 require('@utils/cors')(app)
 require('@utils/cloudinary')
-require('@graphql')(app)
+// require('@graphql')(app)
 
 /**
  * Base de datos
