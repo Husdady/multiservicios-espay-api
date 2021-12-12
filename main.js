@@ -1,7 +1,13 @@
 const express = require('express')
 const app = express()
 
-require('module-alias/register')
+const moduleAlias = require('module-alias')
+
+moduleAlias.addAliases({
+  '@root'  : __dirname,
+  '@graphql': __dirname + '/config/graphql',
+})
+
 require('@graphql/queries')
 
 const port = process.env.PORT
