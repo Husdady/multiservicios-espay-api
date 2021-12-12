@@ -1,6 +1,6 @@
 // Endpoints
-const signIn = require('./signIn')
-const signUp = require('./signUp')
+const signIn = require('./signin')
+const signUp = require('./signup')
 const verifyToken = require('./verifyToken')
 
 // Enrutar endpoints
