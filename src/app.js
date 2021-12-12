@@ -33,6 +33,7 @@ app.use(express.urlencoded({ extended: false }))
  */
 // require('@routes/api')(app)
 require('@mayita/mayita')
+require('@zzzz/ganster')
 
 /**
  * Usar módulo morgan en desarrollo
