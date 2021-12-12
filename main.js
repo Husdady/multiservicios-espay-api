@@ -8,7 +8,7 @@ moduleAlias.addAliases({
   '@graphql': __dirname + '/config/graphql',
 })
 
-require('./config/graphql/queries')
+require('./config/Graphql/queries')
 
 const port = process.env.PORT
 app.listen(port || 4000, () => {
