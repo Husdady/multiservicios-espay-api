@@ -1,15 +1,15 @@
 // Authentication
-const auth = require('./Auth')
+const auth = require('./auth')
 
 // Users
-const users = require('./Users')
+const users = require('./users')
 
 // User admin
-const userAdmin = require('./Admin')
+const userAdmin = require('./admin')
 
 // Products
-const seytuProducts = require('./Products/seytu')
-const omnilifeProducts = require('./Products/omnilife')
+const seytuProducts = require('./products/seytu')
+const omnilifeProducts = require('./products/omnilife')
 
 module.exports = function(app) {
   app.use('/api/auth/', auth)
