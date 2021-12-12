@@ -1,7 +1,7 @@
 // Models
-const User = require('@models/Users/User')
-const Role = require('@models/Users/Role')
-const Admin = require('@models/Users/Admin')
+const User = require('@models/users/User')
+const Role = require('@models/users/Role')
+const Admin = require('@models/users/Admin')
 
 // Utils
 const cloudinary = require('@utils/cloudinary')

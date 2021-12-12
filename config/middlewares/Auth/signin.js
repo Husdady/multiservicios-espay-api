@@ -1,6 +1,6 @@
 // Models
-const User = require('@models/Users/User')
-const Admin = require('@models/Users/Admin')
+const User = require('@models/users/User')
+const Admin = require('@models/users/Admin')
 
 // Utils
 const { validateSecretPassword } = require('@utils/Validations')

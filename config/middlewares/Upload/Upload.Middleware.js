@@ -1,5 +1,5 @@
 // Models
-const User = require('@models/Users/User')
+const User = require('@models/users/User')
 
 // Utils
 const cloudinary = require('@utils/cloudinary')

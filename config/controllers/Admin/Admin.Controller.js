@@ -1,5 +1,5 @@
 // Models
-const Admin = require('@models/Users/Admin')
+const Admin = require('@models/users/Admin')
 
 async function existUserAdmin(_, res) {
   try {

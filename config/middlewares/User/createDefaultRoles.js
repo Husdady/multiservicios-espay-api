@@ -1,5 +1,5 @@
 // Models
-const Role = require('@models/Users/Role')
+const Role = require('@models/users/Role')
 
 // Permissions
 const adminPermissions = require('@utils/permissions/admin-permissions')

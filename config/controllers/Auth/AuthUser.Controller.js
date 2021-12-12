@@ -1,7 +1,7 @@
 // Models
-const Role = require('@models/Users/Role')
-const User = require('@models/Users/User')
-const Admin = require('@models/Users/Admin')
+const Role = require('@models/users/Role')
+const User = require('@models/users/User')
+const Admin = require('@models/users/Admin')
 
 // Utils
 const { encryptPassword, createToken } = require('@utils/Helper')

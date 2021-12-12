@@ -2,8 +2,8 @@
 const { verify } = require('jsonwebtoken')
 
 // Models
-const User = require('@models/Users/User')
-const Admin = require('@models/Users/Admin')
+const User = require('@models/users/User')
+const Admin = require('@models/users/Admin')
 
 async function verifyToken(req, res, next) {
   try {

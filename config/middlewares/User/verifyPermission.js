@@ -1,4 +1,4 @@
-const Roles = require('@models/Users/Role')
+const Roles = require('@models/users/Role')
 
 function verifyPermission({ permission, action }) {
   return async (req, res, next) => {
