@@ -39,7 +39,7 @@ if (process.env.NODE_ENV === 'production') {
   })
 
   // Redireccionar a https
-  app.use((req, res, next) => {
+  app.use(function(req, res, next) {
     if (req.header('x-forwarded-proto') !== 'https') {
       res.redirect(`https://${req.header('host')}${req.url}`)
     } else {
