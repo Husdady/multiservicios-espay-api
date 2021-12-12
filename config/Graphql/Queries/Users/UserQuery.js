@@ -4,10 +4,10 @@
 const { GraphQLString, GraphQLList, GraphQLID } = require('graphql')
 
 // Models
-const User = require('@models/Users/User')
+const User = require('@models/users/User')
 
 // Typedefs
-const UserTypedef = require('@graphql/Types/Users/User.Typedef')
+const UserTypedef = require('@graphql/types/users/user.Typedef')
 
 const user = {
   type: UserTypedef,
