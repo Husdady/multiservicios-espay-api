@@ -9,6 +9,25 @@ const Role = require('@models/users/Role')
 // Typedefs
 const RoleTypedef = require('@graphql/types/users/Role.Typedef')
 
+const role = {
+  type: RoleTypedef,
+  args: {
+    name: {
+      name: 'name',
+      type: GraphQLString,
+    },
+  },
+  async resolve(_, args) {
+    try {
+      const roles = await Role.findOne(args)
+      console.log('[RoleTypedef.role]', role)
+      return roles
+    } catch (e) {
+      console.error(e)
+    }
+  },
+}
+
 const roles = {
   type: new GraphQLList(RoleTypedef),
   args: {
@@ -20,7 +39,7 @@ const roles = {
   async resolve(_, args) {
     try {
       const roles = await Role.find(args).where('name').ne('Administrador')
-      console.log('[RoleTypedef]', roles)
+      console.log('[RoleTypedef.roles]', roles)
       return roles
     } catch (e) {
       console.error(e)
@@ -28,4 +47,7 @@ const roles = {
   },
 }
 
-module.exports = roles
+module.exports = {
+  role,
+  roles
+}

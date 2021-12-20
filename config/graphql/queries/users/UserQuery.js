@@ -36,9 +36,9 @@ const users = {
       type: GraphQLString,
     },
   },
-  async resolve(root, params) {
+  async resolve(_, params) {
     try {
-      const users = await User.find(params).populate('role')
+      const users = await User.find(params).populate('role').where('email').ne(params.email)
       return users
     } catch (e) {
       console.error(e)
