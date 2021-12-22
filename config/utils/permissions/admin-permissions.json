@@ -2,6 +2,7 @@
   "createUsers": true,
   "editUsers": true,
   "deleteUsers": true,
+  "restoreUsers": true,
   "createRoles": true,
   "editRoles": true,
   "deleteRoles": true,

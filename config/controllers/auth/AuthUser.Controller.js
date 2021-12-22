@@ -5,7 +5,7 @@ const Admin = require('@models/users/Admin')
 
 // Utils
 const { encryptPassword, createToken } = require('@utils/Helper')
-const { validateSchema, validateSecretPassword } = require('@utils/Validations')
+const { Validations: { validateSchema, validateSecretPassword } } = require('@utils/Validations')
 
 // Reglas para crear un usuario
 const SchemaUserCreation = {
@@ -66,6 +66,7 @@ async function createUser(req, res, next) {
       fullname: fullname,
       email: email,
       password: await encryptPassword(password),
+      deleted: false,
       verifiedEmail: false,
     })
 

@@ -12,10 +12,12 @@ const UserSchema = new Schema(
     role: {
       ref: "Role",
       type: Schema.Types.ObjectId,
+      require: true
     },
-    verifiedEmail: Boolean,
+    deleted: { type: Boolean, require: true },
+    deletedAt: Date,
+    verifiedEmail: { type: Boolean, require: true },
     settings: Object,
-    
   },
   {
     versionKey: false,

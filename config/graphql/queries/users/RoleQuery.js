@@ -7,7 +7,7 @@ const { GraphQLString, GraphQLList } = require('graphql')
 const Role = require('@models/users/Role')
 
 // Typedefs
-const RoleTypedef = require('@graphql/types/users/Role.Typedef')
+const RoleTypedef = require('@graphql/typedefs/users/Role.Typedef')
 
 const role = {
   type: RoleTypedef,

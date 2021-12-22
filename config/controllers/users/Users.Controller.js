@@ -27,11 +27,11 @@ async function editUser(req, res, next) {
     if (!user) {
       throw new Error(`No se ha encontrado al usuario ${fullname} para editar su información`)
     }
-    
+
     const userInformationHasNotBeenEdited = user.fullname === fullname && user.email === email && user.role.name === role
 
     console.log('[body]', req.body)
- 
+
     // Si la información del usuario sigue siendo la misma
     if (!JSON.parse(req.body.userInformationHasBeenEdited)) {
       throw new Error('La información del usuario es la misma, debe proporcionar nuevos datos')
@@ -44,9 +44,9 @@ async function editUser(req, res, next) {
     const newDataUser = {
       fullname: fullname,
       email: email,
-      role: roleFound.id
+      role: roleFound.id,
     }
-    
+
     if (userProfilePhoto === 'null') {
       // Eliminar imagen de Cloudinary
       await cloudinary.v2.uploader.destroy(`users/user-${req.userId}`)
@@ -54,8 +54,8 @@ async function editUser(req, res, next) {
       // Eliminar imagen de la información del usuario
       Object.assign(newDataUser, {
         settings: {
-          avatar: null
-        }
+          avatar: null,
+        },
       })
     }
 
@@ -90,17 +90,27 @@ async function editUser(req, res, next) {
   }
 }
 
+
 // Eliminar un usuario por id
 async function deleteUser(req, res, next) {
   try {
+    let account = null
     const { userId } = req.params
-    const result = await User.findByIdAndDelete(userId)
-    console.log('[deleteUser]', result)
+
+    // Si se debe eliminar definitivamente la cuenta
+    if (req.query.status === "close account") {
+      account = await User.findByIdAndDelete(userId)
+    } else {
+      account = await User.findByIdAndUpdate(userId, {
+        deleted: true,
+        deletedAt: new Date().toISOString(),
+      })
+    }
 
     // Si el usuario tiene foto de perfil
-    if (result?.settings?.avatar) {
-      // Setear foto de perfil
-      req.userId = result._id
+    if (account?.settings?.avatar) {
+      // Setear id del usuario
+      req.userId = account._id
       // Continuar al siguiente middleware
       next()
     } else {
@@ -111,7 +121,26 @@ async function deleteUser(req, res, next) {
   }
 }
 
+// Restaurar un usuario por id
+async function restoreUser(req, res) {
+  try {
+    const { userId } = req.params
+    console.log('[restoreUser]', userId)
+    // Si se debe eliminar definitivamente la cuenta
+    await User.findByIdAndUpdate(userId, {
+      deleted: false,
+      $unset: { 'deletedAt': "" }
+    })
+
+    return res.status(204).json({})
+  } catch (error) {
+    console.log(error)
+    res.status(400).send({ error: error.message })
+  }
+}
+
 module.exports = {
   editUser,
   deleteUser,
+  restoreUser
 }

@@ -25,6 +25,12 @@ const permissionRequiredToDeleteUsers = verifyPermission({
   permission: 'deleteUsers',
 })
 
+// Verificar permiso para eliminar un usuario
+const permissionRequiredToRestoreUsers = verifyPermission({
+  action: 'restaurar usuarios',
+  permission: 'restoreUsers',
+})
+
 // Editar usuario por id
 router.put(
   '/:userId',
@@ -40,6 +46,13 @@ router.delete(
   [verifyToken, permissionRequiredToDeleteUsers],
   UsersController.deleteUser,
   deleteProfilePhoto
+)
+
+// Restaurar usuario por id
+router.post(
+  '/:userId/restore',
+  // [verifyToken, permissionRequiredToRestoreUsers],
+  UsersController.restoreUser
 )
 
 module.exports = router

@@ -4,7 +4,7 @@ const Admin = require('@models/users/Admin')
 // Utils
 const { encryptPassword, createToken } = require('@utils/Helper')
 const adminPermissions = require('@utils/permissions/admin-permissions')
-const { validateSchema, validateSecretPassword } = require('@utils/Validations')
+const { Validations: { validateSchema, validateSecretPassword } } = require('@utils/Validations')
 
 // Reglas para crear un admin
 const SchemaAdminCreation = {

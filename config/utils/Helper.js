@@ -26,7 +26,7 @@ class Helper {
   /**
    *
    * @param {config: Object, expiresIn: Number}
-   * @returns 86400
+   * @returns token
    */
   static createToken({ config, expiresIn = 86400 }) {
     return sign(config, process.env.JWT_SECRET, { expiresIn: expiresIn * 3 })

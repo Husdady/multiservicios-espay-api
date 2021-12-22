@@ -1,5 +1,5 @@
 // Utils
-const { validateSchema } = require("@utils/Validations");
+const { Validations: { validateSchema } } = require("@utils/Validations");
 
 const SchemaProductCreation = {
   title: {

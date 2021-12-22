@@ -1,13 +1,16 @@
 'use strict'
 
 // Librarys
-const { GraphQLString, GraphQLList, GraphQLID } = require('graphql')
+const { GraphQLString, GraphQLList, GraphQLID, GraphQLBoolean } = require('graphql')
 
 // Models
 const User = require('@models/users/User')
 
 // Typedefs
-const UserTypedef = require('@graphql/types/users/user.Typedef')
+const UserTypedef = require('@graphql/typedefs/users/user.Typedef')
+
+// Utils
+const { isEmail } = require('@utils/Validations')
 
 const user = {
   type: UserTypedef,
@@ -31,14 +34,25 @@ const user = {
 const users = {
   type: new GraphQLList(UserTypedef),
   args: {
-    email: {
-      name: 'email',
+    deleted: {
+      name: 'deleted',
+      type: GraphQLBoolean,
+    },
+    excludeUserWithEmail: {
+      name: 'excludeUserWithEmail',
       type: GraphQLString,
     },
   },
-  async resolve(_, params) {
+  async resolve(_, args) {
     try {
-      const users = await User.find(params).populate('role').where('email').ne(params.email)
+      let users = []
+      // .where('email').ne(params.email)
+      if (!args.excludeUserWithEmail || !isEmail(args.excludeUserWithEmail)) {
+        delete args.excludeUserWithEmail
+        users = await User.find(args).populate('role')
+      } else {
+        users = await User.find(args).populate('role').where('email').ne(args.excludeUserWithEmail)
+      }
       return users
     } catch (e) {
       console.error(e)
@@ -48,5 +62,5 @@ const users = {
 
 module.exports = {
   user,
-  users
+  users,
 }

@@ -132,11 +132,7 @@ class Validations {
    * @param {secretPassword: String}
    * @returns
    */
-  static validateSecretPassword({
-    onEqual,
-    onDifferent,
-    secret_password,
-  }) {
+  static validateSecretPassword({ onEqual, onDifferent, secret_password }) {
     // Comprobar si existe la clave secreta
     if (secret_password === process.env.SECRET_PASSWORD) {
       isFunction(onEqual) && onEqual()
@@ -146,4 +142,4 @@ class Validations {
   }
 }
 
-module.exports = Object.assign(Validations, isString, isEmptyString, isNumber, isBoolean, isFunction, isArray, isUndefined, isObject, isEmptyObject, isEmail)
+module.exports = { Validations, isString, isEmptyString, isNumber, isBoolean, isFunction, isArray, isUndefined, isObject, isEmptyObject, isEmail }
