@@ -7,7 +7,7 @@ const { GraphQLString, GraphQLList, GraphQLID, GraphQLBoolean } = require('graph
 const User = require('@models/users/User')
 
 // Typedefs
-const UserTypedef = require('@graphql/typedefs/users/user.Typedef')
+const UserTypedef = require('@graphql/typedefs/users/User.Typedef')
 
 // Utils
 const { isEmail } = require('@utils/Validations')
