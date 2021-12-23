@@ -3,7 +3,7 @@ const User = require('@models/users/User')
 const Admin = require('@models/users/Admin')
 
 // Utils
-const { validateSecretPassword } = require('@utils/Validations')
+const { Validations } = require('@utils/Validations')
 const { comparePassword, createToken } = require('@utils/Helper')
 
 async function signIn(req, res) {
@@ -13,42 +13,49 @@ async function signIn(req, res) {
 
     // Encontrar al admin o a un usuario por correo
     const userFounds = await Promise.all([
-      Admin.findOne({ email }, { fullname: 1, email: 1, password: 1, settings: { avatar: { url: 1 } }, theme: 1, role: { name: 1 } }),
-      User.findOne({ email }, { fullname: 1, email: 1, password: 1, settings: { avatar: { url: 1 } }, theme: 1 }).populate('role', { name: 1 })
+      Admin.findOne({ email }, { fullname: 1, email: 1, password: 1, createdAt: 1, settings: { avatar: { url: 1 } }, theme: 1, role: { name: 1 } }),
+      User.findOne({ email }, { fullname: 1, email: 1, password: 1, deleted: 1, createdAt: 1, settings: { avatar: { url: 1 } }, theme: 1 }).populate('role', { name: 1 })
     ])
 
     // Encontrar un válido usuario
     const userFound = userFounds.find((user) => user !== null)
     // Comprobar si existe un usuario
     if (!userFound) throw new Error('El correo electrónico que has ingresado no existe')
-    // Comprobar si la contraseña es correcta
+    // Comparar contraseñas para comprobar si son iguales
     const matchPassword = await comparePassword(password, userFound.password)
 
+    // Si la contraseña no es correcta
     if (!matchPassword) throw new Error('Contraseña incorrecta')
+
+    // Comprobar si no es un usuario eliminado
+    if (userFound.deleted) {
+      throw new Error('Tu cuenta ha sido eliminada')
+    }
+    
     // Comprobar si un usuario a validado su email
     // if (process.env.NODE_ENV === 'production' && !userFound.verifiedEmail) {
-    //   throw new Error('You need to verify your account!')
+    //   throw new Error('Necesitas verificar tu correo electrónico para poder ingresar!')
     // }
 
+    // Crear token de usuario
     const token = createToken({
       config: { id: userFound._id },
     })
 
-    console.log('[User.found]', userFound)
-
     // Comprobar si existe la clave secreta
-    validateSecretPassword({
+    return Validations.validateSecretPassword({
       secret_password: req.headers.secret_password,
       onEqual: function() {
         return res.status(200).json({
           user: {
-            id: userFound._id,
+            _id: userFound._id,
             fullname: userFound.fullname,
             email: userFound.email,
             role: userFound.role.name,
             profilePhoto: {
               url: userFound?.settings?.avatar?.url,
             },
+            createdAt: userFound.createdAt,
             access_token: token
           }
         })
