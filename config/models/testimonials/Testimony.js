@@ -8,12 +8,16 @@ const TestimonialsSchema = new Schema(
   {
     author: {
       name: {
-        type: String, require: true
+        type: String,
+        require: true,
+        unique: true
       },
-      avatar: {
-        photo: Object,
-        backgroundColor: String
-      }
+      age: String,
+      country: {
+        type: String,
+        require: true
+      },
+      photo: Object
     },
     testimony: { type: String, require: true },
   },

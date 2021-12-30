@@ -1,3 +1,6 @@
+// Librarys
+const { v4: uuidv4 } = require('uuid')
+
 // Models
 const Role = require('@models/users/Role')
 const User = require('@models/users/User')
@@ -5,32 +8,27 @@ const Admin = require('@models/users/Admin')
 
 // Utils
 const { encryptPassword, createToken } = require('@utils/Helper')
-const { Validations: { validateSchema, validateSecretPassword } } = require('@utils/Validations')
+const {
+  Validations: { validateSchema, validateSecretPassword },
+} = require('@utils/Validations')
 
 // Reglas para crear un usuario
 const SchemaUserCreation = {
-  fullname: {
-    type: String,
-    required: 'You must provide a field "fullname"',
-  },
+  fullname: String,
   email: {
     type: String,
-    required: 'You must provide a field "email"',
     isEmail: {
       message: 'You must provide a valid email',
     },
   },
   password: {
     type: String,
-    required: 'You must provide a field "password"',
     min: {
       value: 8,
       message: 'Your password is too short',
     },
   },
-  emptyBody: {
-    message: `You need to provide the user fields: 'fullname', 'email', etc.`,
-  },
+  emptyBody: "You need to provide the user fields: 'fullname', 'email', etc.",
 }
 
 // Validar las reglas de un esquema
@@ -57,7 +55,10 @@ async function createUser(req, res, next) {
     const { fullname, email, password, role } = req.body
 
     // Verificar si ya existe un usuario o un admin con ese correo
-    const existEmail = await Promise.all([await Admin.findOne({ email }), await User.findOne({ email })])
+    const existEmail = await Promise.all([
+      Admin.exists({ email }),
+      User.exists({ email })
+    ])
 
     if (existEmail[0] || existEmail[1]) throw new Error('¡Ya existe un usuario con ese correo electrónico!')
 
@@ -68,15 +69,18 @@ async function createUser(req, res, next) {
       password: await encryptPassword(password),
       deleted: false,
       verifiedEmail: false,
+      settings: {
+        id_Code: uuidv4(),
+      },
     })
 
     // Si se recibe desde 'body' un rol, verificar si existe ese rol en la colección 'Roles'
     if (role) {
-      const foundRole = await Role.findOne({ name: role })
+      const foundRole = await Role.findOne({ name: role }, { _id: 1 })
       newUser.role = foundRole._id
     } else {
       // Sino asignar un rol por defecto, en este caso, el rol 'Usuario'. Verificar si está disponible este rol
-      const userRole = await Role.findOne({ name: 'Usuario' })
+      const userRole = await Role.findOne({ name: 'Usuario' }, { _id: 1 })
       newUser.role = userRole._id
     }
 
@@ -87,7 +91,7 @@ async function createUser(req, res, next) {
     createToken({ config: { id: newUser._id } })
 
     // Pasar id del usuario al siguiente middleware
-    req.userId = newUser._id
+    req.fileId = newUser._id
 
     // Mensaje existoso
     const successMessage = {

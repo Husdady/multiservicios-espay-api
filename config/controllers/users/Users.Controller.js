@@ -13,7 +13,7 @@ async function editUser(req, res, next) {
     const { fullname, email, role, userProfilePhoto } = req.body
 
     // Encontrar si ya existe un admin con ese correo electrónico
-    const adminFound = await Admin.findOne({ email }, { _id: 0, email: 1 })
+    const adminFound = await Admin.exists({ email })
 
     // Si ya existe un usuario o admin con ese correo electrónico
     if (adminFound?.email === email) {
@@ -21,16 +21,12 @@ async function editUser(req, res, next) {
     }
 
     // Encontrar al usuario que se va a editar
-    const user = await User.findById(req.body.id, { _id: 0, fullname: 1, email: 1, settings: { avatar: { url: 1 } } }).populate('role', { _id: 0, name: 1 })
+    const existUser = await User.exists({ _id: req.body.id })
 
     // Si el usuario no existe
-    if (!user) {
+    if (!existUser) {
       throw new Error(`No se ha encontrado al usuario ${fullname} para editar su información`)
     }
-
-    const userInformationHasNotBeenEdited = user.fullname === fullname && user.email === email && user.role.name === role
-
-    console.log('[body]', req.body)
 
     // Si la información del usuario sigue siendo la misma
     if (!JSON.parse(req.body.userInformationHasBeenEdited)) {
@@ -38,7 +34,7 @@ async function editUser(req, res, next) {
     }
 
     // Encontrar un rol del usuario
-    const roleFound = await Role.findOne({ name: role })
+    const roleFound = await Role.exists({ name: role })
 
     // Nueva información del usuario
     const newDataUser = {
@@ -68,7 +64,7 @@ async function editUser(req, res, next) {
     }
 
     // Setear id de usuario
-    req.userId = req.params.userId
+    req.fileId = req.params.userId
 
     // Si existe una imagen como archivo
     if (req.file) {

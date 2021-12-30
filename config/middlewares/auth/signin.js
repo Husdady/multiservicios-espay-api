@@ -13,8 +13,8 @@ async function signIn(req, res) {
 
     // Encontrar al admin o a un usuario por correo
     const userFounds = await Promise.all([
-      Admin.findOne({ email }, { fullname: 1, email: 1, password: 1, createdAt: 1, settings: { avatar: { url: 1 } }, theme: 1, role: { name: 1 } }),
-      User.findOne({ email }, { fullname: 1, email: 1, password: 1, deleted: 1, createdAt: 1, settings: { avatar: { url: 1 } }, theme: 1 }).populate('role', { name: 1 })
+      Admin.findOne({ email }, { verifiedEmail: 0, deletedAt: 0, updatedAt: 0, deleted: 0, role: { permissions: 0 } }),
+      User.findOne({ email }, { verifiedEmail: 0, deletedAt: 0, updatedAt: 0, deleted: 0 }).populate('role', { name: 1 })
     ])
 
     // Encontrar un válido usuario
@@ -41,7 +41,7 @@ async function signIn(req, res) {
     const token = createToken({
       config: { id: userFound._id },
     })
-
+    
     // Comprobar si existe la clave secreta
     return Validations.validateSecretPassword({
       secret_password: req.headers.secret_password,
@@ -55,6 +55,8 @@ async function signIn(req, res) {
             profilePhoto: {
               url: userFound?.settings?.avatar?.url,
             },
+            gatrona: 23344,
+            id_Code: userFound?.settings?.id_Code,
             createdAt: userFound.createdAt,
             access_token: token
           }

@@ -2,13 +2,16 @@
 const { Router } = require('express')
 const router = Router()
 
+// Models
+const User = require('@models/users/User')
+
 // Controllers
 const { AuthUserController, AuthAdminController } = require("@controllers/auth")
 
 // Middlewares
 const { verifyToken } = require('@middlewares/auth/token')
 const verifyPermission = require('@middlewares/user/verifyPermission')
-const { uploadProfilePhoto } = require('@middlewares/upload/Upload.Middleware')
+const { uploadPhoto } = require('@middlewares/upload/Upload.Middleware')
 
 // Utils
 const { upload } = require('@utils/multer')
@@ -31,7 +34,13 @@ router.post(
   [verifyToken, permissionRequiredToCreateUsers],
   upload.single('profilePhoto'),
   AuthUserController.createUser,
-  uploadProfilePhoto,
+  uploadPhoto({
+    Model: User,
+    path: "settings.avatar",
+    cloudinary_folder: 'users',
+    filename: (fileId) => `user-${fileId}`,
+    uploadError: 'Ha ocurrido un error al subir la foto de perfil del usuario',
+  }),
 )
 
 module.exports = router

@@ -71,16 +71,17 @@ class Validations {
       try {
         // Si no se han asignado campos al body
         if (isEmptyObject(body)) {
-          throw new Error(schema.emptyBody.message)
+          throw new Error(schema.emptyBody)
         }
-
+        
         for (const field of Object.keys(schema)) {
           // Obtener la propiedad required de cada campo del esquema
-          const SchemaRequired = schema[field].required
+          const SchemaRequired = !isString(schema[field]) || schema[field].required
           // Validar si tiene la propiedad 'required'
           if (SchemaRequired) {
+            const SchemaRequiredError = schema[field].required || `You must provide a field "${field}"`
             // Comprobar si no existe los campos establecidos en el esquema dentro del body y también si es un string vacío
-            if (!body[field] || isEmptyString(body[field])) throw new Error(SchemaRequired)
+            if (!body[field] || isEmptyString(body[field])) throw new Error(SchemaRequiredError)
           }
 
           // Obtener la propiedad isEmail de cada campo del esquema
@@ -106,10 +107,10 @@ class Validations {
 
         // Recorrer el body y obtener sus propiedades
         for (const value of Object.keys(body)) {
-          // Si existe propiedad en el esquema
-          if (schema[value]) {
+          // Si no es la propiedad 'emptyBody' y si existe propiedad definida en el esquema
+          if (!isString(schema[value]) && schema[value]) {
             // Obtener el tipo de dato de la propiedad del esquema
-            const SchemaType = schema[value].type
+            const SchemaType =  schema[value].type || schema[value]
             // Si no existe la propiedad type
             if (!SchemaType) throw new Error('You need to provide what kind of value it is')
             // Obtener el nombre del constructor de un Objeto

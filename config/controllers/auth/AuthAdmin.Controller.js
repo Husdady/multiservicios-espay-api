@@ -1,3 +1,6 @@
+// Librarys
+const { v4: uuidv4 } = require('uuid')
+
 // Models
 const Admin = require('@models/users/Admin')
 
@@ -68,7 +71,10 @@ async function createAdmin(req, res) {
       email: email,
       password: await encryptPassword(password),
       role: adminRole,
-      verifiedEmail: false
+      verifiedEmail: false,
+      settings: {
+        id_Code: uuidv4(),
+      }
     })
 
     await newAdmin.save()

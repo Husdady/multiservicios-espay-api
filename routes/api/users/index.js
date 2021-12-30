@@ -2,12 +2,15 @@
 const { Router } = require('express')
 const router = Router()
 
+// Models
+const User = require('@models/users/User')
+
 // Controllers
 const UsersController = require('@controllers/users/Users.Controller')
 
 // Middlewares
 const { verifyToken } = require('@middlewares/auth/token')
-const { uploadProfilePhoto, deleteProfilePhoto } = require('@middlewares/upload/Upload.Middleware')
+const { uploadPhoto, deleteProfilePhoto } = require('@middlewares/upload/Upload.Middleware')
 const verifyPermission = require('@middlewares/user/verifyPermission')
 
 // Utils
@@ -37,22 +40,19 @@ router.put(
   [verifyToken, permissionRequiredToEditUsers],
   upload.single('profilePhoto'),
   UsersController.editUser,
-  uploadProfilePhoto
+  uploadPhoto({
+    Model: User,
+    path: "settings.avatar",
+    cloudinary_folder: 'users',
+    filename: (fileId) => `user-${fileId}`,
+    uploadError: 'Ha ocurrido un error al subir la foto de perfil del usuario',
+  }),
 )
 
 // Eliminar usuario por id
-router.delete(
-  '/:userId',
-  [verifyToken, permissionRequiredToDeleteUsers],
-  UsersController.deleteUser,
-  deleteProfilePhoto
-)
+router.delete('/:userId', [verifyToken, permissionRequiredToDeleteUsers], UsersController.deleteUser, deleteProfilePhoto)
 
 // Restaurar usuario por id
-router.post(
-  '/:userId/restore',
-  // [verifyToken, permissionRequiredToRestoreUsers],
-  UsersController.restoreUser
-)
+router.post('/:userId/restore', [verifyToken, permissionRequiredToRestoreUsers], UsersController.restoreUser)
 
 module.exports = router
