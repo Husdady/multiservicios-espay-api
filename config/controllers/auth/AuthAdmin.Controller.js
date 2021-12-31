@@ -30,9 +30,7 @@ const SchemaAdminCreation = {
       message: 'Your password is too short'
     }
   },
-  emptyBody: {
-    message: `You need to provide the user fields: 'fullname', 'email', etc.`
-  }
+  emptyBody: "You need to provide the user fields: 'fullname', 'email', etc."
 }
 
 // Validar las reglas de un esquema

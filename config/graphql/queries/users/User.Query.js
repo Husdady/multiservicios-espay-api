@@ -21,12 +21,11 @@ const user = {
     },
   },
   async resolve(_, args) {
-    console.log('[user]')
     try {
       const user = await User.findOne(args).populate('role')
       return user
-    } catch (e) {
-      console.error(e)
+    } catch (err) {
+      console.error('[UserQuery.user]', err)
     }
   },
 }
@@ -54,8 +53,8 @@ const users = {
         users = await User.find(args).populate('role').where('email').ne(args.excludeUserWithEmail)
       }
       return users
-    } catch (e) {
-      console.error(e)
+    } catch (err) {
+      console.error('[UserQuery.users]', err)
     }
   },
 }

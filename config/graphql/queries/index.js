@@ -1,8 +1,10 @@
 // Queries
-const UserQuery = require('./users/UserQuery')
-const RoleQuery = require('./users/RoleQuery')
+const RoleQuery = require('./users/Role.Query')
+const UserQuery = require('./users/User.Query')
+const TestimonyQuery = require('./testimonials/Testimony.Query')
 
 module.exports = {
+  ...RoleQuery,
   ...UserQuery,
-  ...RoleQuery
+  ...TestimonyQuery,
 }

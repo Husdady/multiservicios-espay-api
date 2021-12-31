@@ -8,7 +8,6 @@ const {
 // Reglas para crear un usuario
 const SchemaTestimonyCreaction = {
   author: String,
-  age: String,
   country: String,
   testimony: String,
   emptyBody: "You need to provide the user fields: 'author', 'age', etc.",
