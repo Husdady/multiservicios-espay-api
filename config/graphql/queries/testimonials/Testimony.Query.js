@@ -12,24 +12,18 @@ const TestimonyTypedef = require('@graphql/typedefs/testimonials/Testimony.Typed
 const author_testimony = {
   type: TestimonyTypedef,
   args: {
-    author: {
+    'author': {
       name: 'author',
       type: GraphQLString,
     },
   },
   async resolve(_, args) {
     try {
-      // { 'author.name': args.author }
-      // const testimony = await Testimony.findOne({ 'author.name': new RegExp('^' + args.author + '$', 'i') }, function (err, doc) {
-      //   if (err) return
-
-      //   console.log('[doc]', doc)
-      // })
-
+      console.log(args)
       const testimony = await Testimony.findOne({
-        'author.name': new RegExp(args.author, 'i')
+        'author.short_name': args.author
       })
-      console.log(testimony)
+
       return testimony
     } catch (err) {
       console.error('[TestimonyQuery.testimony]', err)

@@ -10,18 +10,21 @@ const cloudinary = require('@utils/cloudinary')
 async function editUser(req, res, next) {
   try {
     // Obtener datos del body
-    const { fullname, email, role, userProfilePhoto } = req.body
-
+    const { fullname, email, role, profilePhotoName } = req.body
+    console.log('[editUser]', req.body)
     // Encontrar si ya existe un admin con ese correo electrónico
-    const adminFound = await Admin.exists({ email })
+    const existAdminWithThatEmail = await Admin.exists({ email })
 
-    // Si ya existe un usuario o admin con ese correo electrónico
-    if (adminFound?.email === email) {
+    // Comprobar si el correo ingresado, no es igual al del admin
+    if (existAdminWithThatEmail) {
       throw new Error('Ya existe un usuario registrado con ese correo electrónico')
     }
 
+    // Setear id de usuario
+    const userId = req.params.userId
+
     // Encontrar al usuario que se va a editar
-    const existUser = await User.exists({ _id: req.body.id })
+    const existUser = await User.exists({ _id: userId })
 
     // Si el usuario no existe
     if (!existUser) {
@@ -29,7 +32,7 @@ async function editUser(req, res, next) {
     }
 
     // Si la información del usuario sigue siendo la misma
-    if (!JSON.parse(req.body.userInformationHasBeenEdited)) {
+    if (!JSON.parse(req.body.formHasBeenEdited)) {
       throw new Error('La información del usuario es la misma, debe proporcionar nuevos datos')
     }
 
@@ -43,11 +46,11 @@ async function editUser(req, res, next) {
       role: roleFound.id,
     }
 
-    if (userProfilePhoto === 'null') {
+    if (profilePhotoName === 'null') {
       // Eliminar imagen de Cloudinary
-      await cloudinary.v2.uploader.destroy(`users/user-${req.userId}`)
+      await cloudinary.v2.uploader.destroy(`users/user-${userId}`)
 
-      // Eliminar imagen de la información del usuario
+      // Eliminar foto de perfil del usuario de la DB
       Object.assign(newDataUser, {
         settings: {
           avatar: null,
@@ -56,7 +59,7 @@ async function editUser(req, res, next) {
     }
 
     // Actualizar usuario
-    await User.findByIdAndUpdate(req.params.userId, newDataUser)
+    await User.findByIdAndUpdate(userId, newDataUser)
 
     // Mensaje existoso
     const successMessage = {
@@ -64,7 +67,7 @@ async function editUser(req, res, next) {
     }
 
     // Setear id de usuario
-    req.fileId = req.params.userId
+    req.fileId = userId
 
     // Si existe una imagen como archivo
     if (req.file) {

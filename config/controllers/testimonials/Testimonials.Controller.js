@@ -1,9 +1,10 @@
 // Models
-const Testimony = require("@models/testimonials/Testimony")
+const Testimony = require('@models/testimonials/Testimony')
 
-const {
-  Validations: { validateSchema, validateSecretPassword },
-} = require('@utils/Validations')
+// Utils
+const cloudinary = require('@utils/cloudinary')
+const { Validations: { validateSchema, validateSecretPassword } } = require('@utils/Validations')
+
 
 // Reglas para crear un usuario
 const SchemaTestimonyCreaction = {
@@ -45,10 +46,11 @@ async function createNewTestimony(req, res, next) {
     const newTestimony = new Testimony({
       author: {
         name: author,
+        short_name: author.replace(/\s/gim, '-'),
         age: age,
         country: country,
       },
-      testimony: testimony
+      testimony: testimony,
     })
 
     // Guardar usuario
@@ -73,6 +75,79 @@ async function createNewTestimony(req, res, next) {
   }
 }
 
+async function editTestimony(req, res, next) {
+  try {
+    // Setear id de autor de testimonio
+    const testimonyId = req.params.testimonyId
+
+    // Obtener datos del body
+    const { author, age, country, testimony, authorPhotoName } = req.body
+
+    // Encontrar si ya existe un autor con ese nombre
+    const testimonyFound = await Testimony.findOne({ _id: testimonyId })
+
+    // Si ya existe un usuario o admin con ese correo electrónico
+    // if (testimonyFound) {
+    //   throw new Error('Ya existe un autor registrado con ese nombre!')
+    // }
+
+    // Si la información del usuario sigue siendo la misma
+    if (!JSON.parse(req.body.formHasBeenEdited)) {
+      throw new Error('La información del autor es la misma, debe proporcionar nuevos datos')
+    }
+
+    // Nueva información del usuario
+    const newDataAuthor = {
+      author: {
+        name: author,
+        short_name: author.replace(/\s/gim, '-'),
+        age: age,
+        country: country,
+      },
+      testimony: testimony,
+    }
+
+    if (authorPhotoName === 'null') {
+      // Eliminar imagen de Cloudinary
+      await cloudinary.v2.uploader.destroy(`testimonials/testimony-${testimonyId}`)
+      // Eliminar foto de autor de la DB
+      Object.assign(newDataAuthor.author, {
+        photo: null,
+      })
+    }
+
+    // Actualizar usuario
+    await Testimony.findByIdAndUpdate(testimonyId, { $set: newDataAuthor })
+
+    // Mensaje existoso
+    const successMessage = {
+      message: 'Se ha actualizado exitosamente la información de ' + author,
+    }
+
+    // Setear id de usuario
+    req.fileId = testimonyId
+
+    // Si existe una imagen como archivo
+    if (req.file) {
+      // Setear mensaje exitoso
+      req.successMessage = successMessage
+
+      // Continuar al siguiente middleware
+      next()
+    }
+
+    // Retornar mensaje exitoso
+    !req.file && res.status(200).json(successMessage)
+  } catch (error) {
+    if (error.codeName === 'DuplicateKey') {
+      res.status(400).send({ error: 'Ya existe un autor registrado con ese nombre. Intente con otro' })
+    } else {
+      res.status(400).send({ error: error.message })
+    }
+  }
+}
+
 module.exports = {
-  createNewTestimony
+  createNewTestimony,
+  editTestimony,
 }

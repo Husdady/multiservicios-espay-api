@@ -45,7 +45,7 @@ router.put(
     path: "settings.avatar",
     cloudinary_folder: 'users',
     filename: (fileId) => `user-${fileId}`,
-    uploadError: 'Ha ocurrido un error al subir la foto de perfil del usuario',
+    uploadError: 'Ha ocurrido un error al actualizar la foto de perfil del usuario',
   }),
 )
 

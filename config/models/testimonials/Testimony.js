@@ -10,7 +10,12 @@ const TestimonialsSchema = new Schema(
       name: {
         type: String,
         require: true,
-        unique: true
+        unique: true,
+      },
+      short_name: {
+        type: String,
+        require: true,
+        lowercase: true
       },
       age: String,
       country: {
