@@ -5,6 +5,7 @@ const Admin = require('@models/users/Admin')
 
 // Utils
 const cloudinary = require('@utils/cloudinary')
+const { comparePassword, encryptPassword } = require('@utils/Helper')
 
 // Editar un usuario por id
 async function editUser(req, res, next) {
@@ -89,17 +90,18 @@ async function editUser(req, res, next) {
   }
 }
 
-
 // Eliminar un usuario por id
 async function deleteUser(req, res, next) {
   try {
     let account = null
+    // Obtener id del usuario
     const { userId } = req.params
 
     // Si se debe eliminar definitivamente la cuenta
-    if (req.query.status === "close account") {
+    if (req.query.status === 'close account') {
       account = await User.findByIdAndDelete(userId)
     } else {
+      // Se actualiza el usuario a usuario eliminado, su cuenta aún sigue estando disponible
       account = await User.findByIdAndUpdate(userId, {
         deleted: true,
         deletedAt: new Date().toISOString(),
@@ -115,8 +117,8 @@ async function deleteUser(req, res, next) {
     } else {
       return res.status(204).json({})
     }
-  } catch (error) {
-    res.status(400).send({ error: error.message })
+  } catch (err) {
+    res.status(400).send({ error: err.message })
   }
 }
 
@@ -128,7 +130,7 @@ async function restoreUser(req, res) {
     // Si se debe eliminar definitivamente la cuenta
     await User.findByIdAndUpdate(userId, {
       deleted: false,
-      $unset: { 'deletedAt': "" }
+      $unset: { deletedAt: '' },
     })
 
     return res.status(204).json({})
@@ -138,8 +140,43 @@ async function restoreUser(req, res) {
   }
 }
 
+async function changePassword(req, res) {
+  try {
+    const { password, newPassword } = req.body
+    console.log(req.params)
+    // Buscar un usuario
+    const user = await User.findOne({ _id: req.params.userId }).select('password').lean()
+
+    // Comparar contraseñas para comprobar si son iguales
+    const matchPassword = await comparePassword(password, user.password)
+
+    // Si la contraseña no es igual a la contraseña del usuario encontrado
+    if (!matchPassword) {
+      throw new Error('La contraseña que has ingresado, no coincide con la tuya')
+    }
+
+    // Si la nueva contraseña es igual a la actual contraseña del admin
+    if (password === newPassword) {
+      throw new Error('La nueva contraseña no debe ser igual a tu actual contraseña')
+    }
+
+    // Actualizar la contraseña del Administrador
+    await User.findOneAndUpdate(
+      { _id: user._id },
+      {
+        password: await encryptPassword(newPassword),
+      },
+    )
+
+    return res.status(204).json({})
+  } catch (err) {
+    return res.status(400).send({ error: err.message })
+  }
+}
+
 module.exports = {
   editUser,
   deleteUser,
-  restoreUser
+  restoreUser,
+  changePassword,
 }

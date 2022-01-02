@@ -54,16 +54,20 @@ async function createAdmin(req, res) {
     })
 
     const { fullname, email, password } = req.body
+
     // Obtener el total de admins
     const adminCount = await Admin.estimatedDocumentCount()
 
-    if (adminCount > 0) throw new Error('Administrator user already exists!')
 
+    if (adminCount > 0) throw new Error('¡Ya existe un usuario administrador!')
+
+    // Setear rol de Administrador
     const adminRole = {
       name: 'Administrador',
       permissions: adminPermissions,
     }
 
+    // Setear datos del usuario Administrador
     const newAdmin = new Admin({
       fullname: fullname,
       email: email,
@@ -77,11 +81,9 @@ async function createAdmin(req, res) {
 
     await newAdmin.save()
 
-    // const token = createToken({ config: { id: newAdmin._id } })
     createToken({ config: { id: newAdmin._id } })
     return res.status(200).json({
-      message: 'A new administrator user has been created.',
-      // access_token: token,
+      message: 'A new administrator user has been created.'
     })
   } catch (error) {
     return res.status(400).send({ error: error.message })

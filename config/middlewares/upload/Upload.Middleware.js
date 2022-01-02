@@ -67,18 +67,19 @@ function uploadPhoto(settings) {
 }
 
 // Eliminar foto alojada en Cloudinary
-async function deletePhoto(req, res) {
-  try {
-    console.log('[deleteProfilePhoto]', `user-${req.userId}`)
-    // Eliminar imagen de Cloudinary
-    cloudinary.v2.uploader.destroy(`users/user-${req.userId}`, function (error, result) {
-      console.log('[deleteImageFromCloudinary.error]', error)
-      console.log('[deleteImageFromCloudinary.result]', result)
-    })
+function deletePhoto({ cloudinary_path }) {
+  return async (req, res) => {
+    try {
+      // Eliminar imagen de Cloudinary
+      cloudinary.v2.uploader.destroy(`${cloudinary_path}-${req.fileId}`, function (error, result) {
+        console.log('[deleteImageFromCloudinary.error]', error)
+        console.log('[deleteImageFromCloudinary.result]', result)
+      })
 
-    res.status(204).json({})
-  } catch (error) {
-    console.log(error)
+      res.status(204).json({})
+    } catch (err) {
+      console.log('[deletePhoto.error]', err)
+    }
   }
 }
 

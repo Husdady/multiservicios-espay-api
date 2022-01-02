@@ -10,7 +10,7 @@ const UsersController = require('@controllers/users/Users.Controller')
 
 // Middlewares
 const { verifyToken } = require('@middlewares/auth/token')
-const { uploadPhoto, deleteProfilePhoto } = require('@middlewares/upload/Upload.Middleware')
+const { uploadPhoto, deletePhoto } = require('@middlewares/upload/Upload.Middleware')
 const verifyPermission = require('@middlewares/user/verifyPermission')
 
 // Utils
@@ -50,9 +50,17 @@ router.put(
 )
 
 // Eliminar usuario por id
-router.delete('/:userId', [verifyToken, permissionRequiredToDeleteUsers], UsersController.deleteUser, deleteProfilePhoto)
+router.delete(
+  '/:userId',
+  [verifyToken, permissionRequiredToDeleteUsers],
+  UsersController.deleteUser,
+  deletePhoto({ cloudinary_path: 'users/user' })
+)
 
 // Restaurar usuario por id
 router.post('/:userId/restore', [verifyToken, permissionRequiredToRestoreUsers], UsersController.restoreUser)
+
+// Cambiar contraseña de un usuario
+router.post('/:userId/change-my-password', verifyToken, UsersController.changePassword)
 
 module.exports = router

@@ -84,14 +84,14 @@ async function editTestimony(req, res, next) {
     const { author, age, country, testimony, authorPhotoName } = req.body
 
     // Encontrar si ya existe un autor con ese nombre
-    const testimonyFound = await Testimony.findOne({ _id: testimonyId })
+    const testimonyFound = await Testimony.findOne({ _id: testimonyId }, { _id: 1 })
 
-    // Si ya existe un usuario o admin con ese correo electrónico
-    // if (testimonyFound) {
-    //   throw new Error('Ya existe un autor registrado con ese nombre!')
-    // }
+    // Si ya existe un autor con un nombre repetido
+    if (testimonyFound._id !== testimonyId) {
+      throw new Error('Ya existe un autor registrado con ese nombre!')
+    }
 
-    // Si la información del usuario sigue siendo la misma
+    // Si la información del autor sigue siendo la misma
     if (!JSON.parse(req.body.formHasBeenEdited)) {
       throw new Error('La información del autor es la misma, debe proporcionar nuevos datos')
     }
@@ -147,7 +147,31 @@ async function editTestimony(req, res, next) {
   }
 }
 
+// Eliminar un usuario por id
+async function deleteTestimony(req, res, next) {
+  try {
+    console.log(req.params)
+    // Eliminar el testimonio de un autor
+    const testimony = await Testimony.findByIdAndDelete(req.params.testimonyId)
+
+    // Si el usuario tiene foto de perfil
+    if (testimony.author?.photo) {
+      // Setear id del usuario
+      req.fileId = testimony._id
+      // Continuar al siguiente middleware
+      next()
+    } else {
+      console.log(req.params)
+      return res.status(204).json({})
+    }
+  } catch (err) {
+    console.log(req.params)
+    res.status(400).send({ error: err.message })
+  }
+}
+
 module.exports = {
-  createNewTestimony,
   editTestimony,
+  deleteTestimony,
+  createNewTestimony,
 }

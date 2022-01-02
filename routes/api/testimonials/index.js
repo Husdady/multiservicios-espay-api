@@ -6,12 +6,12 @@ const router = Router()
 const Testimony = require('@models/testimonials/Testimony')
 
 // Controllers
-const Testimonials = require('@controllers/testimonials/Testimonials.Controller')
+const TestimonialsController = require('@controllers/testimonials/Testimonials.Controller')
 
 // Middlewares
 const { verifyToken } = require('@middlewares/auth/token')
 const verifyPermission = require('@middlewares/user/verifyPermission')
-const { uploadPhoto } = require('@middlewares/upload/Upload.Middleware')
+const { uploadPhoto, deletePhoto } = require('@middlewares/upload/Upload.Middleware')
 
 // Utils
 const { upload } = require('@utils/multer')
@@ -28,12 +28,18 @@ const permissionRequiredToEditTestimonials = verifyPermission({
   permission: 'editTestimonials',
 })
 
+// Verificar permiso para eliminar un testimonio
+const permissionRequiredToDeleteTestimonials = verifyPermission({
+  action: 'eliminar testimonios',
+  permission: 'deleteTestimonials',
+})
+
 // Crear nuevo testimonio
 router.post(
   '/add',
   [verifyToken, permissionRequiredToCreateTestimonials],
   upload.single('authorPhoto'),
-  Testimonials.createNewTestimony,
+  TestimonialsController.createNewTestimony,
   uploadPhoto({
     Model: Testimony,
     path: "author.photo",
@@ -43,11 +49,12 @@ router.post(
   }),
 )
 
+// Editar testimonio
 router.put(
   '/:testimonyId',
   [verifyToken, permissionRequiredToEditTestimonials],
   upload.single('authorPhoto'),
-  Testimonials.editTestimony,
+  TestimonialsController.editTestimony,
   uploadPhoto({
     Model: Testimony,
     path: "author.photo",
@@ -55,6 +62,14 @@ router.put(
     filename: (fileId) => `testimony-${fileId}`,
     uploadError: 'Ha ocurrido un error al actualizar la foto del autor',
   }),
+)
+
+// Eliminar testimonio por id
+router.delete(
+  '/:testimonyId',
+  [verifyToken, permissionRequiredToDeleteTestimonials],
+  TestimonialsController.deleteTestimony,
+  deletePhoto({ cloudinary_path: 'testimonials/testimony' })
 )
 
 module.exports = router

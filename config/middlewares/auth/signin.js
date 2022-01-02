@@ -19,8 +19,10 @@ async function signIn(req, res) {
 
     // Encontrar un válido usuario
     const userFound = userFounds.find((user) => user !== null)
+
     // Comprobar si existe un usuario
     if (!userFound) throw new Error('El correo electrónico que has ingresado no existe')
+
     // Comparar contraseñas para comprobar si son iguales
     const matchPassword = await comparePassword(password, userFound.password)
 
@@ -55,7 +57,6 @@ async function signIn(req, res) {
             profilePhoto: {
               url: userFound?.settings?.avatar?.url,
             },
-            gatrona: 23344,
             id_Code: userFound?.settings?.id_Code,
             createdAt: userFound.createdAt,
             access_token: token
@@ -70,8 +71,8 @@ async function signIn(req, res) {
         })
       }
     })
-  } catch (error) {
-    return res.status(400).send({ error: error.message })
+  } catch (err) {
+    return res.status(400).send({ error: err.message })
   }
 }
 
