@@ -39,13 +39,38 @@ router.put(
   '/:userId',
   [verifyToken, permissionRequiredToEditUsers],
   upload.single('profilePhoto'),
-  UsersController.editUser,
+  UsersController.editUser({
+    errors: {
+      userDataIsTheSame: 'La información del usuario es la misma, debe proporcionar nuevos datos'
+    },
+    successMessage: ({ fullname }) => 'Se ha actualizado exitosamente la información de ' + fullname,
+  }),
   uploadPhoto({
     Model: User,
     path: "settings.avatar",
     cloudinary_folder: 'users',
     filename: (fileId) => `user-${fileId}`,
     uploadError: 'Ha ocurrido un error al actualizar la foto de perfil del usuario',
+  }),
+)
+
+// Actualizar información personal del usuario administrador
+router.put(
+  '/:userId/update',
+  verifyToken,
+  upload.single('profilePhoto'),
+  UsersController.editUser({
+    errors: {
+      userDataIsTheSame: 'Tu información es la misma, debes proporcionar nuevos datos'
+    },
+    successMessage: 'Se actualizó tu información personal exitosamente',
+  }),
+  uploadPhoto({
+    Model: User,
+    path: "settings.avatar",
+    cloudinary_folder: 'users',
+    filename: (fileId) => `user-${fileId}`,
+    uploadError: 'Ha ocurrido un error al actualizar tu foto de perfil',
   }),
 )
 
@@ -62,5 +87,13 @@ router.post('/:userId/restore', [verifyToken, permissionRequiredToRestoreUsers],
 
 // Cambiar contraseña de un usuario
 router.post('/:userId/change-my-password', verifyToken, UsersController.changePassword)
+
+// Cerrar cuenta de un usuario
+router.delete(
+  '/:userId/close-my-account',
+  verifyToken,
+  UsersController.closeMyAccount,
+  deletePhoto({ cloudinary_path: 'users/user' })
+)
 
 module.exports = router
