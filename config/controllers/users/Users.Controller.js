@@ -24,7 +24,7 @@ function editUser(messages) {
       }
 
       // Setear id de usuario
-      const userId = req.params.userId
+      const { userId } = req.params
 
       // Encontrar al usuario que se va a editar
       const existUser = await User.exists({ _id: userId })
@@ -39,7 +39,7 @@ function editUser(messages) {
         throw new Error(messages.errors.userDataIsTheSame)
       }
 
-      // Encontrar un rol del usuario
+      // Encontrar el rol del usuario
       const roleFound = await Role.findOne({ name: role })
 
       // Nueva información del usuario
@@ -67,7 +67,7 @@ function editUser(messages) {
       // Mensaje existoso
       const successMessage = {
         message: isFunction(messages.successMessage)
-          ? () => messages.successMessage(req.body)
+          ? messages.successMessage(req.body)
           : isString(messages.successMessage)
           ? messages.successMessage
           : null,
@@ -89,7 +89,9 @@ function editUser(messages) {
       !req.file && res.status(200).json(successMessage)
     } catch (err) {
       if (err.codeName === 'DuplicateKey') {
-        res.status(400).send({ error: 'Ya existe un usuario registrado con ese correo electrónico' })
+        res.status(400).send({
+          error: 'Ya existe un usuario registrado con ese correo electrónico'
+        })
       } else {
         res.status(400).send({ error: err.message })
       }

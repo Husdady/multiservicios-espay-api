@@ -6,7 +6,7 @@ const router = Router()
 const User = require('@models/users/User')
 
 // Controllers
-const { AuthUserController, AuthAdminController } = require("@controllers/auth")
+const { createAdmin, createUser } = require("@controllers/auth/Auth.Controller")
 
 // Middlewares
 const { verifyToken } = require('@middlewares/auth/token')
@@ -23,17 +23,14 @@ const permissionRequiredToCreateUsers = verifyPermission({
 })
 
 // Crear cuenta como Admin
-router.post(
-  "/signup/admin",
-  AuthAdminController.createAdmin
-),
+router.post("/signup/admin", createAdmin)
 
 // Crear cuenta como Usuario
 router.post(
   '/signup/user',
   [verifyToken, permissionRequiredToCreateUsers],
   upload.single('profilePhoto'),
-  AuthUserController.createUser,
+  createUser,
   uploadPhoto({
     Model: User,
     path: "settings.avatar",
