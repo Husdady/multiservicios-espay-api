@@ -11,11 +11,11 @@ const AdminSchema = new Schema(
     password: { type: String, required: true },
     role: {
       ref: "Role",
-      type: Object,
+      type: Schema.Types.Mixed,
       required: true,
     },
     verifiedEmail: Boolean,
-    settings: Object
+    settings: Schema.Types.Mixed
   },
   {
     versionKey: false,

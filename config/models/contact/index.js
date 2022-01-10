@@ -11,14 +11,21 @@ const ContactSchema = new Schema(
     testimony: { type: String, required: true },
     omnilifeCode: { type: String, required: true },
     phone: { type: String, required: true },
-    contactPhoto: String,
-    socialNetworks: [{
-      pages: [{
-        title: String,
-        link: String
-      }],
-      socialNetwork: String 
-    }],
+    contactPhoto: Object,
+    socialNetworks: {
+      twitter: {
+        type: [{ type: Object }],
+        required: true
+      },
+      instagram: {
+        type: [{ type: Object }],
+        required: true
+      },
+      facebook: {
+        type: [{ type: Object }],
+        required: true
+      }
+    },
     emails: [{ type: String }]
   },
   {

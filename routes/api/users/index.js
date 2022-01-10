@@ -10,8 +10,8 @@ const UsersController = require('@controllers/users/Users.Controller')
 
 // Middlewares
 const { verifyToken } = require('@middlewares/auth/token')
-const { uploadPhoto, deletePhoto } = require('@middlewares/upload/Upload.Middleware')
 const verifyPermission = require('@middlewares/user/verifyPermission')
+const { uploadPhoto, deletePhoto } = require('@middlewares/upload/Upload.Middleware')
 
 // Utils
 const { upload } = require('@utils/multer')

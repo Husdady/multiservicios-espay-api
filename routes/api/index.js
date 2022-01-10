@@ -17,12 +17,16 @@ const testimonials = require('./testimonials')
 const seytuProducts = require('./products/seytu')
 const omnilifeProducts = require('./products/omnilife')
 
+// Contact
+const contact = require('./contact')
+
 module.exports = function(app) {
   app.use('/api/auth/', auth)
   app.use('/api/roles/', roles)
   app.use('/api/users/', users)
   app.use('/api/admin/', userAdmin)
-  app.use('/api/testimonials/', testimonials),
+  app.use('/api/contact/', contact)
+  app.use('/api/testimonials/', testimonials)
   app.use('/api/products/seytu/', seytuProducts)
   app.use('/api/products/omnilife/', omnilifeProducts)
 }

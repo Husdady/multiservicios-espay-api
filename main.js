@@ -19,7 +19,7 @@ require('@middlewares/user/createDefaultRoles')()
 // Uso de Middlewares
 app.use(compression())
 app.use(express.json())
-app.use(express.urlencoded({ extended: false }))
+app.use(express.urlencoded({ extended: true }))
 
 // Rutas de la API
 require('@routes/api')(app)

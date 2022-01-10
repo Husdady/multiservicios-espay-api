@@ -10,7 +10,7 @@ function uploadPhoto(settings) {
 
     try {
       // Setear nombre de imagen subida a Cloudinary
-      req.filename = isFunction(filename) && filename(req.fileId)
+      req.filename = isFunction(filename) ? filename(req.fileId) : filename
 
       // Subir imagen a Cloudinary
       await cloudinary.v2.uploader.upload(
@@ -20,37 +20,52 @@ function uploadPhoto(settings) {
           public_id: req.filename,
         },
         async function (error, result) {
-          // Si existe un error al subir la foto
-          if (error) {
-            throw new Error(uploadError)
-          }
+          try {
+            // Si existe un error al subir la foto
+            if (error) {
+              throw new Error(uploadError)
+            }
 
-          // Obtener información del usuario
-          const user = await Model.findByIdAndUpdate(req.fileId, {
-            $set: {
-              [path]: {
-                _id: result.asset_id,
-                url: result.secure_url,
-                size: result.bytes,
-                width: result.width,
-                height: result.height,
-                format: result.format,
-                created_at: result.created_at,
+            let user
+            const photo = {
+              $set: {
+                [path]: {
+                  _id: result.asset_id,
+                  url: result.secure_url,
+                  size: result.bytes,
+                  width: result.width,
+                  height: result.height,
+                  format: result.format,
+                  created_at: result.created_at,
+                },
               },
-            },
-          }, { new: true })
+            }
 
-          // Si se debe obtener la información del usuario actualizada
-          if (JSON.parse(req.query.returnUserData)) {
-            return res.status(200).json({
-              message: req.successMessage.message,
-              profilePhoto: {
-                url: user?.settings?.avatar?.url
-              },
-            })
-          } else if (req.fileId) {
-            // Retornar mensaje exitoso
-            res.status(200).json({ message: req.successMessage })
+            if (req.fileId) {
+              // Actualizar foto por id
+              user = await Model.findByIdAndUpdate(req.fileId, photo, { new: true })
+            } else {
+              // Actualizar foto por otro campo
+              await Model.findOneAndUpdate({}, photo, { new: true })
+            }
+
+            // Obtener query condition
+            const { returnUserData } = req.query
+
+            // Si se debe obtener la información del usuario actualizada
+            if (returnUserData && JSON.parse(returnUserData)) {
+              return res.status(200).json({
+                message: req.successMessage.message,
+                profilePhoto: {
+                  url: user?.settings?.avatar?.url,
+                },
+              })
+            } else {
+              // Retornar mensaje exitoso
+              res.status(200).json(req.successMessage)
+            }
+          } catch (error) {
+            console.log(error)
           }
         },
       )

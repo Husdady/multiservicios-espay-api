@@ -8,7 +8,7 @@ const RoleSchema = new Schema(
   {
     name: { type: String, required: true },
     permissions: {
-      type: Object,
+      type: Schema.Types.Mixed,
       required: true
     },
   },
