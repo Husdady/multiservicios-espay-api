@@ -9,13 +9,9 @@ const { getProducts, createProduct, deleteProduct } = require('@controllers/prod
 const { verifyToken } = require('@middlewares/auth/token')
 
 // Models
-const { createProductSchema } = require("@models/products/Product");
-
-// Crear esquema de los Productos Seytú
-const OmnilifeProducts = createProductSchema({
-  modelName: "OmnilifeProducts",
-  collectionName: "omnilife-products",
-})
+const { OmnilifeProducts } = require("@models/products/Product");
+const { OmnilifeCategories } = require("@models/products/Category");
+const { createCategory, editCategory, deleteCategory } = require('@controllers/products/Categories.Controller');
 
 // Roles requeridos para crear productos
 
@@ -23,14 +19,19 @@ const OmnilifeProducts = createProductSchema({
 const Omnilife = {
   getProducts: getProducts(OmnilifeProducts),
   createProduct: createProduct(OmnilifeProducts),
-  deleteProduct: deleteProduct(OmnilifeProducts)
+  deleteProduct: deleteProduct(OmnilifeProducts),
+  createCategory: createCategory(OmnilifeCategories),
+  editCategory: editCategory(OmnilifeCategories),
+  deleteCategory: deleteCategory(OmnilifeCategories, OmnilifeProducts),
 }
 
-// Obtener todos los productos
-router.get('/omnilife', Omnilife.getProducts)
-// Crear nuevo producto
-router.post('/omnilife', [verifyToken], Omnilife.createProduct)
-// Eliminar producto
-router.delete('/omnilife/:product', [verifyToken], Omnilife.deleteProduct)
+// Crear nueva categoría de los productos Omnilife
+router.post('/categories/add', verifyToken, Omnilife.createCategory)
+
+// Editar una categoría de los productos Omnilife
+router.put('/categories/:categoryId', verifyToken, Omnilife.editCategory)
+
+// Eliminar una categoría de los productos Omnilife
+router.delete('/categories/:categoryId', verifyToken, Omnilife.deleteCategory)
 
 module.exports = router

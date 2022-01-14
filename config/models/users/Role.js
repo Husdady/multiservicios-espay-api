@@ -6,11 +6,8 @@ const { Schema, mongoose } = require("@database/connection");
 // Creamos el objeto del esquema y sus atributos
 const RoleSchema = new Schema(
   {
-    name: { type: String, required: true },
-    permissions: {
-      type: Schema.Types.Mixed,
-      required: true
-    },
+    name: { type: String, unique: true, required: true },
+    permissions: { type: Schema.Types.Mixed, required: true },
   },
   {
     versionKey: false,

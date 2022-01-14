@@ -67,14 +67,19 @@ async function editRole(req, res) {
     // Obtener datos del body
     const { roleName, permissions, formHasBeenEdited } = req.body
 
+    // Si el formulario no ha sido editado
     if (!formHasBeenEdited) {
       throw new Error(`La información del rol '${roleName}' sigue siendo la misma, por favor ingresa nuevos datos`)
     }
 
-    // Encontrar si ya existe un admin con ese correo electrónico
+    // Si el nombre del rol es igual a 'Usuario'
+    if (roleName === 'Usuario') {
+      throw new Error("El rol 'Usuario' es inmutable")
+    }
+
+    // Comprobar si exite un rol con nombre duplicado
     const existRoleName = await Role.exists({ name: roleName })
 
-    // Comprobar si el correo ingresado, no es igual al del admin
     if (existRoleName) {
       throw new Error('Ya existe un rol registrado con ese nombre')
     }
@@ -97,9 +102,7 @@ async function editRole(req, res) {
     }
 
     // Actualizar rol
-    await Role.findByIdAndUpdate(roleId, {
-      $set: newRoleData
-    })
+    await Role.findByIdAndUpdate(roleId, newRoleData)
 
     // Retornar respuesta de servidor
     res.status(204).json({})

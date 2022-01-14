@@ -5,33 +5,45 @@ const { Schema, mongoose } = require("@database/connection");
 
 // Creamos el objeto del esquema y sus atributos
 const createProductSchema = function (schema) {
-  const { collectionName, modelName } = schema;
+  const { collectionName, modelName, categoryModel } = schema;
   const ProductSchema = new Schema(
     {
-      title: { type: String, require: true },
-      description: { type: String, require: true },
-      defaultImage: {
-        type: Object,
-        require: true
-      },
+      defaultImage: { type: Object, require: true },
       images: [
         {
-          image: Object
+          type: Object,
+          require: true
         }
       ],
+      title: { type: String, require: true },
+      price: { type: Number, require: true },
+      description: { type: String, require: true },
+      content: {
+        type: String,
+        minLength: 25,
+        maxLength: 100
+      },
+      stock: { type: Number, require: true },
       benefits: [
         {
-          benefit: {
-            type: String,
-            maxLength: 300
-          }
+          type: String,
+          maxLength: 300
         }
       ],
-      stock: Number,
-      totalVisits: {
-        type: Number,
-        default: 0
-      }
+      categories: [
+        {
+          ref: categoryModel,
+          type: Schema.Types.ObjectId,
+          require: true,
+        }
+      ],
+      usageMode: {
+        type: String,
+        require: true,
+        minLength: 50,
+        maxLength: 200
+      },
+      totalVisits: { type: Number, default: 0 }
     },
     {
       versionKey: false,
@@ -42,5 +54,19 @@ const createProductSchema = function (schema) {
   return mongoose.model(modelName, ProductSchema);
 };
 
+// Crear esquema de los Productos Seytú
+const SeytuProducts = createProductSchema({
+  modelName: "SeytuProducts",
+  categoryModel: "SeytuCategories",
+  collectionName: "seytu.products",
+})
+
+// Crear esquema de los Productos Omnilife
+const OmnilifeProducts = createProductSchema({
+  modelName: "OmnilifeProducts",
+  categoryModel: "OmnilifeCategories",
+  collectionName: "omnilife.products",
+})
+
 // Exportar esquema
-module.exports = { createProductSchema };
+module.exports = { SeytuProducts, OmnilifeProducts };

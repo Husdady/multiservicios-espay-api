@@ -5,39 +5,34 @@ const router = Router()
 // Controllers
 const { getProducts, createProduct, deleteProduct } = require('@controllers/products/Products.Controller')
 
-// Middlewares
-const { verifyToken } = require('@middlewares/auth/token')
+// Controllers
+const { createCategory, editCategory, deleteCategory } = require('@controllers/products/Categories.Controller');
 
 // Models
-const { createProductSchema } = require("@models/products/Product");
+const { SeytuProducts } = require("@models/products/Product");
+const { SeytuCategories } = require("@models/products/Category");
 
-// Crear esquema de los Productos Seytú
-const SeytuProducts = createProductSchema({
-  modelName: "seytuProducts",
-  collectionName: "seytu-products",
-})
+// Middlewares
+const { verifyToken } = require('@middlewares/auth/token')
 
 // Roles requeridos para crear productos
 
 const Seytu = {
   getProducts: getProducts(SeytuProducts),
   createProduct: createProduct(SeytuProducts),
-  deleteProduct: deleteProduct(SeytuProducts)
+  deleteProduct: deleteProduct(SeytuProducts),
+  createCategory: createCategory(SeytuCategories),
+  editCategory: editCategory(SeytuCategories),
+  deleteCategory: deleteCategory(SeytuCategories, SeytuProducts),
 }
 
-// Obtener todos los productos
-router.get('/seytu', Seytu.getProducts)
-// Crear nuevo producto
-router.post(
-  '/seytu',
-  [verifyToken],
-  Seytu.createProduct
-)
-// Eliminar producto
-router.delete(
-  '/seytu/:product',
-  [verifyToken],
-  Seytu.deleteProduct
-)
+// Crear nueva categoría de los productos Seytu
+router.post('/categories/add', verifyToken, Seytu.createCategory)
+
+// Editar una categoría de los productos Seytu
+router.put('/categories/:categoryId', verifyToken, Seytu.editCategory)
+
+// Eliminar una categoría de los productos Seytu
+router.delete('/categories/:categoryId', verifyToken, Seytu.deleteCategory)
 
 module.exports = router

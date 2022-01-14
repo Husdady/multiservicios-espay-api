@@ -150,7 +150,6 @@ async function editTestimony(req, res, next) {
 // Eliminar un usuario por id
 async function deleteTestimony(req, res, next) {
   try {
-    console.log(req.params)
     // Eliminar el testimonio de un autor
     const testimony = await Testimony.findByIdAndDelete(req.params.testimonyId)
 
@@ -161,7 +160,6 @@ async function deleteTestimony(req, res, next) {
       // Continuar al siguiente middleware
       next()
     } else {
-      console.log(req.params)
       return res.status(204).json({})
     }
   } catch (err) {

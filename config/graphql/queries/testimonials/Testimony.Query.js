@@ -19,7 +19,6 @@ const author_testimony = {
   },
   async resolve(_, args) {
     try {
-      console.log(args)
       const testimony = await Testimony.findOne({
         'author.short_name': args.author
       })
