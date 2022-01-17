@@ -8,7 +8,7 @@ function deleteCategory(Model, Company) {
       await Model.findByIdAndDelete(categoryId)
 
       // Eliminar categoría en productos
-      await Company.update(
+      await Company.updateMany(
         {
           categories: {
             $in: categoryId,

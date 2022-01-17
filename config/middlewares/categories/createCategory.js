@@ -43,7 +43,7 @@ function createCategory(Model) {
       // Mensaje existoso
       return res.json({
         newCategory: newCategory,
-        message: `Se ha creado la categoría '${categoryName}' existosamente!`
+        message: `Se ha creado la categoría '${categoryName}' existosamente`
       })
     } catch (err) {
       res.status(400).send({ error: err.message })

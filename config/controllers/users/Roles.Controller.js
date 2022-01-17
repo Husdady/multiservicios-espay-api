@@ -136,7 +136,7 @@ async function deleteRole(req, res) {
     const userRole = await Role.findOne({ name: 'Usuario' }, { _id: 1 })
 
     // Actualizar todos los usuarios que tengan el rol que se eliminó por el rol 'Usuario'
-    await User.update({ role: roleId }, { role: userRole._id }, { multi: true })
+    await User.updateMany({ role: roleId }, { role: userRole._id }, { multi: true })
 
     // Retornar respuesta de servidor
     res.status(204).json({})
