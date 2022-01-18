@@ -11,7 +11,7 @@ const TestimonialsController = require('@controllers/testimonials/Testimonials.C
 // Middlewares
 const { verifyToken } = require('@middlewares/auth/token')
 const verifyPermission = require('@middlewares/user/verifyPermission')
-const { uploadPhoto, deletePhoto } = require('@middlewares/upload/Upload.Middleware')
+const { uploadImage, deleteImage } = require('@middlewares/upload/Upload.Middleware')
 
 // Utils
 const { upload } = require('@utils/multer')
@@ -40,7 +40,7 @@ router.post(
   [verifyToken, permissionRequiredToCreateTestimonials],
   upload.single('authorPhoto'),
   TestimonialsController.createNewTestimony,
-  uploadPhoto({
+  uploadImage({
     Model: Testimony,
     path: "author.photo",
     cloudinary_folder: 'testimonials',
@@ -55,7 +55,7 @@ router.put(
   [verifyToken, permissionRequiredToEditTestimonials],
   upload.single('authorPhoto'),
   TestimonialsController.editTestimony,
-  uploadPhoto({
+  uploadImage({
     Model: Testimony,
     path: "author.photo",
     cloudinary_folder: 'testimonials',
@@ -69,7 +69,7 @@ router.delete(
   '/:testimonyId',
   [verifyToken, permissionRequiredToDeleteTestimonials],
   TestimonialsController.deleteTestimony,
-  deletePhoto({ cloudinary_path: 'testimonials/testimony' })
+  deleteImage({ cloudinary_path: 'testimonials/testimony' })
 )
 
 module.exports = router

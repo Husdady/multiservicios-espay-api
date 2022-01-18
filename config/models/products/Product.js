@@ -8,13 +8,8 @@ const createProductSchema = function (schema) {
   const { collectionName, modelName, categoryModel } = schema;
   const ProductSchema = new Schema(
     {
-      defaultImage: { type: Object, require: true },
-      images: [
-        {
-          type: Object,
-          require: true
-        }
-      ],
+      defaultImage: Object,
+      images: [{ type: Object }],
       title: { type: String, require: true },
       price: { type: Number, require: true },
       description: { type: String, require: true },

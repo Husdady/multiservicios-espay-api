@@ -11,7 +11,7 @@ const UsersController = require('@controllers/users/Users.Controller')
 // Middlewares
 const { verifyToken } = require('@middlewares/auth/token')
 const verifyPermission = require('@middlewares/user/verifyPermission')
-const { uploadPhoto, deletePhoto } = require('@middlewares/upload/Upload.Middleware')
+const { uploadImage, deleteImage } = require('@middlewares/upload/Upload.Middleware')
 
 // Utils
 const { upload } = require('@utils/multer')
@@ -45,7 +45,7 @@ router.put(
     },
     successMessage: ({ fullname }) => 'Se ha actualizado exitosamente la información de ' + fullname,
   }),
-  uploadPhoto({
+  uploadImage({
     Model: User,
     path: "settings.avatar",
     cloudinary_folder: 'users',
@@ -65,7 +65,7 @@ router.put(
     },
     successMessage: 'Se actualizó tu información personal exitosamente',
   }),
-  uploadPhoto({
+  uploadImage({
     Model: User,
     path: "settings.avatar",
     cloudinary_folder: 'users',
@@ -79,7 +79,7 @@ router.delete(
   '/:userId',
   [verifyToken, permissionRequiredToDeleteUsers],
   UsersController.deleteUser,
-  deletePhoto({ cloudinary_path: 'users/user' })
+  deleteImage({ cloudinary_path: 'users/user' })
 )
 
 // Restaurar usuario por id
@@ -93,7 +93,7 @@ router.delete(
   '/:userId/close-my-account',
   verifyToken,
   UsersController.closeMyAccount,
-  deletePhoto({ cloudinary_path: 'users/user' })
+  deleteImage({ cloudinary_path: 'users/user' })
 )
 
 module.exports = router

@@ -11,7 +11,7 @@ const { createAdmin, createUser } = require("@controllers/auth/Auth.Controller")
 // Middlewares
 const { verifyToken } = require('@middlewares/auth/token')
 const verifyPermission = require('@middlewares/user/verifyPermission')
-const { uploadPhoto } = require('@middlewares/upload/Upload.Middleware')
+const { uploadImage } = require('@middlewares/upload/Upload.Middleware')
 
 // Utils
 const { upload } = require('@utils/multer')
@@ -31,7 +31,7 @@ router.post(
   [verifyToken, permissionRequiredToCreateUsers],
   upload.single('profilePhoto'),
   createUser,
-  uploadPhoto({
+  uploadImage({
     Model: User,
     path: "settings.avatar",
     cloudinary_folder: 'users',

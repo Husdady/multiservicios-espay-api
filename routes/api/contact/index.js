@@ -11,7 +11,7 @@ const ContactController = require('@controllers/contact/Contact.Controller')
 // Middlewares
 const { verifyToken } = require('@middlewares/auth/token')
 const verifyPermission = require('@middlewares/user/verifyPermission')
-const { uploadPhoto } = require('@middlewares/upload/Upload.Middleware')
+const { uploadImage } = require('@middlewares/upload/Upload.Middleware')
 
 // Utils
 const { upload } = require('@utils/multer')
@@ -28,7 +28,7 @@ router.post(
   [verifyToken, permissionRequiredToEditContactInformacion],
   upload.single('contactPhoto'),
   ContactController.updateContactInformation,
-  uploadPhoto({
+  uploadImage({
     Model: Contact,
     path: "contactPhoto",
     cloudinary_folder: 'contact',

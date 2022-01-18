@@ -10,7 +10,7 @@ const AdminController = require('@controllers/admin/Admin.Controller')
 
 // Middlewares
 const { verifyToken } = require('@middlewares/auth/token')
-const { uploadPhoto, deletePhoto } = require('@middlewares/upload/Upload.Middleware')
+const { uploadImage, deleteImage } = require('@middlewares/upload/Upload.Middleware')
 
 // Utils
 const { upload } = require('@utils/multer')
@@ -27,7 +27,7 @@ router.put(
   verifyToken,
   upload.single('profilePhoto'),
   AdminController.updateMyPersonalInformation,
-  uploadPhoto({
+  uploadImage({
     Model: Admin,
     path: "settings.avatar",
     cloudinary_folder: 'admin',
@@ -41,7 +41,7 @@ router.delete(
   '/close-my-account',
   verifyToken,
   AdminController.closeMyAccount,
-  deletePhoto({ cloudinary_path: 'admin' })
+  deleteImage({ cloudinary_path: 'admin' })
 )
 
 module.exports = router
