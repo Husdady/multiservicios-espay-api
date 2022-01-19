@@ -1,7 +1,7 @@
 'use strict'
 
 // Librarys
-const { GraphQLList, GraphQLString } = require('graphql')
+const { GraphQLList, GraphQLID, GraphQLString } = require('graphql')
 
 // Models
 const { OmnilifeProducts } = require('@models/products/Product')
@@ -47,12 +47,12 @@ const omnilife_product = {
   args: {
     '_id': {
       name: '_id',
-      type: GraphQLString,
+      type: GraphQLID,
     },
   },
   async resolve(_, args) {
     try {
-      const omnilifeProduct = await OmnilifeProducts.findOne(args)
+      const omnilifeProduct = await OmnilifeProducts.findOne(args).populate("categories")
 
       return omnilifeProduct
     } catch (err) {
@@ -65,7 +65,7 @@ const omnilife_products = {
   type: new GraphQLList(ProductTypedef),
   async resolve(_, args) {
     try {
-      const omnilifeProducts = await OmnilifeProducts.find(args)
+      const omnilifeProducts = await OmnilifeProducts.find(args).populate("categories")
       return omnilifeProducts
     } catch (err) {
       console.error('[OmnilifeProductsQuery.products]', err)

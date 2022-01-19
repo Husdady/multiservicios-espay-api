@@ -65,7 +65,7 @@ const seytu_products = {
   type: new GraphQLList(ProductTypedef),
   async resolve(_, args) {
     try {
-      const seytuProducts = await SeytuProducts.find(args)
+      const seytuProducts = await SeytuProducts.find(args).populate("categories")
       return seytuProducts
     } catch (err) {
       console.error('[SeytuProductsQuery.products]', err)

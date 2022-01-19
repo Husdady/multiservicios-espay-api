@@ -4,15 +4,16 @@ const router = Router()
 
 // Controllers
 const { createProduct, editProduct, deleteProduct } = require('@controllers/products/Products.Controller')
+const { createCategory, editCategory, deleteCategory } = require('@controllers/products/Categories.Controller');
+
+// Models
+const { OmnilifeProducts } = require("@models/products/Product");
+const { OmnilifeCategories } = require("@models/products/Category");
 
 // Middlewares
 const { verifyToken } = require('@middlewares/auth/token')
 const verifyPermission = require('@middlewares/user/verifyPermission')
 const { uploadMultipleImages } = require('@middlewares/upload/Upload.Middleware')
-// Models
-const { OmnilifeProducts } = require("@models/products/Product");
-const { OmnilifeCategories } = require("@models/products/Category");
-const { createCategory, editCategory, deleteCategory } = require('@controllers/products/Categories.Controller');
 
 // Utils
 const { upload } = require('@utils/multer')

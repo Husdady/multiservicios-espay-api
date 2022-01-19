@@ -21,8 +21,11 @@ const createProductSchema = function (schema) {
       stock: { type: Number, require: true },
       benefits: [
         {
-          type: String,
-          maxLength: 300
+          _id: Number,
+          benefit: {
+            type: String,
+            maxLength: 300
+          },
         }
       ],
       categories: [

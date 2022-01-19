@@ -2,7 +2,26 @@
 const cloudinary = require('@utils/cloudinary')
 const { isFunction } = require('@utils/Validations')
 
-// Subir foto a Cloudinary
+// Subir imagen a Cloudinary
+async function uploadImageToCloudinary({ file, config, errorMessage }) {
+  return new Promise((resolve) => {
+    cloudinary.v2.uploader.upload(file, config, (err, res) => {
+      if (err) return res.status(500).send(errorMessage)
+      resolve({
+        _id: res.asset_id,
+        url: res.secure_url,
+        size: res.bytes,
+        width: res.width,
+        height: res.height,
+        format: res.format,
+        filename: res.original_filename,
+        created_at: res.created_at,
+      })
+    })
+  })
+}
+
+// Subir imagen a la DB
 function uploadImage(settings) {
   return async (req, res) => {
     // Obtener ajustes
@@ -76,24 +95,7 @@ function uploadImage(settings) {
   }
 }
 
-async function uploadImageToCloudinary({ file, config, errorMessage }) {
-  return new Promise((resolve) => {
-    cloudinary.v2.uploader.upload(file, config, (err, res) => {
-      if (err) return res.status(500).send(errorMessage)
-      resolve({
-        _id: res.asset_id,
-        url: res.secure_url,
-        size: res.bytes,
-        width: res.width,
-        height: res.height,
-        format: res.format,
-        created_at: res.created_at,
-      })
-    })
-  })
-}
-
-// Subir foto a Cloudinary
+// Subir múltiples imágenes a la DB
 function uploadMultipleImages(settings) {
   return async (req, res) => {
     try {
@@ -113,7 +115,7 @@ function uploadMultipleImages(settings) {
 
       for (let i = 0; i < files.length; i++) {
         const file = files[i];
-        const index = ("0" + (i + 1)).slice(-2) + "-";
+        const index = ("0" + i + 1).slice(-2) + "-";
 
         const newImage = await uploadImageToCloudinary({
           file: file.path,
@@ -139,7 +141,7 @@ function uploadMultipleImages(settings) {
   }
 }
 
-// Eliminar foto alojada en Cloudinary
+// Eliminar imagen alojada en Cloudinary
 function deleteImage({ cloudinary_path }) {
   return async (req, res) => {
     try {
