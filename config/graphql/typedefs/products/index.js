@@ -20,12 +20,14 @@ const ProductBenefitTypedef = Helper.createGraphQLObjectType('ProductDefaultBene
 // Product Image Typedef
 const ProductImageTypedef = Helper.createGraphQLObjectType('ProductDefaultImage', {
   _id: GraphQLID,
+  public_id: GraphQLID,
   url: GraphQLString,
   size: GraphQLFloat,
   width: GraphQLFloat,
   height: GraphQLFloat,
   format: GraphQLString,
-  filename: GraphQLString
+  filename: GraphQLString,
+  cloudinary_path: GraphQLString,
 })
 
 // Product Typedef

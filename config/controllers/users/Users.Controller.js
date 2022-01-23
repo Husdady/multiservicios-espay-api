@@ -5,7 +5,7 @@ const Admin = require('@models/users/Admin')
 
 // Utils
 const cloudinary = require('@utils/cloudinary')
-const { isString, isFunction } = require('@utils/Validations')
+const { isString, isFunction, isEmptyArray } = require('@utils/Validations')
 const { comparePassword, encryptPassword } = require('@utils/Helper')
 
 // Editar un usuario por id
@@ -23,7 +23,7 @@ function editUser(messages) {
         throw new Error('Ya existe un usuario registrado con ese correo electrónico')
       }
 
-      // Setear id de usuario
+      // Obtener id de usuario
       const { userId } = req.params
 
       // Encontrar al usuario que se va a editar

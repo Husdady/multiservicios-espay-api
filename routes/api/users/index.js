@@ -57,8 +57,7 @@ router.put(
 // Actualizar información personal del usuario administrador
 router.put(
   '/:userId/update',
-  verifyToken,
-  upload.single('profilePhoto'),
+  [verifyToken, upload.single('profilePhoto')],
   UsersController.editUser({
     errors: {
       userDataIsTheSame: 'Tu información es la misma, debes proporcionar nuevos datos'

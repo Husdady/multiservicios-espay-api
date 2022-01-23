@@ -1,22 +1,52 @@
 // Utils
 const cloudinary = require('@utils/cloudinary')
-const { isFunction } = require('@utils/Validations')
+const { isFunction, isEmptyArray } = require('@utils/Validations')
 
 // Subir imagen a Cloudinary
 async function uploadImageToCloudinary({ file, config, errorMessage }) {
   return new Promise((resolve) => {
-    cloudinary.v2.uploader.upload(file, config, (err, res) => {
-      if (err) return res.status(500).send(errorMessage)
+    console.log('[uploadImageToCloudinary]')
+    cloudinary.v2.uploader.upload(file, config, function(err, res){
+      console.log('[uploadImageToCloudinary.err]', err)
+      if (err) throw new Error(errorMessage);
+      const publicId = res.public_id.split("/")[2]
       resolve({
         _id: res.asset_id,
-        url: res.secure_url,
         size: res.bytes,
         width: res.width,
         height: res.height,
+        url: res.secure_url,
+        public_id: publicId,
         format: res.format,
-        filename: res.original_filename,
+        filename: config.filename,
+        cloudinary_path: res.public_id,
         created_at: res.created_at,
       })
+    })
+  })
+}
+
+// Eliminar imagen de Cloudinary
+async function removeImageToCloudinary(public_id, errorMessage) {
+  console.log('[removeImageToCloudinary]')
+  return new Promise((resolve) => {
+    cloudinary.v2.uploader.destroy(public_id, (err, res) => {
+      console.log('[removeImageToCloudinary.err]', err)
+      if (err) throw new Error(errorMessage)
+      resolve(res)
+    })
+  })
+}
+
+// Eliminar carpeta de Cloudinary
+async function removeFolderToCloudinary(folder, errorMessage) {
+  console.log('[removeFolderToCloudinary]')
+  return new Promise((resolve) => {
+    cloudinary.v2.api.delete_folder(folder, (err, res) => {
+      console.log('[removeFolderToCloudinary.err]', err)
+      console.log('[removeFolderToCloudinary.err]', err)
+      if (err) throw new Error(errorMessage)
+      resolve(res)
     })
   })
 }
@@ -89,48 +119,114 @@ function uploadImage(settings) {
         },
       )
     } catch (err) {
-      console.log('[Cloudinary.uploadPhoto.ERROR]', err)
       res.status(400).send({ error: err.message })
     }
   }
 }
 
-// Subir múltiples imágenes a la DB
+// Subir múltiples imágenes de Cloudinary
 function uploadMultipleImages(settings) {
   return async (req, res) => {
     try {
       // Obtener ajustes
-      const { filename, cloudinary_folder, onSuccess } = settings
+      const { onGetImages, errorMessage, cloudinary_folder } = settings
 
-      // Setear nombre de imagen subida a Cloudinary
-      req.filename = isFunction(filename) ? filename(req.fileId) : filename
-
-      // Setear folder de Cloudinary
+      // Setear folder de la imagen de Cloudinary
       const folder = isFunction(cloudinary_folder) ? cloudinary_folder(req.item) : cloudinary_folder
 
-      const images = []
+      const uploadImages = []
 
-      // Obtener imágnes
+      // Obtener imágenes
+      const images = req.images
+      
+      // Obtener archivos de imágenes
       const files = req.files
+      
+        // Iterar archivos de imágenes
+        for (let i = 0; i < images.length; i++) {
+          const file = files[i];
+          const image = images[i];
 
-      for (let i = 0; i < files.length; i++) {
-        const file = files[i];
-        const index = ("0" + i + 1).slice(-2) + "-";
+          // Obtener imagen subida a Cloudinary
+          const newUploadImage = await uploadImageToCloudinary({
+            errorMessage: errorMessage,
+            file: file.path,
+            config: {
+              folder: folder,
+              public_id: image.public_id,
+              filename: image.filename,
+            },
+          })
 
-        const newImage = await uploadImageToCloudinary({
-          file: file.path,
-          errorMessage: settings.errorMessage,
-          config: {
-            folder: folder,
-            public_id: index + req.filename,
+          // Si hay algún error al subir una imagen
+          if (newUploadImage instanceof Error) {
+            throw new new Error(newUploadImage.error)
           }
-        })
 
-        images.push(newImage)
+          // Añadir nueva imagen subida a Cloudinary
+          uploadImages.push(newUploadImage)
+        }
+
+      if (isFunction(onGetImages)) {
+        await onGetImages(req.item._id, uploadImages)
       }
 
-      if (isFunction(onSuccess)) {
-        await onSuccess({ images: images, itemId: req.item._id })
+      // Retornar mensaje exitoso
+      res.status(200).json(req.successMessage)
+    } catch (error) {
+      res.status(400).send({ error: error.message })
+    }
+  }
+}
+
+// Actualizar múltiples imágenes de Cloudinary
+function updateMultipleImages(settings) {
+  return async (req, res) => {
+    try {
+      // Obtener ajustes
+      const { onGetImages, errorMessage, cloudinary_folder } = settings
+
+      // Setear folder de la imagen de Cloudinary
+      const folder = isFunction(cloudinary_folder) ? cloudinary_folder(req.item) : cloudinary_folder
+
+      const uploadImages = []
+      
+      // Obtener archivos de imágenes
+      const files = req.files
+      
+      if (isEmptyArray(req.deletedImages)) {
+        // Iterar archivos de imágenes
+        for (let i = 0; i < files.length; i++) {
+          const file = files[i];
+
+          // Obtener imagen subida a Cloudinary
+          const newUploadImage = await uploadImageToCloudinary({
+            errorMessage: errorMessage,
+            file: file.path,
+            config: {
+              folder: folder,
+              public_id: file.public_id,
+              filename: file.originalname,
+            },
+          })
+
+          // Si hay algún error al subir una imagen
+          if (newUploadImage instanceof Error) {
+            throw new new Error(newUploadImage.error)
+          }
+
+          // Añadir nueva imagen subida a Cloudinary
+          uploadImages.push(newUploadImage)
+        }
+      }
+
+      if (isFunction(onGetImages)) {
+        await onGetImages({
+          itemId: req.item._id,
+          recivedImages: req.images,
+          deletedImages: req.deletedImages,
+          uploadedImages: uploadImages
+        })
       }
 
       // Retornar mensaje exitoso
@@ -160,6 +256,10 @@ function deleteImage({ cloudinary_path }) {
 
 module.exports = {
   uploadImage,
+  updateMultipleImages,
   uploadMultipleImages,
   deleteImage,
+  uploadImageToCloudinary,
+  removeImageToCloudinary,
+  removeFolderToCloudinary,
 }

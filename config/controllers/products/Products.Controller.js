@@ -1,10 +1,10 @@
 // Middlewares
-const getProducts = require("@middlewares/products/getProducts")
+const editProduct = require("@middlewares/products/editProduct")
 const createProduct = require("@middlewares/products/createProduct")
 const deleteProduct = require("@middlewares/products/deleteProduct")
 
 module.exports = {
-  getProducts,
+  editProduct,
   createProduct,
   deleteProduct,
 }

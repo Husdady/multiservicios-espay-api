@@ -28,6 +28,11 @@ function isArray(array) {
   return Array.isArray(array)
 }
 
+// Comprobar si es un arreglo vacío
+function isEmptyArray(array) {
+  return isArray(array) && array.length === 0;
+}
+
 // Comprobar si es un número
 function isUndefined(data) {
   return typeof data === 'undefined'
@@ -143,4 +148,17 @@ class Validations {
   }
 }
 
-module.exports = { Validations, isString, isEmptyString, isNumber, isBoolean, isFunction, isArray, isUndefined, isObject, isEmptyObject, isEmail }
+module.exports = {
+  Validations,
+  isString,
+  isEmptyString,
+  isNumber,
+  isBoolean,
+  isFunction,
+  isArray,
+  isEmptyArray,
+  isUndefined,
+  isObject,
+  isEmptyObject,
+  isEmail,
+}

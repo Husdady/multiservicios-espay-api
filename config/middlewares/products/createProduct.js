@@ -1,16 +1,7 @@
 // Utils
 const {
   Validations: { validateSchema, validateSecretPassword },
-} = require('@utils/Validations')
-
-// title: name,
-//         content: content,
-//         usageMode: usageMode,
-//         description: description,
-//         price: JSON.parse(price),
-//         stock: JSON.parse(stock),
-//         benefits: JSON.parse(benefits),
-//         categories: JSON.parse(categories),
+} = require('@utils/Validations');
 
 const SchemaProductCreation = {
   name: {
@@ -53,7 +44,17 @@ function createProduct(Model) {
         },
       })
 
-      const { name, description, price, stock, content, benefits, categories, usageMode } = req.body
+      // Destructurar 'req.body'
+      const {
+        name,
+        description,
+        price,
+        stock,
+        content,
+        benefits,
+        categories,
+        usageMode
+      } = req.body
 
       // Crear nuevo usuario
       const newProduct = new Model({
@@ -65,23 +66,27 @@ function createProduct(Model) {
         stock: JSON.parse(stock),
         benefits: JSON.parse(benefits),
         categories: JSON.parse(categories),
+        initialName: name.toLowerCase().replace(/\s/gim, '-')
       })
 
       // Guardar producto
-      await newProduct.save()
+      await newProduct.save();
 
-      const productTitle = newProduct.title.toLowerCase().replace(/\s/gim, '-')
+      // Obtener imágenes del producto
+      const images = JSON.parse(req.body.images);
 
       // Pasar el producto creado al siguiente middleware
       req.item = newProduct;
 
-      // Pasar id de la imagen del producto al siguiente middleware
-      req.fileId = `${productTitle}-${newProduct._id}`
+      // Pasar las imágenes del producto al siguiente middleware
+      req.images = images;
 
       // Mensaje existoso
       const successMessage = {
         message: 'Se ha creado un nuevo producto exitosamente!',
       }
+
+      console.log('[images]', req.files)
 
       req.successMessage = successMessage
 
