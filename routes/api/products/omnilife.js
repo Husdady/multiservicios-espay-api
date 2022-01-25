@@ -3,10 +3,21 @@ const { Router } = require('express')
 const router = Router()
 
 // Controllers
-const { createProduct, editProduct, deleteProduct } = require('@controllers/products/Products.Controller')
-const { createCategory, editCategory, deleteCategory } = require('@controllers/products/Categories.Controller');
+const {
+  editCategory,
+  createCategory,
+  deleteCategory,
+} = require('@controllers/products/Categories.Controller');
+const {
+  createOrder,
+  editProduct,
+  createProduct,
+  deleteProduct,
+  updateImages,
+} = require('@controllers/products/Products.Controller')
 
 // Models
+const { OmnilifeOrders } = require("@models/products/Order");
 const { OmnilifeProducts } = require("@models/products/Product");
 const { OmnilifeCategories } = require("@models/products/Category");
 
@@ -41,6 +52,7 @@ const Omnilife = {
   editCategory: editCategory(OmnilifeCategories),
   createCategory: createCategory(OmnilifeCategories),
   deleteCategory: deleteCategory(OmnilifeCategories, OmnilifeProducts),
+  createOrder: createOrder(OmnilifeOrders),
   editProduct: editProduct(OmnilifeProducts),
   createProduct: createProduct(OmnilifeProducts),
   deleteProduct: deleteProduct(OmnilifeProducts, (deletedProduct) => {
@@ -66,7 +78,7 @@ router.post(
   uploadMultipleImages({
     errorMessage: "A ocurrido un error al subir la imagen o imágenes del producto Omnilife",
     cloudinary_folder: (product) => `omnilife.products/${product.initialName}`,
-    onGetImages: async (itemId, uploadedImages) => {
+    onUploadImages: async (itemId, uploadedImages) => {
       await OmnilifeProducts.findByIdAndUpdate(itemId, {
         images: uploadedImages,
         defaultImage: uploadedImages[0],
@@ -84,63 +96,14 @@ router.put(
   updateMultipleImages({
     errorMessage: "A ocurrido un error al actualizar la imagen o imágenes del producto Omnilife",
     cloudinary_folder: (product) => `omnilife.products/${product.initialName}`,
-    onGetImages: async ({
-      itemId,
-      recivedImages,
-      deletedImages,
-      uploadedImages,
-    }) => {
-      const filter = { _id: itemId }
-
-      // Si el total de las imágenes recibidas es mayor a las imágenes anteriores (imágenes en la BD de un producto), es por que se han añadido nuevas imágenes
-      if (isEmptyArray(deletedImages)) {
-        const product = await OmnilifeProducts.findByIdAndUpdate(itemId, {
-          defaultImage: uploadedImages[0],
-        })
-        .select({ images: 1 })
-
-        for (let i = 0; i < uploadedImages.length; i++) {
-          const image = uploadedImages[i]
-          const lastImage = product.images[i];
-          const duplicateImage = lastImage ?  lastImage.public_id === image.public_id : null;
-
-          if (duplicateImage) {
-            await OmnilifeProducts.findByIdAndUpdate(itemId, {
-              images: uploadedImages
-            })
-
-            break;
-          }
-
-          await OmnilifeProducts.updateOne(filter, {
-            $push: {
-              images: image
-            },
-          })
-        }
-
-        return false;
-      }
-
-      await OmnilifeProducts.findByIdAndUpdate(itemId, {
-        defaultImage: recivedImages[0]
-      });
-
-      for (let k = 0; k < deletedImages.length; k++) { 
-        await OmnilifeProducts.updateOne(filter, {
-          $pull: {
-            images: {
-              _id: deletedImages[k]._id
-            }
-          },
-        })
-      }
-
-    }
+    onUploadImages: (extraData) => updateImages(OmnilifeProducts, extraData),
   }),
 )
 
 // Eliminar un producto Omnilife
 router.delete('/:productId', verifyToken, permissionRequiredToDeleteProducts, Omnilife.deleteProduct)
+
+// Crear nuevo pedido de uno o varios productos Omnilife
+router.post('/orders/new-order', verifyToken, Omnilife.createOrder)
 
 module.exports = router

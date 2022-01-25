@@ -82,9 +82,11 @@ class Validations {
         for (const field of Object.keys(schema)) {
           // Obtener la propiedad required de cada campo del esquema
           const SchemaRequired = !isString(schema[field]) || schema[field].required
+
           // Validar si tiene la propiedad 'required'
           if (SchemaRequired) {
             const SchemaRequiredError = schema[field].required || `You must provide a field "${field}"`
+            
             // Comprobar si no existe los campos establecidos en el esquema dentro del body y también si es un string vacío
             if (!body[field] || isEmptyString(body[field])) throw new Error(SchemaRequiredError)
           }

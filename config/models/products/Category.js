@@ -4,8 +4,7 @@
 const { Schema, mongoose } = require('@database/connection')
 
 // Creamos el objeto del esquema y sus atributos
-const createCategorySchema = function (schema) {
-  const { collectionName, modelName } = schema
+const createCategorySchema = function ({ model, collectionName }) {
   const CategorySchema = new Schema(
     {
       name: { type: String, unique: true, required: true },
@@ -16,18 +15,18 @@ const createCategorySchema = function (schema) {
       collection: collectionName,
     },
   )
-  return mongoose.model(modelName, CategorySchema)
+  return mongoose.model(model, CategorySchema)
 }
 
 // Crear esquema de los categorías de los Productos Omnilife
 const SeytuCategories = createCategorySchema({
-  modelName: "SeytuCategories",
+  model: "SeytuCategories",
   collectionName: "seytu.products.categories",
 })
 
 // Crear esquema de los categorías de los Productos Omnilife
 const OmnilifeCategories = createCategorySchema({
-  modelName: "OmnilifeCategories",
+  model: "OmnilifeCategories",
   collectionName: "omnilife.products.categories",
 })
 

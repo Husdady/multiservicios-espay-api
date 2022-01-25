@@ -129,7 +129,7 @@ function uploadMultipleImages(settings) {
   return async (req, res) => {
     try {
       // Obtener ajustes
-      const { onGetImages, errorMessage, cloudinary_folder } = settings
+      const { onUploadImages, errorMessage, cloudinary_folder } = settings
 
       // Setear folder de la imagen de Cloudinary
       const folder = isFunction(cloudinary_folder) ? cloudinary_folder(req.item) : cloudinary_folder
@@ -167,8 +167,8 @@ function uploadMultipleImages(settings) {
           uploadImages.push(newUploadImage)
         }
 
-      if (isFunction(onGetImages)) {
-        await onGetImages(req.item._id, uploadImages)
+      if (isFunction(onUploadImages)) {
+        await onUploadImages(req.item._id, uploadImages)
       }
 
       // Retornar mensaje exitoso
@@ -184,7 +184,7 @@ function updateMultipleImages(settings) {
   return async (req, res) => {
     try {
       // Obtener ajustes
-      const { onGetImages, errorMessage, cloudinary_folder } = settings
+      const { onUploadImages, errorMessage, cloudinary_folder } = settings
 
       // Setear folder de la imagen de Cloudinary
       const folder = isFunction(cloudinary_folder) ? cloudinary_folder(req.item) : cloudinary_folder
@@ -220,8 +220,8 @@ function updateMultipleImages(settings) {
         }
       }
 
-      if (isFunction(onGetImages)) {
-        await onGetImages({
+      if (isFunction(onUploadImages)) {
+        await onUploadImages({
           itemId: req.item._id,
           recivedImages: req.images,
           deletedImages: req.deletedImages,

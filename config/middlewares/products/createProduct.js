@@ -4,22 +4,10 @@ const {
 } = require('@utils/Validations');
 
 const SchemaProductCreation = {
-  name: {
-    type: String,
-    required: "You must provide a field: 'name'",
-  },
-  content: {
-    type: String,
-    required: "'You must provide a field: 'content'",
-  },
-  usageMode: {
-    type: String,
-    required: "'You must provide a field: 'usageMode'",
-  },
-  description: {
-    type: String,
-    required: "'You must provide a field: 'description'",
-  },
+  name: String,
+  content: String,
+  usageMode: String,
+  description: String,
   emptyBody: "You need to provide the product fields: 'name', 'description', etc.",
 }
 
@@ -85,8 +73,6 @@ function createProduct(Model) {
       const successMessage = {
         message: 'Se ha creado un nuevo producto exitosamente!',
       }
-
-      console.log('[images]', req.files)
 
       req.successMessage = successMessage
 

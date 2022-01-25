@@ -4,8 +4,8 @@
 const { Schema, mongoose } = require("@database/connection");
 
 // Creamos el objeto del esquema y sus atributos
-const createProductSchema = function (schema) {
-  const { collectionName, modelName, categoryModel } = schema;
+const createProductSchema = function (config) {
+  const { model, refCategory, collectionName } = config;
   const ProductSchema = new Schema(
     {
       initialName: String,
@@ -31,7 +31,7 @@ const createProductSchema = function (schema) {
       ],
       categories: [
         {
-          ref: categoryModel,
+          ref: refCategory,
           type: Schema.Types.ObjectId,
           require: true,
         }
@@ -50,20 +50,21 @@ const createProductSchema = function (schema) {
       collection: collectionName,
     }
   );
-  return mongoose.model(modelName, ProductSchema);
+  
+  return mongoose.model(model, ProductSchema);
 };
 
 // Crear esquema de los Productos Seytú
 const SeytuProducts = createProductSchema({
-  modelName: "SeytuProducts",
-  categoryModel: "SeytuCategories",
+  model: "SeytuProducts",
+  refCategory: "SeytuCategories",
   collectionName: "seytu.products",
 })
 
 // Crear esquema de los Productos Omnilife
 const OmnilifeProducts = createProductSchema({
-  modelName: "OmnilifeProducts",
-  categoryModel: "OmnilifeCategories",
+  model: "OmnilifeProducts",
+  refCategory: "OmnilifeCategories",
   collectionName: "omnilife.products",
 })
 

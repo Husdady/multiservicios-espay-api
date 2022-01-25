@@ -7,7 +7,7 @@ const { Schema, mongoose } = require("@database/connection");
 const RoleSchema = new Schema(
   {
     name: { type: String, unique: true, required: true },
-    permissions: { type: Schema.Types.Mixed, required: true },
+    permissions: { type: Object, required: true },
   },
   {
     versionKey: false,
