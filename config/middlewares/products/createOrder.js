@@ -32,10 +32,17 @@ function createOrder(Model) {
       })
 
       // Destructurar 'req.body'
-      const { clientId, clientName, phone, quantity, products } = req.body
+      const { clientId, clientName, phone, status, quantity, products } = req.body
 
       // Crear nuevo pedido de un producto
-      const newProductOrder = new Model({ clientId, clientName, phone, quantity, products })
+      const newProductOrder = new Model({
+        clientId,
+        clientName,
+        phone,
+        status,
+        quantity,
+        products
+      })
 
       // Guardar pedido
       await newProductOrder.save();

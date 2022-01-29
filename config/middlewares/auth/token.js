@@ -5,6 +5,7 @@ const { verify } = require('jsonwebtoken')
 const User = require('@models/users/User')
 const Admin = require('@models/users/Admin')
 
+// Comprobar si existe el token
 async function verifyToken(req, res, next) {
   try {
     // Comprobar si existe un header de autorización
@@ -43,6 +44,7 @@ async function verifyToken(req, res, next) {
   }
 }
 
+// Comprobar si es un token válido
 function isValidToken(req, res) {
   try {
     // Comprobar si existe un header de autorización

@@ -2,12 +2,12 @@
 
 const GraphQLSchema = require('./schema')
 const { graphqlHTTP } = require('express-graphql')
-const { verifyToken } = require('@middlewares/auth/token')
+const verifySecretPassword = require('@middlewares/auth/verifySecretPassword')
 
 module.exports = function(app) {
   app.post(
     '/api/graphql',
-    verifyToken,
+    verifySecretPassword('You do not have permissions to get this information'),
     graphqlHTTP(function(req) {
       return {
         rootValue: req,

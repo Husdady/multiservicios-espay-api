@@ -11,6 +11,7 @@ const TestimonialsController = require('@controllers/testimonials/Testimonials.C
 // Middlewares
 const { verifyToken } = require('@middlewares/auth/token')
 const verifyPermission = require('@middlewares/user/verifyPermission')
+const verifySecretPassword = require('@middlewares/auth/verifySecretPassword')
 const { uploadImage, deleteImage } = require('@middlewares/upload/Upload.Middleware')
 
 // Utils
@@ -37,6 +38,7 @@ const permissionRequiredToDeleteTestimonials = verifyPermission({
 // Crear nuevo testimonio
 router.post(
   '/add',
+  verifySecretPassword('You do not have permissions to create an testimony'),
   [verifyToken, permissionRequiredToCreateTestimonials],
   upload.single('authorPhoto'),
   TestimonialsController.createNewTestimony,

@@ -9,7 +9,7 @@ const Admin = require('@models/users/Admin')
 // Utils
 const { encryptPassword, createToken } = require('@utils/Helper')
 const adminPermissions = require('@utils/permissions/admin-permissions')
-const { Validations: { validateSchema, validateSecretPassword } } = require('@utils/Validations')
+const { Validations: { validateSchema } } = require('@utils/Validations')
 
 // Reglas para crear un admin
 const SchemaAdminCreation = {
@@ -66,16 +66,6 @@ async function createAdmin(req, res) {
     // Si existen errores en el body, devolver errores
     if (body.error) throw new Error(body.error)
 
-    // Comprobar si existe la clave secreta
-    validateSecretPassword({
-      secret_password: req.headers.secret_password,
-      onDifferent: function() {
-        return res.status(401).json({
-          message: 'You do not have permissions to create an administrator user'
-        })
-      }
-    })
-
     const { fullname, email, password } = req.body
 
     // Obtener el total de admins
@@ -119,16 +109,6 @@ async function createUser(req, res, next) {
     const body = validateUserCreation(req.body)
     // Si existen errores en el body, devolver errores
     if (body.error) throw new Error(body.error)
-
-    // Comprobar si existe la clave secreta
-    validateSecretPassword({
-      secret_password: req.headers.secret_password,
-      onDifferent: function () {
-        return res.status(401).json({
-          message: 'No tienes permisos para crear usuarios!',
-        })
-      },
-    })
 
     // Obtener datos del body
     const { fullname, email, password, role } = req.body

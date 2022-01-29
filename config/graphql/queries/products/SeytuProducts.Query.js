@@ -4,11 +4,16 @@
 const { GraphQLList, GraphQLString } = require('graphql')
 
 // Models
+const { SeytuOrders } = require('@models/products/Order')
 const { SeytuProducts } = require('@models/products/Product')
 const { SeytuCategories } = require('@models/products/Category')
 
 // Typedefs
-const { ProductTypedef, CategoryTypedef } = require('@graphql/typedefs/products')
+const {
+  CategoryTypedef,
+  ProductTypedef,
+  ProductOrderTypedef
+} = require('@graphql/typedefs/products')
 
 const seytu_category = {
   type: CategoryTypedef,
@@ -73,7 +78,41 @@ const seytu_products = {
   },
 }
 
+const seytu_order = {
+  type: ProductOrderTypedef,
+  args: {
+    'clientId': {
+      name: 'clientId',
+      type: GraphQLString,
+    },
+  },
+  async resolve(_, args) {
+    try {
+      const seytuOrder = await SeytuOrders.findOne(args).populate("products.product")
+
+      return seytuOrder
+    } catch (err) {
+      console.error('[seytuProductsQuery.order]', err)
+    }
+  },
+}
+
+const seytu_orders = {
+  type: new GraphQLList(ProductOrderTypedef),
+  async resolve(_, args) {
+    try {
+      const seytuOrders = await SeytuOrders.find(args).populate("products.product")
+      console.log('[seytuOrders]', seytuOrders)
+      return seytuOrders
+    } catch (err) {
+      console.error('[seytuProductsQuery.orders]', err)
+    }
+  },
+}
+
 module.exports = {
+  seytu_order,
+  seytu_orders,
   seytu_product,
   seytu_products,
   seytu_category,

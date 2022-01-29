@@ -4,11 +4,16 @@
 const { GraphQLList, GraphQLID, GraphQLString } = require('graphql')
 
 // Models
+const { OmnilifeOrders } = require('@models/products/Order')
 const { OmnilifeProducts } = require('@models/products/Product')
 const { OmnilifeCategories } = require('@models/products/Category')
 
 // Typedefs
-const { ProductTypedef, CategoryTypedef } = require('@graphql/typedefs/products')
+const {
+  CategoryTypedef,
+  ProductTypedef,
+  ProductOrderTypedef
+} = require('@graphql/typedefs/products')
 
 const omnilife_category = {
   type: CategoryTypedef,
@@ -73,7 +78,40 @@ const omnilife_products = {
   },
 }
 
+const omnilife_order = {
+  type: ProductOrderTypedef,
+  args: {
+    'clientId': {
+      name: 'clientId',
+      type: GraphQLString,
+    },
+  },
+  async resolve(_, args) {
+    try {
+      const omnilifeOrder = await OmnilifeOrders.findOne(args).populate("products.product")
+
+      return omnilifeOrder
+    } catch (err) {
+      console.error('[OmnilifeProductsQuery.order]', err)
+    }
+  },
+}
+
+const omnilife_orders = {
+  type: new GraphQLList(ProductOrderTypedef),
+  async resolve(_, args) {
+    try {
+      const omnilifeOrders = await OmnilifeOrders.find(args).populate("products.product")
+      return omnilifeOrders
+    } catch (err) {
+      console.error('[OmnilifeProductsQuery.orders]', err)
+    }
+  },
+}
+
 module.exports = {
+  omnilife_order,
+  omnilife_orders,
   omnilife_product,
   omnilife_products,
   omnilife_category,

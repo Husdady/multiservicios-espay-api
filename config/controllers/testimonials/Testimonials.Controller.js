@@ -3,7 +3,7 @@ const Testimony = require('@models/testimonials/Testimony')
 
 // Utils
 const cloudinary = require('@utils/cloudinary')
-const { Validations: { validateSchema, validateSecretPassword } } = require('@utils/Validations')
+const { Validations: { validateSchema } } = require('@utils/Validations')
 
 
 // Reglas para crear un usuario
@@ -23,16 +23,6 @@ async function createNewTestimony(req, res, next) {
     const body = validateTestimony(req.body)
     // Si existen errores en el body, devolver errores
     if (body.error) throw new Error(body.error)
-
-    // Comprobar si existe la clave secreta
-    validateSecretPassword({
-      secret_password: req.headers.secret_password,
-      onDifferent: function () {
-        return res.status(401).json({
-          message: 'You do not have permissions to create an testimony',
-        })
-      },
-    })
 
     // Obtener datos del body
     const { author, age, country, testimony } = req.body

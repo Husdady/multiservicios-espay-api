@@ -12,7 +12,7 @@ const CategoryTypedef = Helper.createGraphQLObjectType('Category', {
 })
 
 // Product Benefit Typedef
-const ProductBenefitTypedef = Helper.createGraphQLObjectType('ProductDefaultBenefit', {
+const ProductBenefitTypedef = Helper.createGraphQLObjectType('ProductBenefit', {
   _id: GraphQLID,
   benefit: GraphQLString,
 })
@@ -47,4 +47,26 @@ const ProductTypedef = Helper.createGraphQLObjectType('Product', {
   updatedAt: GraphQLDateTime,
 })
 
-module.exports = { ProductTypedef, CategoryTypedef }
+// Client Products Orders
+const ClientProductsOrdersTypedef = Helper.createGraphQLObjectType('ClientProductsOrdersTypedef', {
+  quantity: GraphQLFloat,
+  product: ProductTypedef
+})
+
+// Product Order Typedef
+const ProductOrderTypedef = Helper.createGraphQLObjectType('ProductOrder', {
+  _id: GraphQLID,
+  clientId: GraphQLString,
+  clientName: GraphQLString,
+  phone: GraphQLString,
+  status: GraphQLString,
+  products: new GraphQLList(ClientProductsOrdersTypedef),
+  createdAt: GraphQLDateTime,
+  updatedAt: GraphQLDateTime,
+})
+
+module.exports = {
+  ProductTypedef,
+  ProductOrderTypedef,
+  CategoryTypedef
+}

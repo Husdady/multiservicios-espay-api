@@ -12,6 +12,7 @@ const { createAdmin, createUser } = require("@controllers/auth/Auth.Controller")
 const { verifyToken } = require('@middlewares/auth/token')
 const verifyPermission = require('@middlewares/user/verifyPermission')
 const { uploadImage } = require('@middlewares/upload/Upload.Middleware')
+const verifySecretPassword = require('@middlewares/auth/verifySecretPassword')
 
 // Utils
 const { upload } = require('@utils/multer')
@@ -23,11 +24,16 @@ const permissionRequiredToCreateUsers = verifyPermission({
 })
 
 // Crear cuenta como Admin
-router.post("/signup/admin", createAdmin)
+router.post(
+  "/signup/admin",
+  verifySecretPassword('You do not have permissions to create an administrator user'),
+  createAdmin
+)
 
 // Crear cuenta como Usuario
 router.post(
   '/signup/user',
+  verifySecretPassword('You do not have permissions to create users'),
   [verifyToken, permissionRequiredToCreateUsers],
   upload.single('profilePhoto'),
   createUser,
