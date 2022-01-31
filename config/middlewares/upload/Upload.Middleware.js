@@ -9,7 +9,9 @@ async function uploadImageToCloudinary({ file, config, errorMessage }) {
     cloudinary.v2.uploader.upload(file, config, function(err, res){
       console.log('[uploadImageToCloudinary.err]', err)
       if (err) throw new Error(errorMessage);
+
       const publicId = res.public_id.split("/")[2]
+
       resolve({
         _id: res.asset_id,
         size: res.bytes,
@@ -43,7 +45,6 @@ async function removeFolderToCloudinary(folder, errorMessage) {
   console.log('[removeFolderToCloudinary]')
   return new Promise((resolve) => {
     cloudinary.v2.api.delete_folder(folder, (err, res) => {
-      console.log('[removeFolderToCloudinary.err]', err)
       console.log('[removeFolderToCloudinary.err]', err)
       if (err) throw new Error(errorMessage)
       resolve(res)
