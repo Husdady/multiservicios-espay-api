@@ -1,7 +1,13 @@
 'use strict'
 
 // Librarys
-const { GraphQLList, GraphQLID, GraphQLString } = require('graphql')
+const {
+  GraphQLID,
+  GraphQLInt,
+  GraphQLList,
+  GraphQLString,
+  GraphQLBoolean,
+} = require('graphql')
 
 // Models
 const { OmnilifeOrders } = require('@models/products/Order')
@@ -15,14 +21,14 @@ const {
   ProductOrderTypedef
 } = require('@graphql/typedefs/products')
 
+// Utils
+const Helper = require("@utils/Helper");
+
 const omnilife_category = {
   type: CategoryTypedef,
-  args: {
-    'name': {
-      name: 'name',
-      type: GraphQLString,
-    },
-  },
+  args: Helper.setArguments({
+    name: GraphQLString
+  }),
   async resolve(_, args) {
     try {
       const omnilifeCategory = await OmnilifeCategories.findOne(args)
@@ -49,12 +55,9 @@ const omnilife_categories = {
 
 const omnilife_product = {
   type: ProductTypedef,
-  args: {
-    '_id': {
-      name: '_id',
-      type: GraphQLID,
-    },
-  },
+  args: Helper.setArguments({
+    _id: GraphQLID,
+  }),
   async resolve(_, args) {
     try {
       const omnilifeProduct = await OmnilifeProducts.findOne(args).populate("categories")
@@ -68,8 +71,20 @@ const omnilife_product = {
 
 const omnilife_products = {
   type: new GraphQLList(ProductTypedef),
+  args: Helper.setArguments({
+    limit: GraphQLInt,
+    getLastestProducts: GraphQLBoolean,
+  }),
   async resolve(_, args) {
     try {
+      
+      if (args.getLastestProducts) {
+        console.log('[omnilife.getLastestProducts]')
+        const lastestOmnilifeProducts = await OmnilifeProducts.find({}).sort({ _id: -1 }).limit(args.limit)
+
+        return lastestOmnilifeProducts
+      }
+      
       const omnilifeProducts = await OmnilifeProducts.find(args).populate("categories")
       return omnilifeProducts
     } catch (err) {

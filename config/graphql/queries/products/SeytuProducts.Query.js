@@ -1,7 +1,13 @@
 'use strict'
 
 // Librarys
-const { GraphQLList, GraphQLString } = require('graphql')
+const {
+  GraphQLID,
+  GraphQLInt,
+  GraphQLList,
+  GraphQLString,
+  GraphQLBoolean,
+} = require('graphql')
 
 // Models
 const { SeytuOrders } = require('@models/products/Order')
@@ -15,14 +21,14 @@ const {
   ProductOrderTypedef
 } = require('@graphql/typedefs/products')
 
+// Utils
+const Helper = require("@utils/Helper");
+
 const seytu_category = {
   type: CategoryTypedef,
-  args: {
-    name: {
-      name: 'name',
-      type: GraphQLString,
-    },
-  },
+  args: Helper.setArguments({
+    name: GraphQLString
+  }),
   async resolve(_, args) {
     try {
       const seytuCategory = await SeytuCategories.findOne(args)
@@ -49,12 +55,9 @@ const seytu_categories = {
 
 const seytu_product = {
   type: ProductTypedef,
-  args: {
-    _id: {
-      name: '_id',
-      type: GraphQLString,
-    },
-  },
+  args: Helper.setArguments({
+    _id: GraphQLID,
+  }),
   async resolve(_, args) {
     try {
       const seytuProduct = await SeytuProducts.findOne(args)
@@ -68,8 +71,19 @@ const seytu_product = {
 
 const seytu_products = {
   type: new GraphQLList(ProductTypedef),
+  args: Helper.setArguments({
+    limit: GraphQLInt,
+    getLastestProducts: GraphQLBoolean,
+  }),
   async resolve(_, args) {
     try {
+      console.log(args)
+      if (args.getLastestProducts) {
+        const lastestSeytuProducts = await SeytuProducts.find({}).sort({ _id: -1 }).limit(args.limit)
+
+        return lastestSeytuProducts;
+      }
+
       const seytuProducts = await SeytuProducts.find(args).populate("categories")
       return seytuProducts
     } catch (err) {

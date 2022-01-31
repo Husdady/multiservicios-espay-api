@@ -5,7 +5,7 @@ const { GraphQLObjectType } = require('graphql')
 
 class Helper {
   /**
-   *
+   * Encriptar contraseña
    * @param {password: String}
    * @returns
    */
@@ -15,7 +15,7 @@ class Helper {
   }
 
   /**
-   *
+   * Comparar contraseña
    * @param {password: String, userPassword: String}
    * @returns
    */
@@ -24,7 +24,7 @@ class Helper {
   }
 
   /**
-   *
+   * Crear token
    * @param {config: Object, expiresIn: Number}
    * @returns token
    */
@@ -33,7 +33,7 @@ class Helper {
   }
 
   /**
-   *
+   * Crear objecto de GraphQl
    * @param {name: String, fields: Object}
    * @returns { Object }
    */
@@ -59,6 +59,25 @@ class Helper {
 
     // Retornar objeto
     return graphQLObjectType
+  }
+
+  /**
+   * Setear parámetros a query de GraphQl
+   * @param {properties: Array}
+   */
+  static setArguments(properties) {
+    const args = {}
+
+    const keys = Object.keys(properties);
+
+    for (let key of keys) {
+      args[key] = {
+        name: key,
+        type: properties[key],
+      }
+    }
+
+    return args;
   }
 }
 
