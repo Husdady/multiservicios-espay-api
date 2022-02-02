@@ -9,15 +9,16 @@ const Helper = require('@utils/Helper')
 const AuthorPhotoTypedef = Helper.createGraphQLObjectType('AuthorPhotoTestimony', {
   url: GraphQLString,
   width: GraphQLString,
-  heigth: GraphQLString,
+  height: GraphQLString,
 })
 
 // Author Typedef
 const AuthorTypedef = Helper.createGraphQLObjectType('AuthorTestimony', {
-  name: GraphQLString,
   age: GraphQLString,
+  name: GraphQLString,
   country: GraphQLString,
-  photo: AuthorPhotoTypedef
+  short_name: GraphQLString,
+  photo: AuthorPhotoTypedef,
 })
 
 // User Typedef

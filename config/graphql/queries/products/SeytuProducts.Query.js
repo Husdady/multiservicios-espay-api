@@ -24,6 +24,7 @@ const {
 // Utils
 const Helper = require("@utils/Helper");
 
+// Seytu Category Query
 const seytu_category = {
   type: CategoryTypedef,
   args: Helper.setArguments({
@@ -40,6 +41,7 @@ const seytu_category = {
   },
 }
 
+// Seytu Categories Query
 const seytu_categories = {
   type: new GraphQLList(CategoryTypedef),
   async resolve(_, args) {
@@ -53,6 +55,7 @@ const seytu_categories = {
   },
 }
 
+// Seytu Product Query
 const seytu_product = {
   type: ProductTypedef,
   args: Helper.setArguments({
@@ -69,6 +72,7 @@ const seytu_product = {
   },
 }
 
+// Seytu Products Query
 const seytu_products = {
   type: new GraphQLList(ProductTypedef),
   args: Helper.setArguments({
@@ -76,10 +80,12 @@ const seytu_products = {
     getLastestProducts: GraphQLBoolean,
   }),
   async resolve(_, args) {
+    const { limit, getLastestProducts } = args;
+
     try {
-      console.log(args)
-      if (args.getLastestProducts) {
-        const lastestSeytuProducts = await SeytuProducts.find({}).sort({ _id: -1 }).limit(args.limit)
+      // Si se deben obtener los últimos productos Seytú
+      if (getLastestProducts) {
+        const lastestSeytuProducts = await Helper.getLastestItems(SeytuProducts, limit);
 
         return lastestSeytuProducts;
       }
@@ -92,6 +98,7 @@ const seytu_products = {
   },
 }
 
+// Seytu Order Query
 const seytu_order = {
   type: ProductOrderTypedef,
   args: {
@@ -111,12 +118,12 @@ const seytu_order = {
   },
 }
 
+// Seytu Orders Query
 const seytu_orders = {
   type: new GraphQLList(ProductOrderTypedef),
   async resolve(_, args) {
     try {
       const seytuOrders = await SeytuOrders.find(args).populate("products.product")
-      console.log('[seytuOrders]', seytuOrders)
       return seytuOrders
     } catch (err) {
       console.error('[seytuProductsQuery.orders]', err)

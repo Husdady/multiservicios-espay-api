@@ -1,25 +1,30 @@
 'use strict'
 
 // Librarys
-const { GraphQLList, GraphQLString } = require('graphql')
+const {
+  GraphQLInt,
+  GraphQLList,
+  GraphQLString,
+  GraphQLBoolean,
+} = require('graphql')
 
 // Models
-const Testimony = require('@models/testimonials/Testimony')
+const Testimonials = require('@models/testimonials/Testimony')
 
 // Typedefs
 const TestimonyTypedef = require('@graphql/typedefs/testimonials/Testimony.Typedef')
 
+// Utils
+const Helper = require("@utils/Helper");
+
 const author_testimony = {
   type: TestimonyTypedef,
-  args: {
-    'name': {
-      name: 'name',
-      type: GraphQLString,
-    },
-  },
+  args: Helper.setArguments({
+    name: GraphQLString
+  }),
   async resolve(_, args) {
     try {
-      const testimony = await Testimony.findOne({
+      const testimony = await Testimonials.findOne({
         'author.short_name': args.name
       })
 
@@ -32,10 +37,40 @@ const author_testimony = {
 
 const testimonials = {
   type: new GraphQLList(TestimonyTypedef),
-  async resolve(_, args) {
+  args: Helper.setArguments({
+    skip: GraphQLInt,
+    limit: GraphQLInt,
+    pagination: GraphQLBoolean,
+    getLastestTestimonials: GraphQLBoolean,
+  }),
+  async resolve(_, args, context) {
+    const { skip, limit, pagination, getLastestTestimonials } = args;
+
     try {
-      const testimonialsFound = await Testimony.find(args)
-      return testimonialsFound
+      if (pagination && getLastestTestimonials) {
+        return null;
+      }
+
+      // Si se deben obtener los últimos testimonios Omnilife
+      if (getLastestTestimonials) {
+        const lastestTestimonials = await Helper.getLastestItems(Testimonials, limit);
+
+        return lastestTestimonials;
+      }
+
+      // Si se debe paginar los testimonios
+      if (pagination) {
+        const paginatedTestimonials = await Helper.paginate({
+          skip: skip,
+          limit: limit,
+          model: Testimonials,
+        })
+
+        return paginatedTestimonials;
+      }
+
+      const testimonialsFound = await Testimonials.find(args)
+      return testimonialsFound;
     } catch (err) {
       console.error('[TestimonyQuery.testimonials]', err)
     }

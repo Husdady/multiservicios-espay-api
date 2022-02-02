@@ -24,6 +24,7 @@ const {
 // Utils
 const Helper = require("@utils/Helper");
 
+// Omnilife Categoru Query
 const omnilife_category = {
   type: CategoryTypedef,
   args: Helper.setArguments({
@@ -40,6 +41,7 @@ const omnilife_category = {
   },
 }
 
+// Omnilife Categories Query
 const omnilife_categories = {
   type: new GraphQLList(CategoryTypedef),
   async resolve(_, args) {
@@ -53,6 +55,7 @@ const omnilife_categories = {
   },
 }
 
+// Omnilife Product Query
 const omnilife_product = {
   type: ProductTypedef,
   args: Helper.setArguments({
@@ -69,6 +72,7 @@ const omnilife_product = {
   },
 }
 
+// Omnilife Products Query
 const omnilife_products = {
   type: new GraphQLList(ProductTypedef),
   args: Helper.setArguments({
@@ -76,11 +80,12 @@ const omnilife_products = {
     getLastestProducts: GraphQLBoolean,
   }),
   async resolve(_, args) {
+    const { limit, getLastestProducts } = args;
+
     try {
-      
-      if (args.getLastestProducts) {
-        console.log('[omnilife.getLastestProducts]')
-        const lastestOmnilifeProducts = await OmnilifeProducts.find({}).sort({ _id: -1 }).limit(args.limit)
+      // Si se deben obtener los últimos productos Omnilife
+      if (getLastestProducts) {
+        const lastestOmnilifeProducts = await Helper.getLastestItems(OmnilifeProducts, limit)
 
         return lastestOmnilifeProducts
       }
@@ -93,6 +98,7 @@ const omnilife_products = {
   },
 }
 
+// Omnilife Order Query
 const omnilife_order = {
   type: ProductOrderTypedef,
   args: {
@@ -112,6 +118,7 @@ const omnilife_order = {
   },
 }
 
+// Omnilife Orders Query
 const omnilife_orders = {
   type: new GraphQLList(ProductOrderTypedef),
   async resolve(_, args) {

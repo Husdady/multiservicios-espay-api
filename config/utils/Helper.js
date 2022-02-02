@@ -79,6 +79,22 @@ class Helper {
 
     return args;
   }
+
+  /**
+   * Paginar un modelo
+   * @param {skip: Number, limit: Number, model: Object}
+   */
+  static paginate({ skip, limit, model }) {
+    return model.find({}).limit(limit).skip(skip);
+  }
+
+  /**
+   * Obtener los últimos elementos añadidos de un modelo con un límite
+   * @param {Model: Object, limit: Number}
+   */
+  static getLastestItems(Model, limit = 10) {
+    return Model.find({}).sort({ _id: -1 }).limit(limit)
+  }
 }
 
 module.exports = Helper
