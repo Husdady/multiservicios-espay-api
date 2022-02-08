@@ -7,6 +7,7 @@ const {
   GraphQLList,
   GraphQLString,
   GraphQLBoolean,
+  GraphQLInputObjectType,
 } = require('graphql')
 
 // Models
@@ -18,7 +19,8 @@ const { OmnilifeCategories } = require('@models/products/Category')
 const {
   CategoryTypedef,
   ProductTypedef,
-  ProductOrderTypedef
+  ProductOrderTypedef,
+  ProductFiltersTypedef
 } = require('@graphql/typedefs/products')
 
 // Utils
@@ -76,22 +78,62 @@ const omnilife_product = {
 const omnilife_products = {
   type: new GraphQLList(ProductTypedef),
   args: Helper.setArguments({
+    skip: GraphQLInt,
     limit: GraphQLInt,
+    pagination: GraphQLBoolean,
     getLastestProducts: GraphQLBoolean,
+    filters: ProductFiltersTypedef,
   }),
   async resolve(_, args) {
-    const { limit, getLastestProducts } = args;
+    const { skip, limit, filters, pagination, getLastestProducts } = args;
 
     try {
+      if (pagination && getLastestProducts) return null;
+
       // Si se deben obtener los últimos productos Omnilife
       if (getLastestProducts) {
         const lastestOmnilifeProducts = await Helper.getLastestItems(OmnilifeProducts, limit)
 
-        return lastestOmnilifeProducts
+        return lastestOmnilifeProducts;
+      }
+
+      // Si se debe paginar los productos Omnilife
+      if (pagination) {
+        const config = {
+          skip: 0,
+          limit: 40,
+          model: OmnilifeProducts,
+          filters: {}
+        }
+
+        if (skip) config.skip = skip;
+        if (limit) config.limit = limit;
+        if (filters) {
+          if (filters.title) {
+            Object.assign(config.filters, {
+              title: {
+                $options: "i",
+                $regex: filters.title,
+              }
+            })
+          }
+
+          if (filters.categories) {
+            Object.assign(config.filters, {
+              categories: {
+                $in: filters.categories,
+              }
+            })
+          }
+        }
+
+        const paginateOmnilifeProducts = await Helper.paginate(config).populate("categories")
+
+        return paginateOmnilifeProducts;
       }
       
       const omnilifeProducts = await OmnilifeProducts.find(args).populate("categories")
-      return omnilifeProducts
+      return omnilifeProducts;
     } catch (err) {
       console.error('[OmnilifeProductsQuery.products]', err)
     }

@@ -18,7 +18,8 @@ const { SeytuCategories } = require('@models/products/Category')
 const {
   CategoryTypedef,
   ProductTypedef,
-  ProductOrderTypedef
+  ProductOrderTypedef,
+  ProductFiltersTypedef,
 } = require('@graphql/typedefs/products')
 
 // Utils
@@ -76,18 +77,75 @@ const seytu_product = {
 const seytu_products = {
   type: new GraphQLList(ProductTypedef),
   args: Helper.setArguments({
+    skip: GraphQLInt,
     limit: GraphQLInt,
+    pagination: GraphQLBoolean,
     getLastestProducts: GraphQLBoolean,
+    filters: ProductFiltersTypedef,
   }),
   async resolve(_, args) {
-    const { limit, getLastestProducts } = args;
-
+    const { skip, limit, filters, pagination, getLastestProducts } = args;
+    console.log('[args]', args)
     try {
+      if (pagination && getLastestProducts) return null;
+
       // Si se deben obtener los últimos productos Seytú
       if (getLastestProducts) {
         const lastestSeytuProducts = await Helper.getLastestItems(SeytuProducts, limit);
 
         return lastestSeytuProducts;
+      }
+
+      // Si se debe paginar los productos Seytú
+      if (pagination) {
+        const config = {
+          skip: 0,
+          limit: 40,
+          sortBy: {},
+          filters: {},
+          model: SeytuProducts,
+        }
+
+        if (skip) config.skip = skip;
+        if (limit) config.limit = limit;
+        if (filters) {
+          // Filtrar por nombre del producto
+          if (filters.title) {
+            Object.assign(config.filters, {
+              title: {
+                $options: "i",
+                $regex: filters.title,
+              }
+            })
+          }
+
+          // Filtrar por categorías
+          if (filters.categories) {
+            Object.assign(config.filters, {
+              categories: {
+                $in: filters.categories,
+              }
+            })
+          }
+
+          // Ordenar productos
+          if (filters.sortBy) {
+            const keys = Object.keys(filters.sortBy);
+
+            for (let i = 0; i < keys.length; i++) {
+              const key = keys[i];
+
+              Object.assign(config.sortBy, {
+                [key]: filters.sortBy[key]
+              })
+            } 
+            
+          }
+        }
+
+        const paginateSeytuProducts = await Helper.paginate(config).populate("categories")
+
+        return paginateSeytuProducts;
       }
 
       const seytuProducts = await SeytuProducts.find(args).populate("categories")

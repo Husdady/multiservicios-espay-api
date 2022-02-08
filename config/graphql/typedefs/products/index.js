@@ -1,9 +1,25 @@
 // Librarys
 const { GraphQLDateTime } = require('graphql-iso-date')
-const { GraphQLID, GraphQLString, GraphQLFloat, GraphQLList } = require('graphql')
+const { GraphQLID, GraphQLString, GraphQLInt, GraphQLFloat, GraphQLList } = require('graphql')
 
 // Utils
 const Helper = require('@utils/Helper')
+
+// Product Sort By Typedef
+const ProductSortByTypedef = Helper.createGraphQLObjectType('ProductSortBy', {
+  title: GraphQLInt,
+  stock: GraphQLInt,
+  price: GraphQLInt,
+  totalVisits: GraphQLInt,
+  createdAt: GraphQLInt,
+}, "input")
+
+// Filters Product Typedef
+const ProductFiltersTypedef = Helper.createGraphQLObjectType('ProductFilters', {
+  title: GraphQLString,
+  sortBy: ProductSortByTypedef,
+  categories: new GraphQLList(GraphQLID),
+}, "input");
 
 // Category Typedef
 const CategoryTypedef = Helper.createGraphQLObjectType('Category', {
@@ -66,7 +82,8 @@ const ProductOrderTypedef = Helper.createGraphQLObjectType('ProductOrder', {
 })
 
 module.exports = {
+  CategoryTypedef,
   ProductTypedef,
   ProductOrderTypedef,
-  CategoryTypedef
+  ProductFiltersTypedef,
 }

@@ -1,7 +1,7 @@
 // Librarys
 const { sign } = require('jsonwebtoken')
 const { genSalt, hash, compare } = require('bcrypt')
-const { GraphQLObjectType } = require('graphql')
+const { GraphQLObjectType, GraphQLInputObjectType } = require('graphql')
 
 class Helper {
   /**
@@ -33,11 +33,11 @@ class Helper {
   }
 
   /**
-   * Crear objecto de GraphQl
+   * Crear objeto de GraphQl
    * @param {name: String, fields: Object}
    * @returns { Object }
    */
-  static createGraphQLObjectType(name, fields) {
+  static createGraphQLObjectType(name, fields, type) {
     const objectTypeFields = {}
 
     // Obtener los nombres de todos campo
@@ -51,14 +51,23 @@ class Helper {
       }
     }
 
-    // Crear objeto de Graphql
-    const graphQLObjectType = new GraphQLObjectType({
+    // Configuración del objeto
+    const config = {
       name: name,
       fields: objectTypeFields
-    })
+    }
+
+    // Si es un objeto de entrada
+    if (type === "input") {
+      const graphQLInputObjectType = new GraphQLInputObjectType(config);
+      return graphQLInputObjectType;
+    }
+
+    // Crear objeto de Graphql
+    const graphQLObjectType = new GraphQLObjectType(config)
 
     // Retornar objeto
-    return graphQLObjectType
+    return graphQLObjectType;
   }
 
   /**
@@ -84,8 +93,8 @@ class Helper {
    * Paginar un modelo
    * @param {skip: Number, limit: Number, model: Object}
    */
-  static paginate({ skip, limit, model }) {
-    return model.find({}).limit(limit).skip(skip);
+  static paginate({ skip, limit, model, sortBy, filters }) {
+    return model.find(filters).sort(sortBy).limit(limit).skip(skip);
   }
 
   /**

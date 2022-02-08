@@ -43,13 +43,11 @@ const testimonials = {
     pagination: GraphQLBoolean,
     getLastestTestimonials: GraphQLBoolean,
   }),
-  async resolve(_, args, context) {
+  async resolve(_, args) {
     const { skip, limit, pagination, getLastestTestimonials } = args;
 
     try {
-      if (pagination && getLastestTestimonials) {
-        return null;
-      }
+      if (pagination && getLastestTestimonials) return null;
 
       // Si se deben obtener los últimos testimonios Omnilife
       if (getLastestTestimonials) {
@@ -61,8 +59,8 @@ const testimonials = {
       // Si se debe paginar los testimonios
       if (pagination) {
         const paginatedTestimonials = await Helper.paginate({
-          skip: skip,
-          limit: limit,
+          skip: skip || 0,
+          limit: limit || 6,
           model: Testimonials,
         })
 
