@@ -65,8 +65,12 @@ const ProductTypedef = Helper.createGraphQLObjectType('Product', {
 
 // Client Products Orders
 const ClientProductsOrdersTypedef = Helper.createGraphQLObjectType('ClientProductsOrdersTypedef', {
-  quantity: GraphQLFloat,
-  product: ProductTypedef
+  product: ProductTypedef,
+  status: GraphQLString,
+  totalCost: GraphQLInt,
+  totalUnits: GraphQLInt,
+  creationDate: GraphQLDateTime, 
+  optionalMessage: GraphQLString,
 })
 
 // Product Order Typedef
@@ -74,8 +78,7 @@ const ProductOrderTypedef = Helper.createGraphQLObjectType('ProductOrder', {
   _id: GraphQLID,
   clientId: GraphQLString,
   clientName: GraphQLString,
-  phone: GraphQLString,
-  status: GraphQLString,
+  clientPhone: GraphQLString,
   products: new GraphQLList(ClientProductsOrdersTypedef),
   createdAt: GraphQLDateTime,
   updatedAt: GraphQLDateTime,

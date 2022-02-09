@@ -143,12 +143,9 @@ const omnilife_products = {
 // Omnilife Order Query
 const omnilife_order = {
   type: ProductOrderTypedef,
-  args: {
-    'clientId': {
-      name: 'clientId',
-      type: GraphQLString,
-    },
-  },
+  args: Helper.setArguments({
+    clientId: GraphQLString,
+  }),
   async resolve(_, args) {
     try {
       const omnilifeOrder = await OmnilifeOrders.findOne(args).populate("products.product")
@@ -163,6 +160,9 @@ const omnilife_order = {
 // Omnilife Orders Query
 const omnilife_orders = {
   type: new GraphQLList(ProductOrderTypedef),
+  args: Helper.setArguments({
+    clientId: GraphQLString,
+  }),
   async resolve(_, args) {
     try {
       const omnilifeOrders = await OmnilifeOrders.find(args).populate("products.product")

@@ -1,13 +1,13 @@
 // Utils
 const {
-  Validations: { validateSchema, validateSecretPassword },
+  Validations: { validateSchema },
 } = require('@utils/Validations');
 
 const SchemaProductCreation = {
   clientId: String,
   clientName: String,
-  phone: String,
-  emptyBody: "You need to provide the order product fields: 'clientName', 'phone', etc.",
+  clientPhone: String,
+  emptyBody: "You need to provide the order product fields: 'clientName', 'clientPhone', etc."
 }
 
 const validateOrderCreation = validateSchema(SchemaProductCreation)
@@ -21,36 +21,37 @@ function createOrder(Model) {
       // Si existen errores en el body, devolver errores
       if (body.error) throw new Error(body.error)
 
-      // Comprobar si existe la clave secreta
-      validateSecretPassword({
-        secret_password: req.headers.secret_password,
-        onDifferent: function () {
-          return res.status(401).json({
-            message: 'No tienes permisos para realizar un pedido!',
-          })
-        },
-      })
-
       // Destructurar 'req.body'
-      const { clientId, clientName, phone, status, quantity, products } = req.body
-
-      // Crear nuevo pedido de un producto
-      const newProductOrder = new Model({
-        clientId,
-        clientName,
-        phone,
-        status,
-        quantity,
-        products
-      })
-
-      // Guardar pedido
-      await newProductOrder.save();
+      const { clientId, clientName, clientPhone, products } = req.body
 
       // Mensaje existoso
       const successMessage = {
         message: 'Se ha realizado el pedido exitosamente, se enviará un mensaje de confirmación a tu Whatsapp',
       }
+
+      const existOrder = await Model.exists({ clientId })
+
+      if (existOrder) {
+        await Model.updateMany({ clientId }, {
+          $push: {
+            products: products[0]
+          }
+        })
+
+        // Retornar mensaje exitoso
+        return res.status(200).json(successMessage)
+      }
+
+      // Crear nuevo pedido de un producto
+      const newProductOrder = new Model({
+        clientId,
+        clientName,
+        clientPhone,
+        products
+      })
+
+      // Guardar pedido
+      await newProductOrder.save();
 
       // Retornar mensaje exitoso
       res.status(200).json(successMessage)

@@ -165,6 +165,9 @@ const seytu_order = {
       type: GraphQLString,
     },
   },
+  args: Helper.setArguments({
+    clientId: GraphQLString,
+  }),
   async resolve(_, args) {
     try {
       const seytuOrder = await SeytuOrders.findOne(args).populate("products.product")
@@ -179,6 +182,9 @@ const seytu_order = {
 // Seytu Orders Query
 const seytu_orders = {
   type: new GraphQLList(ProductOrderTypedef),
+  args: Helper.setArguments({
+    clientId: GraphQLString,
+  }),
   async resolve(_, args) {
     try {
       const seytuOrders = await SeytuOrders.find(args).populate("products.product")

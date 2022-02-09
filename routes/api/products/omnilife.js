@@ -24,6 +24,7 @@ const { OmnilifeCategories } = require("@models/products/Category");
 // Middlewares
 const { verifyToken } = require('@middlewares/auth/token')
 const verifyPermission = require('@middlewares/user/verifyPermission')
+const verifySecretPassword = require('@middlewares/auth/verifySecretPassword')
 const { uploadMultipleImages, updateMultipleImages } = require('@middlewares/upload/Upload.Middleware')
 
 // Utils
@@ -104,6 +105,10 @@ router.put(
 router.delete('/:productId', verifyToken, permissionRequiredToDeleteProducts, Omnilife.deleteProduct)
 
 // Crear nuevo pedido de uno o varios productos Omnilife
-router.post('/orders/new-order', verifyToken, Omnilife.createOrder)
+router.post(
+  '/orders/new-order',
+  verifySecretPassword('You do not have permissions to create an order for an Omnilife product'),
+  Omnilife.createOrder
+)
 
 module.exports = router

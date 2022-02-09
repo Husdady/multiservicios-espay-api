@@ -10,12 +10,14 @@ const createOrderSchema = function (config) {
     {
       clientId: { type: String, required: true, unique: true },
       clientName: { type: String, required: true },
-      phone: { type: String, required: true },
-      status: { type: String, required: true },
+      clientPhone: { type: String, required: true },
       products: [
         {
-          _id: false,
-          quantity: { type: Number, required: true },
+          optionalMessage: String,
+          status: { type: String, required: true },
+          totalCost: { type: Number, required: true },
+          totalUnits: { type: Number, required: true },
+          creationDate: { type: Date, required: true },
           product: {
             ref: refProduct,
             type: Schema.Types.ObjectId,

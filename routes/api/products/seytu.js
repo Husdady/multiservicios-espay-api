@@ -24,6 +24,7 @@ const { SeytuCategories } = require("@models/products/Category");
 // Middlewares
 const { verifyToken } = require('@middlewares/auth/token')
 const verifyPermission = require('@middlewares/user/verifyPermission')
+const verifySecretPassword = require('@middlewares/auth/verifySecretPassword')
 const { uploadMultipleImages, updateMultipleImages } = require('@middlewares/upload/Upload.Middleware')
 
 // Utils
@@ -104,6 +105,10 @@ router.put(
 router.delete('/:productId', verifyToken, permissionRequiredToDeleteProducts, Seytu.deleteProduct)
 
 // Crear nuevo pedido de uno o varios productos Seytú
-router.post('/orders/new-order', verifyToken, Seytu.createOrder)
+router.post(
+  '/orders/new-order',
+  verifySecretPassword('You do not have permissions to create an order for an Seytu product'),
+  Seytu.createOrder
+)
 
 module.exports = router
