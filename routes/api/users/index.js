@@ -11,7 +11,8 @@ const UsersController = require('@controllers/users/Users.Controller')
 // Middlewares
 const { verifyToken } = require('@middlewares/auth/token')
 const verifyPermission = require('@middlewares/user/verifyPermission')
-const { uploadImage, deleteImage } = require('@middlewares/upload/Upload.Middleware')
+const { uploadImage } = require('@middlewares/upload/Upload.Middleware')
+const { uploadImageToCloudinary } = require('@middlewares/upload/Upload.Cloudinary')
 
 // Utils
 const { upload } = require('@utils/multer')
@@ -45,40 +46,44 @@ router.put(
     },
     successMessage: ({ fullname }) => 'Se ha actualizado exitosamente la información de ' + fullname,
   }),
+  uploadImageToCloudinary((fileId) => ({
+    folder: "users",
+    public_id: "user-" + fileId,
+  })),
   uploadImage({
     Model: User,
     path: "settings.avatar",
-    cloudinary_folder: 'users',
-    filename: (fileId) => `user-${fileId}`,
-    uploadError: 'Ha ocurrido un error al actualizar la foto de perfil del usuario',
+    uploadError: "Ha ocurrido un error al actualizar la foto de perfil del usuario",
   }),
 )
 
-// Actualizar información personal del usuario administrador
+// Actualizar información personal de un usuario
 router.put(
   '/:userId/update',
-  [verifyToken, upload.single('profilePhoto')],
+  verifyToken,
+  upload.single('profilePhoto'),
   UsersController.editUser({
+    successMessage: 'Se actualizó tu información personal exitosamente',
     errors: {
       userDataIsTheSame: 'Tu información es la misma, debes proporcionar nuevos datos'
     },
-    successMessage: 'Se actualizó tu información personal exitosamente',
   }),
+  uploadImageToCloudinary((fileId) => ({
+    folder: "users",
+    public_id: "user-" + fileId
+  })),
   uploadImage({
     Model: User,
     path: "settings.avatar",
-    cloudinary_folder: 'users',
-    filename: (fileId) => `user-${fileId}`,
     uploadError: 'Ha ocurrido un error al actualizar tu foto de perfil',
   }),
 )
 
-// Eliminar usuario por id
+// Eliminar temporalmente un usuario por id
 router.delete(
   '/:userId',
   [verifyToken, permissionRequiredToDeleteUsers],
   UsersController.deleteUser,
-  deleteImage({ cloudinary_path: 'users/user' })
 )
 
 // Restaurar usuario por id
@@ -92,7 +97,6 @@ router.delete(
   '/:userId/close-my-account',
   verifyToken,
   UsersController.closeMyAccount,
-  deleteImage({ cloudinary_path: 'users/user' })
 )
 
 module.exports = router

@@ -1,8 +1,12 @@
 // Models
 const Contact = require('@models/contact')
 
+// Middlewares
+const { removeImageFromCloudinary } = require('@middlewares/upload/Upload.Cloudinary')
+
 // Utils
 const cloudinary = require('@utils/cloudinary')
+const { convertEmptySpacesInHyphens } = require('@utils/Helper')
 
 // Comprobar si existe un usuario administrador
 async function updateContactInformation(req, res, next) {
@@ -17,8 +21,10 @@ async function updateContactInformation(req, res, next) {
       socialNetworks
     } = req.body
 
+    const formHasBeenEdited = JSON.parse(req.body.formHasBeenEdited)
+
     // Si la información del usuario sigue siendo la misma
-    if (!JSON.parse(req.body.formHasBeenEdited)) {
+    if (!formHasBeenEdited) {
       throw new Error('La información no ha sido actualizada, por favor actualice sus datos por otros que no sean iguales a los actuales')
     }
 
@@ -33,13 +39,15 @@ async function updateContactInformation(req, res, next) {
       socialNetworks: JSON.parse(socialNetworks),
     }
 
-    // Obtener el nombre del contacto
-    const author = fullname.toLowerCase()
+    const existContactPhoto = JSON.parse(req.body.existContactPhoto)
 
-    if (req.body.contactPhotoName === 'null') {
+    if (!existContactPhoto) {
+
+      // Obtener el id de la imagen de Cloudinary que se va a eliminar
+      const public_id = "contact/yessica-milagros";
 
       // Eliminar imagen de Cloudinary
-      await cloudinary.v2.uploader.destroy(`contact-${author}`)
+      await removeImageFromCloudinary(public_id)
 
       // Eliminar foto de contacto de la DB
       Object.assign(newContactData, {
@@ -49,22 +57,25 @@ async function updateContactInformation(req, res, next) {
 
     const existContactInformation = await Contact.exists({})
 
+    let contact = null;
+
     // Si ya existe la información de contacto
     if (existContactInformation) {
       // Actualizar información
-      await Contact.findOneAndUpdate({}, newContactData)
+      contact = await Contact.findOneAndUpdate({}, newContactData).select({ _id: 1 }).lean()
     } else {
       // Crear contacto
-      const contact = new Contact(newContactData)
+      contact = new Contact(newContactData)
 
       // Guardar contacto
       await contact.save()
     }
 
     // Mensaje existoso
-    const successMessage = {
-      message: "Se actualizó exitosamente la información de contacto"
-    }
+    const successMessage = "Se actualizó exitosamente la información de contacto"
+
+    // Setear id del contacto
+    req.fileId = contact._id
 
     // Si existe una imagen como archivo
     if (req.file) {
@@ -72,11 +83,11 @@ async function updateContactInformation(req, res, next) {
       req.successMessage = successMessage
 
       // Continuar al siguiente middleware
-      next()
+      return next();
     }
 
     // Retornar mensaje exitoso
-    !req.file && res.status(200).json(successMessage)
+    return res.status(200).json({ message: successMessage })
   } catch (err) {
     return res.status(400).send({ error: err.message })
   }

@@ -7,25 +7,27 @@ function deleteCategory(Model, Company) {
       // Eliminar categoría
       await Model.findByIdAndDelete(categoryId)
 
+      const filter = {
+        categories: {
+          $in: categoryId,
+        },
+      };
+
+      const $pullAll = {
+        $pullAll: {
+          categories: [categoryId],
+        },
+      }
+
+      const config = { multi: true }
+
       // Eliminar categoría en productos
-      await Company.updateMany(
-        {
-          categories: {
-            $in: categoryId,
-          },
-        },
-        {
-          $pullAll: {
-            categories: [categoryId],
-          },
-        },
-        { multi: true },
-      )
+      await Company.updateMany(filter, $pullAll, config)
 
       // Retornar respuesta de servidor
-      res.status(204).json({})
+      return res.status(204).json({})
     } catch (err) {
-      res.status(400).send({ error: err.message })
+      return res.status(400).send({ error: err.message })
     }
   }
 }

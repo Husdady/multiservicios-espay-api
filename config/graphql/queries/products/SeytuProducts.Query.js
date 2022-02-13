@@ -23,17 +23,18 @@ const {
 } = require('@graphql/typedefs/products')
 
 // Utils
-const Helper = require("@utils/Helper");
+const Pagination = require("@utils/Pagination");
+const { setArguments } = require("@utils/Helper");
 
 // Seytu Category Query
 const seytu_category = {
   type: CategoryTypedef,
-  args: Helper.setArguments({
+  args: setArguments({
     name: GraphQLString
   }),
   async resolve(_, args) {
     try {
-      const seytuCategory = await SeytuCategories.findOne(args)
+      const seytuCategory = await SeytuCategories.findOne(args).lean()
 
       return seytuCategory
     } catch (err) {
@@ -47,7 +48,7 @@ const seytu_categories = {
   type: new GraphQLList(CategoryTypedef),
   async resolve(_, args) {
     try {
-      const seytuCategory = await SeytuCategories.find(args)
+      const seytuCategory = await SeytuCategories.find(args).lean()
 
       return seytuCategory
     } catch (err) {
@@ -59,14 +60,27 @@ const seytu_categories = {
 // Seytu Product Query
 const seytu_product = {
   type: ProductTypedef,
-  args: Helper.setArguments({
+  args: setArguments({
     _id: GraphQLID,
+    name: GraphQLString,
   }),
   async resolve(_, args) {
     try {
-      const seytuProduct = await SeytuProducts.findOne(args)
+      const config = {}
 
-      return seytuProduct
+      if (args._id) {
+        config._id = args._id
+      }
+
+      if (args.name) {
+        config.title = {
+          $regex: new RegExp(args.name.replace(/\W/g, '\\$&'), "gi"),
+        }
+      }
+
+      const seytuProduct = await SeytuProducts.findOne(config).populate("categories").lean()
+
+      return seytuProduct;
     } catch (err) {
       console.error('[SeytuProductsQuery.product]', err)
     }
@@ -76,24 +90,41 @@ const seytu_product = {
 // Seytu Products Query
 const seytu_products = {
   type: new GraphQLList(ProductTypedef),
-  args: Helper.setArguments({
+  args: setArguments({
     skip: GraphQLInt,
     limit: GraphQLInt,
     pagination: GraphQLBoolean,
     getLastestProducts: GraphQLBoolean,
+    getAleatoryProducts: GraphQLBoolean,
     filters: ProductFiltersTypedef,
   }),
   async resolve(_, args) {
-    const { skip, limit, filters, pagination, getLastestProducts } = args;
-    console.log('[args]', args)
     try {
-      if (pagination && getLastestProducts) return null;
+      const {
+        skip,
+        limit,
+        filters,
+        pagination,
+        getLastestProducts,
+        getAleatoryProducts,
+      } = args;
 
       // Si se deben obtener los últimos productos Seytú
       if (getLastestProducts) {
-        const lastestSeytuProducts = await Helper.getLastestItems(SeytuProducts, limit);
+        const lastestSeytuProducts = await Pagination.getLastestItems(SeytuProducts, limit);
 
         return lastestSeytuProducts;
+      }
+
+      // Si se deben obtener los productos Seytú aleatoriamente
+      if (getAleatoryProducts) {
+        const aleatorySeytuProducts = await Pagination.getAleatoryProducts({
+          limit: limit,
+          Model: SeytuProducts,
+          productToExclude: filters.title,
+        })
+
+        return aleatorySeytuProducts;
       }
 
       // Si se debe paginar los productos Seytú
@@ -143,12 +174,12 @@ const seytu_products = {
           }
         }
 
-        const paginateSeytuProducts = await Helper.paginate(config).populate("categories")
+        const paginateSeytuProducts = await paginate(config).populate("categories")
 
         return paginateSeytuProducts;
       }
 
-      const seytuProducts = await SeytuProducts.find(args).populate("categories")
+      const seytuProducts = await SeytuProducts.find(args).populate("categories").lean()
       return seytuProducts
     } catch (err) {
       console.error('[SeytuProductsQuery.products]', err)
@@ -165,7 +196,7 @@ const seytu_order = {
       type: GraphQLString,
     },
   },
-  args: Helper.setArguments({
+  args: setArguments({
     clientId: GraphQLString,
   }),
   async resolve(_, args) {
@@ -182,7 +213,7 @@ const seytu_order = {
 // Seytu Orders Query
 const seytu_orders = {
   type: new GraphQLList(ProductOrderTypedef),
-  args: Helper.setArguments({
+  args: setArguments({
     clientId: GraphQLString,
   }),
   async resolve(_, args) {

@@ -2,6 +2,9 @@
 const User = require('@models/users/User')
 const Admin = require('@models/users/Admin')
 
+// Middlewares
+const { removeImageFromCloudinary } = require('@middlewares/upload/Upload.Cloudinary')
+
 // Utils
 const { comparePassword, encryptPassword } = require('@utils/Helper')
 
@@ -13,12 +16,88 @@ async function existUserAdmin(_, res) {
 
     // Si el total de admins es mayor a 0
     if (adminCount > 0) {
-      res.status(200).json({ existUserAdmin: true })
-    } else {
-      res.status(200).json({ existUserAdmin: false })
+      return res.status(200).json({ existUserAdmin: true });
     }
+    
+    return res.status(200).json({ existUserAdmin: false });
   } catch (err) {
     return res.status(400).send({ error: err.message })
+  }
+}
+
+// Actualizar información personal del usuario administrador
+async function updateMyPersonalInformation(req, res, next) {
+  try {
+    // Setear id del usuario administrador
+    const { adminId } = req.query
+
+    // Obtener datos del body
+    const { fullname, email, profilePhotoName } = req.body
+    
+    // Encontrar si ya existe un usuario con ese correo electrónico
+    const existUserWithThatEmail = await User.exists({ email })
+
+    // Comprobar si el correo ingresado no está en uso
+    if (existUserWithThatEmail) {
+      throw new Error('Ya existe un usuario registrado con ese correo electrónico')
+    }
+
+    const formHasBeenEdited = JSON.parse(req.body.formHasBeenEdited)
+
+    // Si la información del usuario sigue siendo la misma
+    if (!formHasBeenEdited) {
+      throw new Error('Tu información es la misma, debes proporcionar nuevos datos')
+    }
+
+    // Nueva información del usuario
+    const newAdminData = {
+      fullname: fullname,
+      email: email,
+    }
+
+    const existUserPhoto = JSON.parse(req.body.existUserPhoto)
+
+    if (!existUserPhoto) {
+      // Obtener el id de la imagen de Cloudinary que se va a eliminar
+      const public_id = `admin/admin-${adminId}`;
+
+      // Eliminar imagen de Cloudinary
+      await removeImageFromCloudinary(public_id);
+
+      // Eliminar foto de perfil del usuario de la DB
+      Object.assign(newAdminData, {
+        settings: {
+          avatar: null,
+        },
+      })
+    }
+
+    // Actualizar usuario administrador
+    await Admin.findOneAndUpdate({}, newAdminData)
+
+    // Mensaje existoso
+    const successMessage = "Se actualizó tu información personal exitosamente"
+
+    // Setear id de usuario
+    req.fileId = adminId
+
+    // Si existe una imagen como archivo
+    if (req.file) {
+      // Setear mensaje exitoso
+      req.successMessage = successMessage
+
+      // Continuar al siguiente middleware
+      next();
+    }
+
+    // Retornar mensaje exitoso
+    return res.status(200).json({ message: successMessage })
+  } catch (err) {
+    if (err.codeName === 'DuplicateKey') {
+      return res.status(400).send({ error: 'Ya existe un usuario registrado con ese correo electrónico' })
+    }
+
+    return res.status(400).send({ error: err.message });
   }
 }
 
@@ -62,87 +141,12 @@ async function closeMyAccount(req, res) {
 
     // Si el usuario administrador tiene foto de perfil
     if (admin?.settings?.avatar) {
-      // Setear id del usuario
-      req.fileId = admin._id
-      // Continuar al siguiente middleware
-      next()
-    } else {
-      return res.status(204).json({})
+      await removeImageFromCloudinary(admin._id);
     }
+    
+    return res.status(204).json({});
   } catch (err) {
     res.status(400).send({ error: err.message })
-  }
-}
-
-// Actualizar información personal del usuario administrador
-async function updateMyPersonalInformation(req, res, next) {
-  try {
-    // Setear id del usuario administrador
-    const { adminId } = req.query
-
-    // Obtener datos del body
-    const { fullname, email, profilePhotoName } = req.body
-    
-    // Encontrar si ya existe un usuario con ese correo electrónico
-    const existUserWithThatEmail = await User.exists({ email })
-
-    // Comprobar si el correo ingresado no está en uso
-    if (existUserWithThatEmail) {
-      throw new Error('Ya existe un usuario registrado con ese correo electrónico')
-    }
-
-    // Si la información del usuario sigue siendo la misma
-    if (!JSON.parse(req.body.formHasBeenEdited)) {
-      throw new Error('Tu información es la misma, debes proporcionar nuevos datos')
-    }
-
-    // Nueva información del usuario
-    const newAdminData = {
-      fullname: fullname,
-      email: email,
-    }
-
-    if (profilePhotoName === 'null') {
-      // Eliminar imagen de Cloudinary
-      await cloudinary.v2.uploader.destroy(`admin/admin-${adminId}`)
-
-      // Eliminar foto de perfil del usuario de la DB
-      Object.assign(newAdminData, {
-        settings: {
-          avatar: null,
-        },
-      })
-    }
-
-    // Actualizar usuario
-    await Admin.findOneAndUpdate({}, newAdminData)
-
-    // Mensaje existoso
-    const successMessage = {
-      message: 'Se actualizó tu información personal exitosamente',
-    }
-
-    // Setear id de usuario
-    req.fileId = adminId
-
-    // Si existe una imagen como archivo
-    if (req.file) {
-      // Setear mensaje exitoso
-      req.successMessage = successMessage
-
-      // Continuar al siguiente middleware
-      next()
-    }
-
-    // Retornar mensaje exitoso
-    !req.file && res.status(200).json(successMessage)
-  } catch (err) {
-    console.log('[Admin.updateMyPersonalInformation.ERROR]', err)
-    if (err.codeName === 'DuplicateKey') {
-      res.status(400).send({ error: 'Ya existe un usuario registrado con ese correo electrónico' })
-    } else {
-      res.status(400).send({ error: err.message })
-    }
   }
 }
 

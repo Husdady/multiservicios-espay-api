@@ -13,11 +13,10 @@ const contact = {
   type: ContactTypedef,
   async resolve() {
     try {
-      const contact = await Contact.findOne({})
-      console.log(contact)
+      const contact = await Contact.findOne({});
       return contact
     } catch (err) {
-      console.error('[ContactQuery]', err)
+      console.error('[ContactQuery.error]', err)
     }
   },
 }

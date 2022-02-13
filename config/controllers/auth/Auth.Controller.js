@@ -135,11 +135,11 @@ async function createUser(req, res, next) {
 
     // Si se recibe desde 'body' un rol, verificar si existe ese rol en la colección 'Roles'
     if (role) {
-      const foundRole = await Role.findOne({ name: role }, { _id: 1 })
+      const foundRole = await Role.findOne({ name: role }).select({ _id: 1 })
       newUser.role = foundRole._id
     } else {
       // Sino asignar un rol por defecto, en este caso, el rol 'Usuario'. Verificar si está disponible este rol
-      const userRole = await Role.findOne({ name: 'Usuario' }, { _id: 1 })
+      const userRole = await Role.findOne({ name: 'Usuario' }).select({ _id: 1 })
       newUser.role = userRole._id
     }
 
@@ -153,9 +153,7 @@ async function createUser(req, res, next) {
     req.fileId = newUser._id
 
     // Mensaje existoso
-    const successMessage = {
-      message: 'Se ha creado un nuevo usuario exitosamente!',
-    }
+    const successMessage = 'Se ha creado un nuevo usuario exitosamente!'
 
     req.successMessage = successMessage
 
@@ -163,7 +161,7 @@ async function createUser(req, res, next) {
     req.file && next()
 
     // Retornar mensaje exitoso
-    !req.file && res.status(200).json(successMessage)
+    !req.file && res.status(200).json({ message: successMessage })
   } catch (error) {
     return res.status(401).send({ error: error.message })
   }

@@ -25,7 +25,8 @@ const { SeytuCategories } = require("@models/products/Category");
 const { verifyToken } = require('@middlewares/auth/token')
 const verifyPermission = require('@middlewares/user/verifyPermission')
 const verifySecretPassword = require('@middlewares/auth/verifySecretPassword')
-const { uploadMultipleImages, updateMultipleImages } = require('@middlewares/upload/Upload.Middleware')
+const { uploadMultipleImages } = require('@middlewares/upload/Upload.Middleware')
+const { uploadMultipleImagesToCloudinary } = require('@middlewares/upload/Upload.Cloudinary')
 
 // Utils
 const { upload } = require('@utils/multer')
@@ -76,14 +77,15 @@ router.post(
   [verifyToken, permissionRequiredToCreateProducts],
   upload.array('productImages', 16),
   Seytu.createProduct,
+  uploadMultipleImagesToCloudinary((product) => "seytu.products/" + product.initialName),
   uploadMultipleImages({
-    errorMessage: "A ocurrido un error al subir la imagen o imágenes del producto Seytú",
-    cloudinary_folder: (product) => `seytu.products/${product.initialName}`,
-    onUploadImages: async (itemId, uploadedImages) => {
-      await SeytuProducts.findByIdAndUpdate(itemId, {
-        images: uploadedImages,
-        defaultImage: uploadedImages[0],
-      })
+    Model: SeytuProducts,
+    path: "images",
+    extraFields: (images) => ({
+      defaultImage: images[0]
+    }),
+    uploadError: (product) => {
+      return "Ha ocurrido un error al subir las imágenes del producto " + "\"" + product.title + "\"";
     }
   }),
 )
@@ -94,20 +96,30 @@ router.put(
   [verifyToken, permissionRequiredToEditProducts],
   upload.array('productImages', 16),
   Seytu.editProduct,
-  updateMultipleImages({
-    errorMessage: "A ocurrido un error al actualizar las imágenes del producto Seytú",
-    cloudinary_folder: (product) => `seytu.products/${product.initialName}`,
-    onUploadImages: (extraData) => updateImages(SeytuProducts, extraData),
+  uploadMultipleImagesToCloudinary((product) => "seytu.products/" + product.initialName),
+  uploadMultipleImages({
+    Model: SeytuProducts,
+    path: "images",
+    extraFields: (images) => ({
+      defaultImage: images[0]
+    }),
+    uploadError: (product) => {
+      return "Ha ocurrido un error al actualizar las imágenes del producto " + "\"" + product.title + "\"";
+    }
   }),
 )
 
 // Eliminar una categoría de los productos Seytú
-router.delete('/:productId', verifyToken, permissionRequiredToDeleteProducts, Seytu.deleteProduct)
+router.delete(
+  '/:productId',
+  [verifyToken, permissionRequiredToDeleteProducts],
+  Seytu.deleteProduct
+)
 
 // Crear nuevo pedido de uno o varios productos Seytú
 router.post(
   '/orders/new-order',
-  verifySecretPassword('You do not have permissions to create an order for an Seytu product'),
+  verifySecretPassword('You do not have permissions to create an order of an Seytu product'),
   Seytu.createOrder
 )
 

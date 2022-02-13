@@ -13,6 +13,7 @@ const { verifyToken } = require('@middlewares/auth/token')
 const verifyPermission = require('@middlewares/user/verifyPermission')
 const { uploadImage } = require('@middlewares/upload/Upload.Middleware')
 const verifySecretPassword = require('@middlewares/auth/verifySecretPassword')
+const { uploadImageToCloudinary } = require('@middlewares/upload/Upload.Cloudinary')
 
 // Utils
 const { upload } = require('@utils/multer')
@@ -37,11 +38,13 @@ router.post(
   [verifyToken, permissionRequiredToCreateUsers],
   upload.single('profilePhoto'),
   createUser,
+  uploadImageToCloudinary((fileId) => ({
+    folder: "users",
+    public_id: "user-" + fileId,
+  })),
   uploadImage({
     Model: User,
     path: "settings.avatar",
-    cloudinary_folder: 'users',
-    filename: (fileId) => `user-${fileId}`,
     uploadError: 'Ha ocurrido un error al subir la foto de perfil del usuario',
   }),
 )

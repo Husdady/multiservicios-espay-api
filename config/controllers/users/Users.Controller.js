@@ -3,17 +3,20 @@ const User = require('@models/users/User')
 const Role = require('@models/users/Role')
 const Admin = require('@models/users/Admin')
 
+// Middlewares
+const { removeImageFromCloudinary } = require('@middlewares/upload/Upload.Cloudinary')
+
 // Utils
 const cloudinary = require('@utils/cloudinary')
-const { isString, isFunction, isEmptyArray } = require('@utils/Validations')
 const { comparePassword, encryptPassword } = require('@utils/Helper')
+const { isString, isFunction, isEmptyArray } = require('@utils/Validations')
 
 // Editar un usuario por id
 function editUser(messages) {
   return async (req, res, next) => {
     try {
       // Obtener datos del body
-      const { fullname, email, role, profilePhotoName } = req.body
+      const { fullname, email, role } = req.body
 
       // Encontrar si ya existe un admin con ese correo electrónico
       const existAdminWithThatEmail = await Admin.exists({ email })
@@ -34,24 +37,32 @@ function editUser(messages) {
         throw new Error(`No se ha encontrado al usuario ${fullname} para editar su información`)
       }
 
+      const formHasBeenEdited = JSON.parse(req.body.formHasBeenEdited);
+
       // Si la información del usuario sigue siendo la misma
-      if (!JSON.parse(req.body.formHasBeenEdited)) {
+      if (!formHasBeenEdited) {
         throw new Error(messages.errors.userDataIsTheSame)
       }
 
       // Encontrar el rol del usuario
-      const roleFound = await Role.findOne({ name: role })
+      const roleFound = await Role.findOne({ name: role }).select({ id: 1 }).lean()
 
       // Nueva información del usuario
       const newUserData = {
-        fullname: fullname,
         email: email,
+        fullname: fullname,
         role: roleFound.id,
       }
 
-      if (profilePhotoName === 'null') {
+      const existUserPhoto = JSON.parse(req.body.existUserPhoto)
+
+      // Si se ha eliminado la foto del usuario
+      if (!existUserPhoto) {
+        // Obtener el id de la imagen de Cloudinary que se va a eliminar
+        const public_id = `users/user-${userId}`;
+
         // Eliminar imagen de Cloudinary
-        await cloudinary.v2.uploader.destroy(`users/user-${userId}`)
+        await removeImageFromCloudinary(public_id);
 
         // Eliminar foto de perfil del usuario de la DB
         Object.assign(newUserData, {
@@ -65,13 +76,11 @@ function editUser(messages) {
       await User.findByIdAndUpdate(userId, newUserData)
 
       // Mensaje existoso
-      const successMessage = {
-        message: isFunction(messages.successMessage)
-          ? messages.successMessage(req.body)
+      const successMessage = isFunction(messages.successMessage)
+        ? messages.successMessage(req.body)
           : isString(messages.successMessage)
-          ? messages.successMessage
-          : null,
-      }
+            ? messages.successMessage
+            : null;
 
       // Setear id de usuario
       req.fileId = userId
@@ -82,27 +91,27 @@ function editUser(messages) {
         req.successMessage = successMessage
 
         // Continuar al siguiente middleware
-        next()
+        return next();
       }
 
       // Retornar mensaje exitoso
-      !req.file && res.status(200).json(successMessage)
+      return res.status(200).json({ message: successMessage });
     } catch (err) {
       if (err.codeName === 'DuplicateKey') {
-        res.status(400).send({
+        return res.status(400).send({
           error: 'Ya existe un usuario registrado con ese correo electrónico'
-        })
-      } else {
-        res.status(400).send({ error: err.message })
+        });
       }
+
+      return res.status(400).send({ error: err.message });
     }
   }
 }
 
 // Eliminar un usuario por id
-async function deleteUser(req, res, next) {
+async function deleteUser(req, res) {
   try {
-    let account = null
+    let account = null;
     // Obtener id del usuario
     const { userId } = req.params
 
@@ -119,15 +128,14 @@ async function deleteUser(req, res, next) {
 
     // Si el usuario tiene foto de perfil
     if (account?.settings?.avatar) {
-      // Setear id del usuario
-      req.fileId = account._id
-      // Continuar al siguiente middleware
-      next()
-    } else {
-      return res.status(204).json({})
+      // Eliminar foto de perfil del usuario de Cloudinary
+      await removeImageFromCloudinary(account._id)
     }
-  } catch (err) {
-    res.status(400).send({ error: err.message })
+
+    // Retornar respuesta del servidor
+    return res.status(204).json({})
+  } catch (error) {
+    return res.status(400).send({ error: error.message })
   }
 }
 
@@ -135,16 +143,16 @@ async function deleteUser(req, res, next) {
 async function restoreUser(req, res) {
   try {
     const { userId } = req.params
-    console.log('[restoreUser]', userId)
+
     // Si se debe eliminar definitivamente la cuenta
     await User.findByIdAndUpdate(userId, {
       deleted: false,
       $unset: { deletedAt: '' },
     })
 
-    return res.status(204).json({})
+    // Retornar respuesta del servidor
+    return res.status(204).json({});
   } catch (error) {
-    console.log(error)
     res.status(400).send({ error: error.message })
   }
 }
@@ -153,7 +161,7 @@ async function restoreUser(req, res) {
 async function changePassword(req, res) {
   try {
     const { password, newPassword } = req.body
-    console.log(req.params)
+
     // Buscar un usuario
     const user = await User.findOne({ _id: req.params.userId }).select('password').lean()
 
@@ -170,14 +178,13 @@ async function changePassword(req, res) {
       throw new Error('La nueva contraseña no debe ser igual a tu actual contraseña')
     }
 
-    // Actualizar la contraseña del Administrador
-    await User.findOneAndUpdate(
-      { _id: user._id },
-      {
-        password: await encryptPassword(newPassword),
-      },
-    )
+    const filter = { _id: user._id }
+    const encryptNewPassword = { password: await encryptPassword(newPassword) };
 
+    // Actualizar la contraseña del Administrador
+    await User.findOneAndUpdate(filter, encryptNewPassword)
+
+    // Retornar respuesta del servidor
     return res.status(204).json({})
   } catch (err) {
     return res.status(400).send({ error: err.message })
@@ -188,19 +195,27 @@ async function changePassword(req, res) {
 async function closeMyAccount(req, res) {
   try {
     // Eliminar usuario
-    const user = await User.findByIdAndDelete(req.params.userId)
+    const user = await User.findByIdAndDelete(req.params.userId).select({
+      _id: 0,
+      settings: {
+        avatar: {
+          url: 1
+        }
+      }
+    })
 
     // Si el usuario tiene foto de perfil
     if (user?.settings?.avatar) {
-      // Setear id del usuario
-      req.fileId = user._id
-      // Continuar al siguiente middleware
-      next()
-    } else {
-      return res.status(204).json({})
+      const public_id = user.settings.avatar.cloudinary_path
+
+      // Eliminar foto de perfil del usuario de Cloudinary
+      await removeImageFromCloudinary(public_id)
     }
-  } catch (err) {
-    res.status(400).send({ error: err.message })
+    
+    // Retornar respuesta del servidor
+    return res.status(204).json({})
+  } catch (error) {
+    return res.status(400).send({ error: error.message })
   }
 }
 

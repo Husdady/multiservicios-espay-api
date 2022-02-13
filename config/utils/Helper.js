@@ -3,6 +3,9 @@ const { sign } = require('jsonwebtoken')
 const { genSalt, hash, compare } = require('bcrypt')
 const { GraphQLObjectType, GraphQLInputObjectType } = require('graphql')
 
+// Utils
+const { isString } = require('./Validations')
+
 class Helper {
   /**
    * Encriptar contraseña
@@ -90,19 +93,24 @@ class Helper {
   }
 
   /**
-   * Paginar un modelo
-   * @param {skip: Number, limit: Number, model: Object}
+   * Obtener algunos campos de la imagen subida a Cloudinary
+   * @param {image: Object}
    */
-  static paginate({ skip, limit, model, sortBy, filters }) {
-    return model.find(filters).sort(sortBy).limit(limit).skip(skip);
-  }
+  static getSomeFieldsFromCloudinaryImage(image) {
+    const public_id = image.public_id.split('/')
 
-  /**
-   * Obtener los últimos elementos añadidos de un modelo con un límite
-   * @param {Model: Object, limit: Number}
-   */
-  static getLastestItems(Model, limit = 10) {
-    return Model.find({}).sort({ _id: -1 }).limit(limit)
+    return {
+      _id: image.asset_id,
+      url: image.secure_url,
+      size: image.bytes,
+      width: image.width,
+      height: image.height,
+      format: image.format,
+      filename: image.filename,
+      public_id: public_id[public_id.length - 1],
+      cloudinary_path: image.cloudinary_path,
+      created_at: image.created_at,
+    }
   }
 }
 

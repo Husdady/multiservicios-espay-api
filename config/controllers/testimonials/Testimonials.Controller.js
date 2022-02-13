@@ -1,10 +1,12 @@
 // Models
 const Testimony = require('@models/testimonials/Testimony')
 
+// Middleware
+const { removeImageFromCloudinary } = require('@middlewares/upload/Upload.Cloudinary')
+
 // Utils
 const cloudinary = require('@utils/cloudinary')
 const { Validations: { validateSchema } } = require('@utils/Validations')
-
 
 // Reglas para crear un usuario
 const SchemaTestimonyCreaction = {
@@ -50,16 +52,15 @@ async function createNewTestimony(req, res, next) {
     req.fileId = newTestimony._id
 
     // Mensaje existoso
-    const successMessage = {
-      message: 'Se ha creado el testimonio exitosamente!',
-    }
+    const successMessage =  "Se ha creado el testimonio exitosamente!"
 
-    req.successMessage = successMessage
+    req.successMessage = successMessage;
+
     // Continuar al siguiente middleware
-    req.file && next()
+    if (req.file) next();
 
     // Retornar mensaje exitoso
-    !req.file && res.status(200).json(successMessage)
+    return res.status(200).json({ message: successMessage })
   } catch (error) {
     return res.status(401).send({ error: error.message })
   }
@@ -68,21 +69,23 @@ async function createNewTestimony(req, res, next) {
 async function editTestimony(req, res, next) {
   try {
     // Setear id de autor de testimonio
-    const testimonyId = req.params.testimonyId
+    const { testimonyId } = req.params
 
     // Obtener datos del body
     const { author, age, country, testimony, authorPhotoName } = req.body
 
     // Encontrar si ya existe un autor con ese nombre
-    const testimonyFound = await Testimony.findOne({ _id: testimonyId }, { _id: 1 })
+    const testimonyFound = await Testimony.findOne({ _id: testimonyId }).select({ _id: 1 }).lean();
 
     // Si ya existe un autor con un nombre repetido
     if (testimonyFound._id !== testimonyId) {
       throw new Error('Ya existe un autor registrado con ese nombre!')
     }
 
+    const formHasBeenEdited = JSON.parse(req.body.formHasBeenEdited);
+
     // Si la información del autor sigue siendo la misma
-    if (!JSON.parse(req.body.formHasBeenEdited)) {
+    if (!formHasBeenEdited) {
       throw new Error('La información del autor es la misma, debe proporcionar nuevos datos')
     }
 
@@ -97,64 +100,66 @@ async function editTestimony(req, res, next) {
       testimony: testimony,
     }
 
-    if (authorPhotoName === 'null') {
+    const existAuthorPhoto = JSON.parse(req.body.existAuthorPhoto)
+
+    // Si se ha eliminado la foto del autor
+    if (!existAuthorPhoto) {
+      // Obtener el id de la imagen de Cloudinary que se va a eliminar
+      const public_id = `testimonials/testimony-${testimonyId}`;
+
       // Eliminar imagen de Cloudinary
-      await cloudinary.v2.uploader.destroy(`testimonials/testimony-${testimonyId}`)
+      await removeImageFromCloudinary(public_id);
+
       // Eliminar foto de autor de la DB
       Object.assign(newDataAuthor.author, {
         photo: null,
       })
     }
 
-    // Actualizar usuario
+    // Actualizar testimonio del autor
     await Testimony.findByIdAndUpdate(testimonyId, { $set: newDataAuthor })
 
     // Mensaje existoso
-    const successMessage = {
-      message: 'Se ha actualizado exitosamente la información de ' + author,
-    }
+    const successMessage = "Se ha actualizado exitosamente la información de " + author;
 
-    // Setear id de usuario
+    // Setear id del autor
     req.fileId = testimonyId
 
     // Si existe una imagen como archivo
     if (req.file) {
       // Setear mensaje exitoso
-      req.successMessage = successMessage
+      req.successMessage = successMessage;
 
       // Continuar al siguiente middleware
       next()
     }
 
     // Retornar mensaje exitoso
-    !req.file && res.status(200).json(successMessage)
+    return res.status(200).json({ message: successMessage })
   } catch (error) {
     if (error.codeName === 'DuplicateKey') {
-      res.status(400).send({ error: 'Ya existe un autor registrado con ese nombre. Intente con otro' })
-    } else {
-      res.status(400).send({ error: error.message })
+      return res.status(400).send({ error: 'Ya existe un autor registrado con ese nombre. Intente con otro' })
     }
+    
+    return res.status(400).send({ error: error.message });
   }
 }
 
 // Eliminar un usuario por id
-async function deleteTestimony(req, res, next) {
+async function deleteTestimony(req, res) {
   try {
     // Eliminar el testimonio de un autor
     const testimony = await Testimony.findByIdAndDelete(req.params.testimonyId)
 
     // Si el usuario tiene foto de perfil
     if (testimony.author?.photo) {
-      // Setear id del usuario
-      req.fileId = testimony._id
-      // Continuar al siguiente middleware
-      next()
-    } else {
-      return res.status(204).json({})
+      await removeImageFromCloudinary(testimony._id);
     }
+
+    // Retornar respuesta del servidor
+    return res.status(204).json({});
   } catch (err) {
-    console.log(req.params)
-    res.status(400).send({ error: err.message })
+    return res.status(400).send({ error: err.message })
   }
 }
 

@@ -12,7 +12,8 @@ const TestimonialsController = require('@controllers/testimonials/Testimonials.C
 const { verifyToken } = require('@middlewares/auth/token')
 const verifyPermission = require('@middlewares/user/verifyPermission')
 const verifySecretPassword = require('@middlewares/auth/verifySecretPassword')
-const { uploadImage, deleteImage } = require('@middlewares/upload/Upload.Middleware')
+const { uploadImage } = require('@middlewares/upload/Upload.Middleware')
+const { uploadImageToCloudinary } = require('@middlewares/upload/Upload.Cloudinary')
 
 // Utils
 const { upload } = require('@utils/multer')
@@ -42,12 +43,14 @@ router.post(
   [verifyToken, permissionRequiredToCreateTestimonials],
   upload.single('authorPhoto'),
   TestimonialsController.createNewTestimony,
+  uploadImageToCloudinary((fileId) => ({
+    folder: "testimonials",
+    public_id: "testimony-" + fileId
+  })),
   uploadImage({
     Model: Testimony,
     path: "author.photo",
-    cloudinary_folder: 'testimonials',
-    filename: (fileId) => `testimony-${fileId}`,
-    uploadError: 'Ha ocurrido un error al subir la foto del autor',
+    uploadError:  "Ha ocurrido un error al subir la foto del autor",
   }),
 )
 
@@ -57,12 +60,14 @@ router.put(
   [verifyToken, permissionRequiredToEditTestimonials],
   upload.single('authorPhoto'),
   TestimonialsController.editTestimony,
+  uploadImageToCloudinary((fileId) => ({
+    folder: "testimonials",
+    public_id: "testimony-" + fileId,
+  })),
   uploadImage({
     Model: Testimony,
     path: "author.photo",
-    cloudinary_folder: 'testimonials',
-    filename: (fileId) => `testimony-${fileId}`,
-    uploadError: 'Ha ocurrido un error al actualizar la foto del autor',
+    uploadError:  "Ha ocurrido un error al actualizar la foto del autor",
   }),
 )
 
@@ -71,7 +76,6 @@ router.delete(
   '/:testimonyId',
   [verifyToken, permissionRequiredToDeleteTestimonials],
   TestimonialsController.deleteTestimony,
-  deleteImage({ cloudinary_path: 'testimonials/testimony' })
 )
 
 module.exports = router
