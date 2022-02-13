@@ -22,7 +22,7 @@ const user = {
   },
   async resolve(_, args) {
     try {
-      const user = await User.findOne(args).populate('role')
+      const user = await User.findOne(args).populate('role').lean()
       return user
     } catch (err) {
       console.error('[UserQuery.user]', err)
@@ -48,9 +48,13 @@ const users = {
       // .where('email').ne(params.email)
       if (!args.excludeUserWithEmail || !isEmail(args.excludeUserWithEmail)) {
         delete args.excludeUserWithEmail
-        users = await User.find(args).populate('role')
+        users = await User.find(args).populate('role').lean()
       } else {
-        users = await User.find(args).populate('role').where('email').ne(args.excludeUserWithEmail)
+        users = await User.find(args)
+          .populate('role')
+          .where('email')
+          .ne(args.excludeUserWithEmail)
+          .lean()
       }
       return users
     } catch (err) {

@@ -15,20 +15,21 @@ const Testimonials = require('@models/testimonials/Testimony')
 const TestimonyTypedef = require('@graphql/typedefs/testimonials/Testimony.Typedef')
 
 // Utils
-const Helper = require("@utils/Helper");
+const Pagination = require("@utils/Pagination");
+const { setArguments } = require("@utils/Helper");
 
 const author_testimony = {
   type: TestimonyTypedef,
-  args: Helper.setArguments({
+  args: setArguments({
     name: GraphQLString
   }),
   async resolve(_, args) {
     try {
       const testimony = await Testimonials.findOne({
         'author.short_name': args.name
-      })
+      }).lean()
 
-      return testimony
+      return testimony;
     } catch (err) {
       console.error('[TestimonyQuery.testimony]', err)
     }
@@ -37,7 +38,7 @@ const author_testimony = {
 
 const testimonials = {
   type: new GraphQLList(TestimonyTypedef),
-  args: Helper.setArguments({
+  args: setArguments({
     skip: GraphQLInt,
     limit: GraphQLInt,
     pagination: GraphQLBoolean,
@@ -51,14 +52,14 @@ const testimonials = {
 
       // Si se deben obtener los últimos testimonios Omnilife
       if (getLastestTestimonials) {
-        const lastestTestimonials = await Helper.getLastestItems(Testimonials, limit);
+        const lastestTestimonials = await Pagination.getLastestItems(Testimonials, limit);
 
         return lastestTestimonials;
       }
 
       // Si se debe paginar los testimonios
       if (pagination) {
-        const paginatedTestimonials = await Helper.paginate({
+        const paginatedTestimonials = await Pagination.paginate({
           skip: skip || 0,
           limit: limit || 6,
           model: Testimonials,
@@ -67,7 +68,7 @@ const testimonials = {
         return paginatedTestimonials;
       }
 
-      const testimonialsFound = await Testimonials.find(args)
+      const testimonialsFound = await Testimonials.find(args).lean()
       return testimonialsFound;
     } catch (err) {
       console.error('[TestimonyQuery.testimonials]', err)
