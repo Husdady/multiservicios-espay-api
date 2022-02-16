@@ -1,11 +1,14 @@
 // Middlewares
-const { removeImageToCloudinary, removeFolderToCloudinary } = require('@middlewares/upload/Upload.Middleware')
+const {
+  removeImageFromCloudinary,
+  removeFolderFromCloudinary
+} = require('@middlewares/upload/Upload.Cloudinary')
 
 // Utils
-const { isFunction } = require('@utils/Validations');
+const { isFunction, isEmptyArray } = require('@utils/Validations');
 
 // Eliminar producto
-function deleteProduct(Model, cloudinary_folder) {
+function deleteProduct(Model, callback) {
   return async (req, res) => {
     try {
     	// Obtener id del producto
@@ -13,28 +16,36 @@ function deleteProduct(Model, cloudinary_folder) {
 
       const deletedProduct = await Model.findByIdAndDelete(productId);
 
-      const folder = isFunction(cloudinary_folder) ? cloudinary_folder(deletedProduct) : cloudinary_folder;
+      // Si el producto no tiene imágenes
+      if (isEmptyArray(deletedProduct.images)) {
+        // Retornar respuesta de servidor
+        return res.status(204).json({})
+      }
+
+      const folder = isFunction(callback) ? callback(deletedProduct) : "";
 
       for (let image of deletedProduct.images) {
-      	const path = image.cloudinary_path;
-      	const removedImage = await removeImageToCloudinary(path, 'A ocurrido un error al eliminar las imágenes del producto')
+      	const public_id = image.cloudinary_path;
+
+        if (!public_id) continue;
+
+      	const removedImage = await removeImageFromCloudinary(public_id)
 
 	      if (removedImage instanceof Error) {
 	      	throw new Error(removedImage.error);
 	      }
       }
 
-      const removedFolder = await removeFolderToCloudinary(folder, `A ocurrido un error al eliminar la carpeta ${folder} de Cloudinary`)
+      const removedFolder = await removeFolderFromCloudinary(folder)
 
       if (removedFolder instanceof Error) {
       	throw new Error(removedFolder.error);
       }
 
       // Retornar respuesta de servidor
-      res.status(204).json({})
+      return res.status(204).json({})
     } catch (error) {
-    	console.log('[error]', error)
-      res.status(400).send({ error: error.message })
+      return res.status(400).send({ error: error.message })
     }
   }
 }

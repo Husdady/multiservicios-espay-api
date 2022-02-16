@@ -117,6 +117,7 @@ function editProduct(Model) {
         return res.status(200).json({ message: successMessage });
       }
 
+      // Obtener las imágenes actualizadas del producto
       const productImages = images.map(image => {
         const existFile = req.files.find(file => file.filename === image.filename);
 

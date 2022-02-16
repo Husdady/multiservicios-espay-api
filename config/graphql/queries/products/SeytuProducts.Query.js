@@ -129,58 +129,22 @@ const seytu_products = {
 
       // Si se debe paginar los productos Seytú
       if (pagination) {
-        const config = {
-          skip: 0,
-          limit: 40,
-          sortBy: {},
-          filters: {},
+        const config = Pagination.setProductsPagination({
+          skip: skip,
+          limit: limit,
+          filters: filters,
           model: SeytuProducts,
-        }
+        })
 
-        if (skip) config.skip = skip;
-        if (limit) config.limit = limit;
-        if (filters) {
-          // Filtrar por nombre del producto
-          if (filters.title) {
-            Object.assign(config.filters, {
-              title: {
-                $options: "i",
-                $regex: filters.title,
-              }
-            })
-          }
-
-          // Filtrar por categorías
-          if (filters.categories) {
-            Object.assign(config.filters, {
-              categories: {
-                $in: filters.categories,
-              }
-            })
-          }
-
-          // Ordenar productos
-          if (filters.sortBy) {
-            const keys = Object.keys(filters.sortBy);
-
-            for (let i = 0; i < keys.length; i++) {
-              const key = keys[i];
-
-              Object.assign(config.sortBy, {
-                [key]: filters.sortBy[key]
-              })
-            } 
-            
-          }
-        }
-
-        const paginateSeytuProducts = await paginate(config).populate("categories")
+        const paginateSeytuProducts = await Pagination.paginate(config)
+          .populate("categories")
+          .lean()
 
         return paginateSeytuProducts;
       }
 
       const seytuProducts = await SeytuProducts.find(args).populate("categories").lean()
-      return seytuProducts
+      return seytuProducts;
     } catch (err) {
       console.error('[SeytuProductsQuery.products]', err)
     }

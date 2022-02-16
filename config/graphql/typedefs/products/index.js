@@ -17,6 +17,10 @@ const ProductSortByTypedef = Helper.createGraphQLObjectType('ProductSortBy', {
 // Filters Product Typedef
 const ProductFiltersTypedef = Helper.createGraphQLObjectType('ProductFilters', {
   title: GraphQLString,
+  stock: GraphQLInt,
+  maxPrice: GraphQLInt,
+  minPrice: GraphQLInt,
+  date: GraphQLDateTime,
   sortBy: ProductSortByTypedef,
   categories: new GraphQLList(GraphQLID),
 }, "input");

@@ -132,40 +132,21 @@ const omnilife_products = {
 
       // Si se debe paginar los productos Omnilife
       if (pagination) {
-        const config = {
-          skip: 0,
-          limit: 40,
+        const config = Pagination.setProductsPagination({
+          skip: skip,
+          limit: limit,
+          filters: filters,
           model: OmnilifeProducts,
-          filters: {}
-        }
+        })
 
-        if (skip) config.skip = skip;
-        if (limit) config.limit = limit;
-        if (filters) {
-          if (filters.title) {
-            Object.assign(config.filters, {
-              title: {
-                $options: "i",
-                $regex: filters.title,
-              }
-            })
-          }
-
-          if (filters.categories) {
-            Object.assign(config.filters, {
-              categories: {
-                $in: filters.categories,
-              }
-            })
-          }
-        }
-
-        const paginateOmnilifeProducts = await paginate(config).populate("categories")
-
+        const paginateOmnilifeProducts = await Pagination.paginate(config)
+          .populate("categories")
+          .lean()
+          
         return paginateOmnilifeProducts;
       }
       
-      const omnilifeProducts = await OmnilifeProducts.find(args)
+      const omnilifeProducts = await OmnilifeProducts.find(filters)
         .populate("categories")
         .lean()
 

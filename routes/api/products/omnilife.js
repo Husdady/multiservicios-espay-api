@@ -74,6 +74,7 @@ router.delete('/categories/:categoryId', verifyToken, Omnilife.deleteCategory)
 // Crear nueva categoría de los productos Omnilife
 router.post(
   '/add-new-product',
+  verifySecretPassword('No tienes permisos para crear usuarios!'),
   [verifyToken, permissionRequiredToCreateProducts],
   upload.array('productImages', 16),
   Omnilife.createProduct,

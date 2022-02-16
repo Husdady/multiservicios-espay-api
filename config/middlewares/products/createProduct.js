@@ -1,7 +1,5 @@
 // Utils
-const {
-  Validations: { validateSchema, validateSecretPassword },
-} = require('@utils/Validations');
+const { isEmptyArray, Validations: { validateSchema } } = require('@utils/Validations');
 
 const SchemaProductCreation = {
   name: String,
@@ -22,17 +20,6 @@ function createProduct(Model) {
       // Si existen errores en el body, devolver errores
       if (body.error) throw new Error(body.error)
 
-      // Comprobar si existe la clave secreta
-      validateSecretPassword({
-        secret_password: req.headers.secret_password,
-        onDifferent: function () {
-          return res.status(401).json({
-            message: 'No tienes permisos para crear productos!',
-          })
-        },
-      })
-
-      // Destructurar 'req.body'
       const {
         name,
         description,
@@ -60,29 +47,41 @@ function createProduct(Model) {
       // Guardar producto
       await newProduct.save();
 
+      // Mensaje existoso
+      const successMessage = "Se ha creado un nuevo producto exitosamente!"
+
+      req.successMessage = successMessage;
+
+      // Continuar al siguiente middleware
+      if (isEmptyArray(req.files)) {
+        // Retornar mensaje exitoso
+        return res.status(200).json({ message: successMessage });
+      }
+
       // Obtener imágenes del producto
       const images = JSON.parse(req.body.images);
 
-      // Pasar el producto creado al siguiente middleware
+      // Obtener las imágenes nuevas del producto
+      const productImages = images.map(image => {
+        const existFile = req.files.find(file => file.filename === image.filename);
+
+        if (existFile) {
+          return {
+            ...image,
+            path: existFile.path
+          }
+        }
+
+        return image;
+      })
+
+      req.id = newProduct._id;
       req.item = newProduct;
+      req.images = productImages;
 
-      // Pasar las imágenes del producto al siguiente middleware
-      req.images = images;
-
-      // Mensaje existoso
-      const successMessage = {
-        message: 'Se ha creado un nuevo producto exitosamente!',
-      }
-
-      req.successMessage = successMessage
-
-      // Continuar al siguiente middleware
-      req.files && next()
-
-      // Retornar mensaje exitoso
-      !req.files && res.status(200).json(successMessage)
+      return next();
     } catch (error) {
-      res.status(400).send({ error: error.message })
+      return res.status(400).send({ error: error.message })
     }
   }
 }

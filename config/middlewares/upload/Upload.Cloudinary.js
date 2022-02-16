@@ -99,12 +99,12 @@ async function removeImageFromCloudinary(public_id) {
 }
 
 // Eliminar carpeta de Cloudinary
-async function removeFolderFromCloudinary(folder, errorMessage) {
+async function removeFolderFromCloudinary(folder) {
   console.log('[removeFolderFromCloudinary]')
   return new Promise((resolve) => {
     cloudinary.v2.api.delete_folder(folder, (err, res) => {
       console.log('[removeFolderFromCloudinary.err]', err)
-      if (err) throw new Error(errorMessage)
+      if (err) throw new Error(`A ocurrido un error al eliminar la carpeta "${folder}" de Cloudinary`)
       resolve(res)
     })
   })

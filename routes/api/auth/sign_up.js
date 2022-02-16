@@ -34,7 +34,7 @@ router.post(
 // Crear cuenta como Usuario
 router.post(
   '/signup/user',
-  verifySecretPassword('You do not have permissions to create users'),
+  verifySecretPassword('No tienes permisos para crear usuarios!'),
   [verifyToken, permissionRequiredToCreateUsers],
   upload.single('profilePhoto'),
   createUser,

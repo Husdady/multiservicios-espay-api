@@ -13,7 +13,12 @@ const createProductSchema = function (config) {
       images: [{ type: Object }],
       title: { type: String, require: true },
       price: { type: Number, require: true },
-      description: { type: String, require: true },
+      description: {
+        type: String,
+        require: true,
+        minLength: 50,
+        maxLength: 350,
+      },
       content: {
         type: String,
         minLength: 25,
@@ -40,7 +45,7 @@ const createProductSchema = function (config) {
         type: String,
         require: true,
         minLength: 50,
-        maxLength: 200
+        maxLength: 500,
       },
       totalVisits: { type: Number, default: 0 }
     },

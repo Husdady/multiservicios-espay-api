@@ -27,7 +27,8 @@ const author_testimony = {
     try {
       const testimony = await Testimonials.findOne({
         'author.short_name': args.name
-      }).lean()
+      })
+      .lean()
 
       return testimony;
     } catch (err) {
