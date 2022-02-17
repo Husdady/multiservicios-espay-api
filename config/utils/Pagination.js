@@ -86,7 +86,7 @@ class Pagination {
 
     // Si existen filtros
     if (filters) {
-      const { title, categories, sortBy } = filters;
+      const { title, stock, maxPrice, minPrice, date, categories, sortBy } = filters;
 
       const existCategories = categories && !isEmptyArray(categories)
 
@@ -112,6 +112,54 @@ class Pagination {
       // Si se deben ordenar los productos
       if (sortBy) {
         Object.assign(config.sortBy, sortBy)
+      }
+
+      // Si se deben filtrar los productos por stock
+      if (stock) {
+        Object.assign(config.filters, {
+          stock: stock
+        })
+      }
+
+      // Si se deben filtrar los productos por precio máximo
+      if (maxPrice) {
+        const maxPriceConfig = {
+          price: {
+            $gte: 0,
+            $lte: maxPrice
+          }
+        }
+
+        if (minPrice) maxPriceConfig.price.$gte = minPrice;
+
+        Object.assign(config.filters, maxPriceConfig);
+      }
+
+      // Si se deben filtrar los productos por precio mínimo
+      if (minPrice) {
+        const minPriceConfig = {
+          price: {
+            $gte: minPrice,
+            $lte: 9999,
+          }
+        }
+
+        if (maxPrice) minPriceConfig.price.$lte = maxPrice;
+
+        Object.assign(config.filters, minPriceConfig);
+      }
+
+      // Si se deben filtrar los productos por fecha
+      if (date) {
+        const nextDay = new Date(date);
+        nextDay.setDate(nextDay.getDate() + 2);
+
+        Object.assign(config.filters, {
+          createdAt: {
+            "$gte":  new Date(2022, 0, 31).toISOString(),
+            "$lte": new Date(2022, 1, 1).toISOString(),
+          }
+        });
       }
     }
 
