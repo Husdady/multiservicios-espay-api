@@ -7,14 +7,18 @@ const {
   editCategory,
   createCategory,
   deleteCategory,
-} = require('@controllers/products/Categories.Controller');
+} = require('@controllers/products/Category.Controller');
 const {
-  createOrder,
   editProduct,
   createProduct,
   deleteProduct,
-  updateImages,
-} = require('@controllers/products/Products.Controller')
+} = require('@controllers/products/Product.Controller')
+const {
+  createOrder,
+  changeOrderStatus,
+  deleteProductOrder,
+  deleteClient,
+} = require('@controllers/products/Order.Controller')
 
 // Models
 const { SeytuOrders } = require("@models/products/Order");
@@ -51,10 +55,18 @@ const permissionRequiredToDeleteProducts = verifyPermission({
 })
 
 const Seytu = {
-  createCategory: createCategory(SeytuCategories),
-  editCategory: editCategory(SeytuCategories),
-  deleteCategory: deleteCategory(SeytuCategories, SeytuProducts),
+  // Pedidos
   createOrder: createOrder(SeytuOrders),
+  changeOrderStatus: changeOrderStatus(SeytuOrders),
+  deleteProductOrder: deleteProductOrder(SeytuOrders),
+  deleteClient: deleteClient(SeytuOrders),
+
+  // Categorías
+  editCategory: editCategory(SeytuCategories),
+  createCategory: createCategory(SeytuCategories),
+  deleteCategory: deleteCategory(SeytuCategories, SeytuProducts),
+  
+  // Productos 
   editProduct: editProduct(SeytuProducts),
   createProduct: createProduct(SeytuProducts),
   deleteProduct: deleteProduct(SeytuProducts, (deletedProduct) => {
@@ -85,7 +97,7 @@ router.post(
       defaultImage: images[0]
     }),
     uploadError: (product) => {
-      return "Ha ocurrido un error al subir las imágenes del producto " + "\"" + product.title + "\"";
+      return "Ha ocurrido un error al subir las imágenes del producto " + "\"" + product.name + "\"";
     }
   }),
 )
@@ -104,7 +116,7 @@ router.put(
       defaultImage: images[0]
     }),
     uploadError: (product) => {
-      return "Ha ocurrido un error al actualizar las imágenes del producto " + "\"" + product.title + "\"";
+      return "Ha ocurrido un error al actualizar las imágenes del producto " + "\"" + product.name + "\"";
     }
   }),
 )
@@ -121,6 +133,35 @@ router.post(
   '/orders/new-order',
   verifySecretPassword('You do not have permissions to create an order of an Seytu product'),
   Seytu.createOrder
+)
+
+// Cambiar estado del pedido a "cancelado"
+router.put(
+  '/orders/:clientId/cancel/:productId',
+  verifySecretPassword('You do not have permissions to cancel this order'),
+  Seytu.changeOrderStatus("cancelled")
+)
+
+// Cambiar estado del pedido a "completado"
+router.put(
+  '/orders/:clientId/complete/:productId',
+  verifySecretPassword('You do not have permissions to confirm this order'),
+  Seytu.changeOrderStatus("completed")
+)
+
+// Eliminar pedido de un producto Seytú
+router.delete(
+  '/orders/:clientId/delete/:orderId',
+  verifySecretPassword('You do not have permissions to delete this order'),
+  Seytu.deleteProductOrder
+)
+
+// Eliminar cliente de un pedido
+router.delete(
+  '/orders/:clientId',
+  verifyToken,
+  verifySecretPassword('You do not have permissions to delete an client'),
+  Seytu.deleteClient
 )
 
 module.exports = router

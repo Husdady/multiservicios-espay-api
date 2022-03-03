@@ -1,19 +1,19 @@
 // Librarys
 const { GraphQLDateTime } = require('graphql-iso-date')
-const { GraphQLID, GraphQLString } = require('graphql')
+const { GraphQLID, GraphQLInt, GraphQLString } = require('graphql')
 
 // Utils
-const Helper = require('@utils/Helper')
+const { createGraphQLObjectType } = require('@utils/Helper')
 
 // Author Photo Typedef
-const AuthorPhotoTypedef = Helper.createGraphQLObjectType('AuthorPhotoTestimony', {
+const AuthorPhotoTypedef = createGraphQLObjectType('AuthorPhotoTestimony', {
   url: GraphQLString,
   width: GraphQLString,
   height: GraphQLString,
 })
 
 // Author Typedef
-const AuthorTypedef = Helper.createGraphQLObjectType('AuthorTestimony', {
+const AuthorTypedef = createGraphQLObjectType('AuthorTestimony', {
   age: GraphQLString,
   name: GraphQLString,
   country: GraphQLString,
@@ -22,7 +22,7 @@ const AuthorTypedef = Helper.createGraphQLObjectType('AuthorTestimony', {
 })
 
 // User Typedef
-const TestimonyTypedef = Helper.createGraphQLObjectType('Testimony', {
+const TestimonyTypedef = createGraphQLObjectType('Testimony', {
   _id: GraphQLID,
   author: AuthorTypedef,
   testimony: GraphQLString,
@@ -30,4 +30,12 @@ const TestimonyTypedef = Helper.createGraphQLObjectType('Testimony', {
   updatedAt: GraphQLDateTime
 })
 
-module.exports = TestimonyTypedef
+// Testimony Sort By Typedef
+const TestimonySortByTypedef = createGraphQLObjectType('TestimonySortBy', {
+  createdAt: GraphQLInt,
+}, "input")
+
+module.exports = {
+  TestimonyTypedef,
+  TestimonySortByTypedef,
+}

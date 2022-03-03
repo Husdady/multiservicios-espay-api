@@ -5,7 +5,7 @@ const { removeImageFromCloudinary } = require('@middlewares/upload/Upload.Cloudi
 const { isEmptyArray } = require('@utils/Validations');
 
 // Editar producto
-function editProduct(Model) {
+module.exports = function editProduct(Model) {
   return async (req, res, next) => {
     try {
       const {
@@ -31,7 +31,7 @@ function editProduct(Model) {
       
       // Nueva información del producto
       const newProductData = {
-        title: name,
+        name: name,
         content: content,
         usageMode: usageMode,
         description: description,
@@ -43,7 +43,7 @@ function editProduct(Model) {
 
       // Obtener información anterior del Producto
       const lastProductData = await Model.findById(productId).select({
-        title: 1,
+        name: 1,
         initialName: 1,
         images: {
           _id: 1,
@@ -63,7 +63,7 @@ function editProduct(Model) {
       const existDeletedImages = images.length < lastProductImages.length;
 
       // Mensaje existoso
-      const successMessage =  `Se ha actualizado exitosamente el producto exitosamente '${lastProductData.title}'`;
+      const successMessage =  `Se ha actualizado exitosamente el producto exitosamente '${lastProductData.name}'`;
 
        // Setear mensaje exitoso
       req.successMessage = successMessage
@@ -142,5 +142,3 @@ function editProduct(Model) {
     }
   }
 }
-
-module.exports = editProduct

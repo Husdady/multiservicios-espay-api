@@ -17,13 +17,11 @@ const role = {
       type: GraphQLString,
     },
   },
-  async resolve(_, args) {
+  resolve(_, args) {
     try {
-      const roles = await Role.findOne(args)
-      console.log('[RoleTypedef.role]', role)
-      return roles
-    } catch (e) {
-      console.error(e)
+      return Role.findOne(args).lean();
+    } catch (err) {
+      console.log("[getRole]", err);
     }
   },
 }
@@ -36,13 +34,11 @@ const roles = {
       type: GraphQLString,
     },
   },
-  async resolve(_, args) {
+  resolve(_, args) {
     try {
-      const roles = await Role.find(args).where('name').ne('Administrador')
-      console.log('[RoleTypedef.roles]', roles)
-      return roles
-    } catch (e) {
-      console.error(e)
+      return Role.find(args).where('name').ne('Administrador').lean();
+    } catch (err) {
+      console.log("[getRoles]", err)
     }
   },
 }

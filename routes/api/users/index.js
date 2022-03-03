@@ -11,8 +11,10 @@ const UsersController = require('@controllers/users/Users.Controller')
 // Middlewares
 const { verifyToken } = require('@middlewares/auth/token')
 const verifyPermission = require('@middlewares/user/verifyPermission')
+const verifySecretPassword = require('@middlewares/auth/verifySecretPassword')
 const { uploadImage } = require('@middlewares/upload/Upload.Middleware')
 const { uploadImageToCloudinary } = require('@middlewares/upload/Upload.Cloudinary')
+const getTotalUsers = require('@middlewares/user/getTotalUsers')
 
 // Utils
 const { upload } = require('@utils/multer')
@@ -34,6 +36,13 @@ const permissionRequiredToRestoreUsers = verifyPermission({
   action: 'restaurar usuarios',
   permission: 'restoreUsers',
 })
+
+// Obtener el total de usuarios
+router.get(
+  '/count',
+  verifySecretPassword('You do not have permissions to get this information'),
+  getTotalUsers
+)
 
 // Editar usuario por id
 router.put(

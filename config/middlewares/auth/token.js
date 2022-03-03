@@ -38,7 +38,9 @@ async function verifyToken(req, res, next) {
     if (!userFound) throw new Error('Usuario no encontrado!')
 
     req.userRole = userFound.role.name
-    next()
+    
+    // Continuar al siguiente middleware
+    return next();
   } catch (error) {
     return res.status(401).send({ error: error.message })
   }
@@ -55,7 +57,7 @@ function isValidToken(req, res) {
     if (!token) throw new Error('You need to provide a valid "token".')
 
     // Verificar token
-    verify(token, process.env.JWT_SECRET, function (err) {
+    verify(token, process.env.JWT_SECRET, function(err) {
       if (err) {
         const tokenStatus = {
           token: {

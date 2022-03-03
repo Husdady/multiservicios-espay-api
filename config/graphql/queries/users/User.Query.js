@@ -1,29 +1,34 @@
 'use strict'
 
 // Librarys
-const { GraphQLString, GraphQLList, GraphQLID, GraphQLBoolean } = require('graphql')
+const {
+  GraphQLID,
+  GraphQLInt,
+  GraphQLList,
+  GraphQLString,
+  GraphQLBoolean,
+} = require('graphql')
 
 // Models
-const User = require('@models/users/User')
+const Role = require('@models/users/Role')
+const Users = require('@models/users/User')
 
 // Typedefs
-const UserTypedef = require('@graphql/typedefs/users/User.Typedef')
+const { UserTypedef, UserFieldsTypedef, UserFiltersTypedef } = require('@graphql/typedefs/users/User.Typedef')
 
 // Utils
-const { isEmail } = require('@utils/Validations')
+const { isEmail } = require('@utils/Validations');
+const { setArguments } = require("@utils/Helper");
+const { paginate, setUsersFilters } = require("@utils/Pagination");
 
 const user = {
-  type: UserTypedef,
-  args: {
-    _id: {
-      name: '_id',
-      type: GraphQLID,
-    },
-  },
-  async resolve(_, args) {
+  type: UserFieldsTypedef,
+  args: setArguments({
+    _id: GraphQLID,
+  }),
+  resolve(_, args) {
     try {
-      const user = await User.findOne(args).populate('role').lean()
-      return user
+      return Users.findOne(args).populate('role').lean();
     } catch (err) {
       console.error('[UserQuery.user]', err)
     }
@@ -31,32 +36,52 @@ const user = {
 }
 
 const users = {
-  type: new GraphQLList(UserTypedef),
-  args: {
-    deleted: {
-      name: 'deleted',
-      type: GraphQLBoolean,
-    },
-    excludeUserWithEmail: {
-      name: 'excludeUserWithEmail',
-      type: GraphQLString,
-    },
-  },
-  async resolve(_, args) {
+  type: UserTypedef,
+  args: setArguments({
+    skip: GraphQLInt,
+    limit: GraphQLInt,
+    pagination: GraphQLBoolean,
+    filters: UserFiltersTypedef,
+  }),
+  async resolve(_, args, context, info) {
     try {
-      let users = []
-      // .where('email').ne(params.email)
-      if (!args.excludeUserWithEmail || !isEmail(args.excludeUserWithEmail)) {
-        delete args.excludeUserWithEmail
-        users = await User.find(args).populate('role').lean()
-      } else {
-        users = await User.find(args)
-          .populate('role')
-          .where('email')
-          .ne(args.excludeUserWithEmail)
-          .lean()
+      const { skip, limit, pagination, filters } = args;
+
+       // Si se debe paginar los usuarios
+      if (pagination) {
+          // Setear filtros de usuarios
+          const usersFilters = setUsersFilters(filters);
+
+          // Paginar usuarios
+          const users = await paginate({
+            filters: usersFilters,
+            model: Users,
+            extraFields: {
+              $lookup: {
+                from: Role.collection.name,
+                localField: "role",
+                foreignField: "_id",
+                as: "role",
+              },
+              $unwind: "$role",
+              $facet: {
+                count: [{ $count: 'count' }],
+                items: [{ $sort: filters.sortBy }, { $skip: skip }, { $limit: limit }],
+              },
+              $project: {
+                count: { $arrayElemAt: ["$count.count", 0] },
+                items: "$items",
+              },
+            }
+          })
+          .collation({ locale: 'en_US', strength: 1 });
+
+        // Retornar usuarios paginados
+        return users[0];
       }
-      return users
+
+      // Retornar usuarios
+      return Users.find({}).populate("role").lean();
     } catch (err) {
       console.error('[UserQuery.users]', err)
     }

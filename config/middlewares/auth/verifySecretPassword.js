@@ -2,7 +2,7 @@
 const { Validations: { validateSecretPassword } } = require('@utils/Validations')
 
 // Comprobar si existe la clave secreta
-function verifySecretPassword(erroMessage) {
+module.exports = function verifySecretPassword(erroMessage) {
 	return async (req, res, next) => {
 		validateSecretPassword({
 	    secret_password: req.headers.secret_password,
@@ -14,8 +14,6 @@ function verifySecretPassword(erroMessage) {
 	  })
 
 		// Continuar al siguiente middleware
-		next();
+		return next();
 	}
 }
-
-module.exports = verifySecretPassword;

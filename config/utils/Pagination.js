@@ -1,37 +1,121 @@
 // Librarys
 const { sign } = require('jsonwebtoken')
+const { ObjectId } = require('mongoose').Types
 const { genSalt, hash, compare } = require('bcrypt')
 const { GraphQLObjectType, GraphQLInputObjectType } = require('graphql')
 
 // Utils
-const { isString, isObject, isEmptyArray } = require('./Validations')
+const {
+  isNumber,
+  isBoolean,
+  isString,
+  isEmptyString,
+  isObject,
+  isEmptyObject,
+  isArray,
+  isEmptyArray,
+} = require('./Validations')
 
 class Pagination {
   /**
    * Paginar un modelo
    * @param {skip: Number, limit: Number, model: Object}
    */
-  static paginate({ skip, limit, model, sortBy, filters }) {
+  static paginate({ skip, limit, model, sortBy, filters, extraFields }) {
+    if (!model) return [];
+
+    const pagination = [];
+    console.log("-------------------------------")
     console.log("[skip]", skip)
     console.log("[limit]", limit)
     console.log("[sortBy]", sortBy)
     console.log("[filters]", filters)
-    return model.find(filters).sort(sortBy).limit(limit).skip(skip);
+
+    // Comprobar si "filters" es un objeto
+    if (isObject(filters)) {
+      const { excludeFields } = filters;
+      const keys = Object.keys(filters);
+
+      // Si existen campos a excluir en los filtros
+      if (isArray(excludeFields)) {
+        delete filters.excludeFields;
+
+        for (const excludeField of excludeFields) {
+          // Eliminar campos excluidos
+          delete filters[excludeField];
+        }
+      }
+
+      const $match = {}
+
+      for (const key of keys) {
+        // Obtener filtro
+        const filterValue = filters[key] 
+        const invalidFilter = [null, undefined].includes(filterValue);
+
+        // Si es un filtro inválido
+        if (invalidFilter || isEmptyArray(filterValue)) continue;
+
+        // Agregar filtro
+        $match[key] = filterValue;
+      }
+
+      // Si existen filtros, agregarlos a la paginación
+      if (!isEmptyObject($match)) {
+        pagination.push({ $match: $match });
+      }
+    }
+
+    // Si existen campos extras para agregar a filtros
+    if (isObject(extraFields)) {
+      const keys = Object.keys(extraFields);
+
+      for (const key of keys) {
+        pagination.push({
+          [key]: extraFields[key]
+        });
+      }
+    }
+
+    // Comprobar si "sortBy" es un objeto
+    if (isObject(sortBy)) {
+      pagination.push({ $sort: sortBy })
+    }
+
+    // Comprobar válido valor númerico de "skip"
+    if (isNumber(skip)) {
+      pagination.push({ $skip: skip })
+    }
+
+    // Comprobar válido valor númerico de "limit"
+    if (isNumber(limit)) {
+      pagination.push({ $limit: limit })
+    }
+
+    console.log("-------------------------------");
+    console.log("[pagination]", pagination);
+    return model.aggregate(pagination);
   }
 
   /**
    * Obtener los últimos elementos de un modelo con un límite
    * @param {Model: Object, limit: Number}
    */
-  static getLastestItems(Model, limit = 10) {
-    return Model.find({}).sort({ _id: -1 }).limit(limit).lean();
+  static getLastest({ limit, model }) {
+    return Pagination.paginate({
+      limit: limit,
+      model: model,
+      sortBy: {
+        createdAt: -1
+      }
+    })
   }
 
   /**
-   * Obtener los últimos elementos de un modelo con un límite
-   * @param {Model: Object, limit: Number}
+   * Aleatorizar los productos
+   * @param {Model: Object, limit: Number, productToExclude: String}
    */
-  static getAleatoryProducts({ Model, limit, productToExclude }) {
+  static randomizeProducts({ Model, limit, productToExclude }) {
     const config = []
 
     // Comprobar si existe un límite definido
@@ -47,7 +131,7 @@ class Pagination {
     if (productToExclude) {
       config.push({
         $match: {
-          title: {
+          name: {
             $ne: productToExclude
           }
         }
@@ -58,113 +142,139 @@ class Pagination {
   }
 
   /**
-   * Definir configuración de paginación de los productos
+   * Definir filtros de usuarios para la paginación
    * @param {Model: Object, limit: Number}
    */
-  static setProductsPagination(options) {
-    if (!isObject(options)) return {};
+  static setUsersFilters(filters) {
+    if (!isObject(filters) || isEmptyObject(filters)) return {};
 
-    const { skip, limit, model, filters } = options
+    const usersFilters = {};
 
-    const config = {
-      skip: 0,
-      limit: 30,
-      sortBy: {},
-      filters: {},
-      model: model,
+    const { deleted, searchValue } = filters;
+
+    // Si se debe filtrar por usuarios eliminados o no
+    if (isBoolean(deleted)) {
+      Object.assign(usersFilters, {
+        deleted: deleted
+      })
     }
 
-    // Definir en que posición se deben de consultar los productos
-    if (skip) {
-      config.skip = skip;
+    // Si se debe filtrar por nombre de usuario y correo electrónico
+    if (isString(searchValue) && !isEmptyString(searchValue)) {
+      const value = { "$regex": new RegExp(searchValue.replace(/\W/g, '\\$&'), "gi"), }
+
+      Object.assign(usersFilters, {
+        $or: [
+          { fullname: value },
+          { email: value }
+        ]
+      })
     }
 
-    // Definir el total de productos que se deben retornar
-    if (limit) {
-      config.limit = limit;
-    }
+    return usersFilters;
+  }
 
-    // Si existen filtros
-    if (filters) {
-      const { title, stock, maxPrice, minPrice, date, categories, sortBy } = filters;
+  /**
+   * Setear filtros de productos para la paginación
+   * @param {Model: Object, limit: Number}
+   */
+  static setProductsFilters(filters) {
+    if (!isObject(filters)) return {};
 
-      const existCategories = categories && !isEmptyArray(categories)
+    const productsFilters = {}
+    const { name, stock, maxPrice, minPrice, date, categories } = filters;
 
-      // Si se deben filtrar los productos por nombre
-      if (title) {
-        Object.assign(config.filters, {
-          title: {
-            $options: "i",
-            $regex: title,
-          }
-        })
-      }
-
-      // Si se deben filtrar los productos por categorías
-      if (existCategories) {
-        Object.assign(config.filters, {
-          categories: {
-            $in: categories,
-          }
-        })
-      }
-
-      // Si se deben ordenar los productos
-      if (sortBy) {
-        Object.assign(config.sortBy, sortBy)
-      }
-
-      // Si se deben filtrar los productos por stock
-      if (stock) {
-        Object.assign(config.filters, {
-          stock: stock
-        })
-      }
-
-      // Si se deben filtrar los productos por precio máximo
-      if (maxPrice) {
-        const maxPriceConfig = {
-          price: {
-            $gte: 0,
-            $lte: maxPrice
-          }
+    // Si se deben filtrar los productos por nombre
+    if (name) {
+      Object.assign(productsFilters, {
+        name: {
+          $options: "i",
+          $regex: name,
         }
-
-        if (minPrice) maxPriceConfig.price.$gte = minPrice;
-
-        Object.assign(config.filters, maxPriceConfig);
-      }
-
-      // Si se deben filtrar los productos por precio mínimo
-      if (minPrice) {
-        const minPriceConfig = {
-          price: {
-            $gte: minPrice,
-            $lte: 9999,
-          }
-        }
-
-        if (maxPrice) minPriceConfig.price.$lte = maxPrice;
-
-        Object.assign(config.filters, minPriceConfig);
-      }
-
-      // Si se deben filtrar los productos por fecha
-      if (date) {
-        const nextDay = new Date(date);
-        nextDay.setDate(nextDay.getDate() + 2);
-
-        Object.assign(config.filters, {
-          createdAt: {
-            "$gte":  new Date(2022, 0, 31).toISOString(),
-            "$lte": new Date(2022, 1, 1).toISOString(),
-          }
-        });
-      }
+      })
     }
 
-    return config;
+    // Si se deben filtrar los productos por categorías
+    if (isArray(categories) && !isEmptyArray(categories)) {
+      Object.assign(productsFilters, {
+        categories: {
+          $in: categories.map(category => ObjectId(category)),
+        }
+      })
+    }
+
+    // Si se deben filtrar los productos por stock
+    if (stock) {
+      Object.assign(productsFilters, {
+        stock: stock
+      });
+    }
+
+    // Si se deben filtrar los productos por precio máximo
+    if (maxPrice) {
+      const maxPriceConfig = {
+        price: {
+          $gte: 0,
+          $lte: maxPrice
+        }
+      }
+
+      if (minPrice) maxPriceConfig.price.$gte = minPrice;
+
+      Object.assign(productsFilters, maxPriceConfig);
+    }
+
+    // Si se deben filtrar los productos por precio mínimo
+    if (minPrice) {
+      const minPriceConfig = {
+        price: {
+          $gte: minPrice,
+          $lte: 9999,
+        }
+      }
+
+      if (maxPrice) minPriceConfig.price.$lte = maxPrice;
+
+      Object.assign(productsFilters, minPriceConfig);
+    }
+
+    // Si se deben filtrar los productos por fecha
+    if (date) {
+      const nextDay = new Date(date);
+      nextDay.setDate(nextDay.getDate() + 1);
+
+      Object.assign(productsFilters, {
+        createdAt: {
+          "$gte": date,
+          "$lt": nextDay,
+        }
+      });
+    }
+
+    return productsFilters;
+  }
+
+  /**
+   * Setear filtros de pedidos de clientes para la paginación
+   * @param {Model: Object, limit: Number}
+   */
+  static setOrdersFilters(filters) {
+    if (!isObject(filters)) return {};
+
+    const ordersFilters = {}
+    const { clientName } = filters;
+
+    // Si se debe filtrar por nombre del cliente y del producto
+    if (isString(clientName) && !isEmptyString(clientName)) {
+      const value = { "$regex": new RegExp(clientName.replace(/\W/g, '\\$&'), "gi"), }
+
+      Object.assign(ordersFilters, {
+        clientName: value,
+      });
+    }
+
+    return ordersFilters;
   }
 }
 
-module.exports = Pagination
+module.exports = Pagination;

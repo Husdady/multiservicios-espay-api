@@ -8,7 +8,7 @@ const {
 const { isFunction, isEmptyArray } = require('@utils/Validations');
 
 // Eliminar producto
-function deleteProduct(Model, callback) {
+module.exports = function deleteProduct(Model, callback) {
   return async (req, res) => {
     try {
     	// Obtener id del producto
@@ -22,13 +22,16 @@ function deleteProduct(Model, callback) {
         return res.status(204).json({})
       }
 
+      // Obtener el nombre de la carpeta de Cloudinary
       const folder = isFunction(callback) ? callback(deletedProduct) : "";
 
       for (let image of deletedProduct.images) {
-      	const public_id = image.cloudinary_path;
+      	// Obtener el "public_id" de cada imagen del producto eliminado
+        const public_id = image.cloudinary_path;
 
         if (!public_id) continue;
 
+        // Eliminar imagen de Cloudinary
       	const removedImage = await removeImageFromCloudinary(public_id)
 
 	      if (removedImage instanceof Error) {
@@ -36,6 +39,7 @@ function deleteProduct(Model, callback) {
 	      }
       }
 
+      // Eliminar carpeta de Cloudinary
       const removedFolder = await removeFolderFromCloudinary(folder)
 
       if (removedFolder instanceof Error) {
@@ -49,5 +53,3 @@ function deleteProduct(Model, callback) {
     }
   }
 }
-
-module.exports = deleteProduct

@@ -1,5 +1,5 @@
 // Eliminar una categoría
-function deleteCategory(Model, Company) {
+module.exports = function deleteCategory(Model, Company) {
   return async (req, res) => {
     try {
       const { categoryId } = req.params
@@ -7,29 +7,30 @@ function deleteCategory(Model, Company) {
       // Eliminar categoría
       await Model.findByIdAndDelete(categoryId)
 
+      // Filtros
       const filter = {
         categories: {
           $in: categoryId,
         },
       };
 
+      // Actualización
       const $pullAll = {
         $pullAll: {
           categories: [categoryId],
         },
       }
 
-      const config = { multi: true }
+      // Configuración extra
+      const extraConfig = { multi: true }
 
       // Eliminar categoría en productos
-      await Company.updateMany(filter, $pullAll, config)
+      await Company.updateMany(filter, $pullAll, extraConfig)
 
       // Retornar respuesta de servidor
-      return res.status(204).json({})
+      return res.status(204).json({});
     } catch (err) {
       return res.status(400).send({ error: err.message })
     }
   }
 }
-
-module.exports = deleteCategory

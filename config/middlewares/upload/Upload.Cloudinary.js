@@ -44,17 +44,20 @@ function uploadMultipleImagesToCloudinary(callback) {
       for (let i = 0; i < images.length; i++) {
         const image = images[i];
         
+        // Si la imagen no tiene la propiedad "path", es porque es una imagen existente
         if (!image.path) {
           uploadImages.push(image)
           continue;
         }
 
+        // Setear configuración de Cloudinary 
         const config = {
           folder: folder,
           public_id: image.public_id,
           filename: image.filename,
         }
 
+        // Subir imagen a Cloudinary
         const newCloudinaryImage = await cloudinary.v2.uploader.upload(image.path, config);
         
         // Comprobar si no hay algún error al subir una imagen a Cloudinary

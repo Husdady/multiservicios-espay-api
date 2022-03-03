@@ -12,7 +12,7 @@ const SchemaProductCreation = {
 const validateProductCreation = validateSchema(SchemaProductCreation)
 
 // Crear un producto
-function createProduct(Model) {
+module.exports = function createProduct(Model) {
   return async (req, res, next) => {
     try {
       // Validar el body
@@ -33,7 +33,7 @@ function createProduct(Model) {
 
       // Crear nuevo usuario
       const newProduct = new Model({
-        title: name,
+        name: name,
         content: content,
         usageMode: usageMode,
         description: description,
@@ -79,11 +79,10 @@ function createProduct(Model) {
       req.item = newProduct;
       req.images = productImages;
 
+      // Continuar al siguiente middleware
       return next();
     } catch (error) {
       return res.status(400).send({ error: error.message })
     }
   }
 }
-
-module.exports = createProduct

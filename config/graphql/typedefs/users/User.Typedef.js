@@ -1,30 +1,55 @@
 // Librarys
 const { GraphQLDateTime } = require('graphql-iso-date')
-const { GraphQLID, GraphQLString, GraphQLBoolean } = require('graphql')
+const {
+  GraphQLID,
+  GraphQLInt,
+  GraphQLList,
+  GraphQLString,
+  GraphQLBoolean,
+} = require('graphql')
 
 // Utils
-const Helper = require('@utils/Helper')
+const { createGraphQLObjectType } = require('@utils/Helper')
+
+// User Sort By Typedef
+const UserSortByTypedef = createGraphQLObjectType('UserSortBy', {
+  fullname: GraphQLInt,
+  email: GraphQLInt,
+  updatedAt: GraphQLInt,
+  createdAt: GraphQLInt,
+  deletedAt: GraphQLInt,
+}, "input")
+
+// User Filters Typedef
+const UserFiltersTypedef = createGraphQLObjectType('UserFilters', {
+  searchValue: GraphQLString,
+  deleted: GraphQLBoolean,
+  excludeUserWithEmail: GraphQLString,
+  excludeFields: new GraphQLList(GraphQLString),
+  sortBy: UserSortByTypedef,
+}, "input");
+
 
 // Avatar Settings User Typedef
-const AvatarTypedef = Helper.createGraphQLObjectType('UserSettingsAvatar', {
+const AvatarTypedef = createGraphQLObjectType('UserSettingsAvatar', {
   url: GraphQLString,
   width: GraphQLString,
   heigth: GraphQLString,
 })
 
 // Settings User Typedef
-const SettingsTypedef = Helper.createGraphQLObjectType('UserSettings', {
+const SettingsTypedef = createGraphQLObjectType('UserSettings', {
   theme: GraphQLString,
   avatar: AvatarTypedef,
 })
 
 // Settings User Typedef
-const RoleTypedef = Helper.createGraphQLObjectType('UserRole', {
+const RoleTypedef = createGraphQLObjectType('UserRole', {
   name: GraphQLString,
 })
 
 // User Typedef
-const UserTypedef = Helper.createGraphQLObjectType('User', {
+const UserFieldsTypedef = createGraphQLObjectType('UserFields', {
   _id: GraphQLID,
   fullname: GraphQLString,
   email: GraphQLString,
@@ -34,7 +59,16 @@ const UserTypedef = Helper.createGraphQLObjectType('User', {
   verifyEmail: GraphQLBoolean,
   deletedAt: GraphQLDateTime,
   createdAt: GraphQLDateTime,
-  updatedAt: GraphQLDateTime
+  updatedAt: GraphQLDateTime,
 })
 
-module.exports = UserTypedef
+const UserTypedef = createGraphQLObjectType('User', {
+  count: GraphQLInt,
+  items: new GraphQLList(UserFieldsTypedef)
+})
+
+module.exports = {
+  UserTypedef,
+  UserFieldsTypedef,
+  UserFiltersTypedef,
+}

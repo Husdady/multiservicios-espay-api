@@ -6,7 +6,8 @@ const Admin = require('@models/users/Admin')
 const { Validations } = require('@utils/Validations')
 const { comparePassword, createToken } = require('@utils/Helper')
 
-async function signIn(req, res) {
+// Inicio de sesión
+module.exports = async function signIn(req, res) {
   try {
     // Obtener el correo y la contraseña del usuario 
     const { email, password } = req.body
@@ -75,5 +76,3 @@ async function signIn(req, res) {
     return res.status(400).send({ error: err.message })
   }
 }
-
-module.exports = signIn

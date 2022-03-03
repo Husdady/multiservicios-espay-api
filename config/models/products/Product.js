@@ -11,7 +11,7 @@ const createProductSchema = function (config) {
       initialName: String,
       defaultImage: Object,
       images: [{ type: Object }],
-      title: { type: String, require: true },
+      name: { type: String, require: true },
       price: { type: Number, require: true },
       description: {
         type: String,

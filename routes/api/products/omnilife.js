@@ -7,14 +7,19 @@ const {
   editCategory,
   createCategory,
   deleteCategory,
-} = require('@controllers/products/Categories.Controller');
+} = require('@controllers/products/Category.Controller');
 const {
-  createOrder,
   editProduct,
   createProduct,
   deleteProduct,
-  updateImages,
-} = require('@controllers/products/Products.Controller')
+} = require('@controllers/products/Product.Controller')
+const {
+  createOrder,
+  changeOrderStatus,
+  deleteProductOrder,
+  deleteClient,
+  getTotalClientOrders,
+} = require('@controllers/products/Order.Controller')
 
 // Models
 const { OmnilifeOrders } = require("@models/products/Order");
@@ -51,10 +56,19 @@ const permissionRequiredToDeleteProducts = verifyPermission({
 })
 
 const Omnilife = {
+  // Pedidos
+  createOrder: createOrder(OmnilifeOrders),
+  changeOrderStatus: changeOrderStatus(OmnilifeOrders),
+  deleteProductOrder: deleteProductOrder(OmnilifeOrders),
+  deleteClient: deleteClient(OmnilifeOrders),
+  getTotalClientOrders: getTotalClientOrders(OmnilifeOrders),
+
+  // Categorías
   editCategory: editCategory(OmnilifeCategories),
   createCategory: createCategory(OmnilifeCategories),
   deleteCategory: deleteCategory(OmnilifeCategories, OmnilifeProducts),
-  createOrder: createOrder(OmnilifeOrders),
+  
+  // Productos 
   editProduct: editProduct(OmnilifeProducts),
   createProduct: createProduct(OmnilifeProducts),
   deleteProduct: deleteProduct(OmnilifeProducts, (deletedProduct) => {
@@ -86,7 +100,7 @@ router.post(
       defaultImage: images[0]
     }),
     uploadError: (product) => {
-      return "Ha ocurrido un error al subir las imágenes del producto " + "\"" + product.title + "\"";
+      return "Ha ocurrido un error al subir las imágenes del producto " + "\"" + product.name + "\"";
     }
   }),
 )
@@ -105,7 +119,7 @@ router.put(
       defaultImage: images[0]
     }),
     uploadError: (product) => {
-      return "Ha ocurrido un error al actualizar las imágenes del producto " + "\"" + product.title + "\"";
+      return "Ha ocurrido un error al actualizar las imágenes del producto " + "\"" + product.name + "\"";
     }
   }),
 )
@@ -117,11 +131,46 @@ router.delete(
   Omnilife.deleteProduct
 )
 
+// Obtener el total pedidos de un cliente
+router.get(
+  '/orders/:clientId/products/count',
+  verifySecretPassword('You do not have permissions to get this information'),
+  Omnilife.getTotalClientOrders
+)
+
 // Crear nuevo pedido de uno o varios productos Omnilife
 router.post(
   '/orders/new-order',
   verifySecretPassword('You do not have permissions to create an order of an Omnilife product'),
   Omnilife.createOrder
+)
+
+// Cambiar estado del pedido a "cancelado"
+router.put(
+  '/orders/:clientId/cancel/:productId',
+  verifySecretPassword('You do not have permissions to cancel this order'),
+  Omnilife.changeOrderStatus("cancelled")
+)
+
+// Cambiar estado del pedido a "completado"
+router.put(
+  '/orders/:clientId/completed/:productId',
+  verifySecretPassword('You do not have permissions to confirm this order'),
+  Omnilife.changeOrderStatus("completed")
+)
+
+// Eliminar pedido de un producto Seytú
+router.delete(
+  '/orders/:clientId/delete/:orderId',
+  verifySecretPassword('You do not have permissions to delete this order'),
+  Omnilife.deleteProductOrder
+)
+
+router.delete(
+  '/orders/:clientId',
+  verifyToken,
+  verifySecretPassword('You do not have permissions to delete an client'),
+  Omnilife.deleteClient
 )
 
 module.exports = router

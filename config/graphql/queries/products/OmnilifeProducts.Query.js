@@ -7,56 +7,23 @@ const {
   GraphQLList,
   GraphQLString,
   GraphQLBoolean,
-  GraphQLInputObjectType,
 } = require('graphql')
 
 // Models
-const { OmnilifeOrders } = require('@models/products/Order')
 const { OmnilifeProducts } = require('@models/products/Product')
 const { OmnilifeCategories } = require('@models/products/Category')
 
 // Typedefs
-const {
-  CategoryTypedef,
-  ProductTypedef,
-  ProductOrderTypedef,
-  ProductFiltersTypedef
-} = require('@graphql/typedefs/products')
+const { ProductTypedef, ProductFiltersTypedef, ProductTableTypedef } = require('@graphql/typedefs/products/Product.Typedef')
 
 // Utils
-const Pagination = require("@utils/Pagination");
 const { setArguments } = require("@utils/Helper");
-
-// Omnilife Categoru Query
-const omnilife_category = {
-  type: CategoryTypedef,
-  args: setArguments({
-    name: GraphQLString
-  }),
-  async resolve(_, args) {
-    try {
-      const omnilifeCategory = await OmnilifeCategories.findOne(args).lean()
-
-      return omnilifeCategory
-    } catch (err) {
-      console.error('[OmnilifeProductsQuery.category]', err)
-    }
-  },
-}
-
-// Omnilife Categories Query
-const omnilife_categories = {
-  type: new GraphQLList(CategoryTypedef),
-  async resolve(_, args) {
-    try {
-      const omnilifeCategory = await OmnilifeCategories.find(args).lean()
-
-      return omnilifeCategory
-    } catch (err) {
-      console.error('[OmnilifeProductsQuery.category]', err)
-    }
-  },
-}
+const {
+  paginate,
+  getLastest,
+  randomizeProducts,
+  setProductsFilters,
+} = require("@utils/Pagination");
 
 // Omnilife Product Query
 const omnilife_product = {
@@ -65,7 +32,7 @@ const omnilife_product = {
     _id: GraphQLID,
     name: GraphQLString,
   }),
-  async resolve(_, args) {
+  resolve(_, args) {
     try {
       const config = {}
 
@@ -74,18 +41,27 @@ const omnilife_product = {
       }
 
       if (args.name) {
-        config.title = {
-          $regex: new RegExp(args.name.replace(/\+/gi, "\\+"), "gi"),
+        config.name = {
+          $regex: new RegExp(args.name.replace(/\W/g, '\\$&'), "gi"),
         }
       }
 
-      const omnilifeProduct = await OmnilifeProducts.findOne(config)
-        .populate("categories")
-        .lean()
+      // Aumentar número de visitas del producto
+      const update = {
+        $inc: {
+          totalVisits: 1
+      }}
 
-      return omnilifeProduct;
+      // Configuración extra
+      const extraConfig = {
+        new: true,
+      }
+
+      return OmnilifeProducts.findOneAndUpdate(config, update, extraConfig)
+        .populate("categories")
+        .lean();
     } catch (err) {
-      console.error('[OmnilifeProductsQuery.product]', err)
+      console.error('[OmnilifeQuery.product]', err)
     }
   },
 }
@@ -114,17 +90,18 @@ const omnilife_products = {
 
       // Si se deben obtener los últimos productos Omnilife
       if (getLastestProducts) {
-        const lastestOmnilifeProducts = await Pagination.getLastestItems(OmnilifeProducts, limit)
-
-        return lastestOmnilifeProducts;
+        return getLastest({
+          limit: limit,
+          model: OmnilifeProducts,
+        });
       }
 
       // Si se deben obtener los productos Omnilife aleatoriamente
       if (getAleatoryProducts) {
-        const aleatoryOmnilifeProducts = await Pagination.getAleatoryProducts({
+        const aleatoryOmnilifeProducts = await randomizeProducts({
           limit: limit,
           Model: OmnilifeProducts,
-          productToExclude: filters.title,
+          productToExclude: filters.name,
         })
 
         return aleatoryOmnilifeProducts;
@@ -132,74 +109,79 @@ const omnilife_products = {
 
       // Si se debe paginar los productos Omnilife
       if (pagination) {
-        const config = Pagination.setProductsPagination({
+        // Obtener filtros de productos
+        const productsFilters = setProductsFilters(filters);
+
+        // Paginar productos Omnilife
+        const omnilifeProducts = await paginate({
           skip: skip,
           limit: limit,
-          filters: filters,
+          filters: productsFilters,
+          sortBy: filters.sortBy,
           model: OmnilifeProducts,
-        })
-
-        const paginateOmnilifeProducts = await Pagination.paginate(config)
-          .populate("categories")
-          .lean()
-          
-        return paginateOmnilifeProducts;
+        });
+        console.log('[omnilifeProducts]', omnilifeProducts)
+        return omnilifeProducts;
       }
-      
-      const omnilifeProducts = await OmnilifeProducts.find(filters)
-        .populate("categories")
-        .lean()
 
-      return omnilifeProducts;
+      // Retornar productos Omnilife
+      return OmnilifeProducts.find({}).populate("categories").lean();
     } catch (err) {
-      console.error('[OmnilifeProductsQuery.products]', err)
+      console.error('[OmnilifeQuery.products]', err)
     }
   },
 }
 
-// Omnilife Order Query
-const omnilife_order = {
-  type: ProductOrderTypedef,
+// Omnilife Products Pagination for table
+const omnilife_products_in_table = {
+  type: ProductTableTypedef,
   args: setArguments({
-    clientId: GraphQLString,
+    skip: GraphQLInt,
+    limit: GraphQLInt,
+    pagination: GraphQLBoolean,
+    filters: ProductFiltersTypedef,
   }),
   async resolve(_, args) {
     try {
-      const omnilifeOrder = await OmnilifeOrders.findOne(args)
-        .populate("products.product")
-        .lean()
+      const { skip, limit, filters, pagination } = args;
 
-      return omnilifeOrder
-    } catch (err) {
-      console.error('[OmnilifeProductsQuery.order]', err)
+      // Si la paginación no está habilitada
+      if (!pagination) return OmnilifeProducts.find({}).populate("categories").lean();
+
+      // Obtener filtros de productos
+      const productsFilters = setProductsFilters(filters);
+
+      // Paginar productos Omnilife
+      const omnilifeProducts = await paginate({
+        filters: productsFilters,
+        model: OmnilifeProducts,
+        extraFields: {
+          $lookup: {
+            from: OmnilifeCategories.collection.name,
+            localField: "categories",
+            foreignField: "_id",
+            as: "categories",
+          },
+          $facet: {
+            count: [{ $count: 'count' }],
+            items: [{ $sort: filters.sortBy }, { $skip: skip }, { $limit: limit }],
+          },
+          $project: {
+            count: { $arrayElemAt: ["$count.count", 0] },
+            items: "$items",
+          },
+        }
+      });
+
+      return omnilifeProducts[0];
+    } catch(err) {
+      console.error('[OmnilifeQuery.products_in_table]', err)
     }
-  },
-}
-
-// Omnilife Orders Query
-const omnilife_orders = {
-  type: new GraphQLList(ProductOrderTypedef),
-  args: setArguments({
-    clientId: GraphQLString,
-  }),
-  async resolve(_, args) {
-    try {
-      const omnilifeOrders = await OmnilifeOrders.find(args)
-        .populate("products.product")
-        .lean()
-
-      return omnilifeOrders;
-    } catch (err) {
-      console.error('[OmnilifeProductsQuery.orders]', err)
-    }
-  },
+  }
 }
 
 module.exports = {
-  omnilife_order,
-  omnilife_orders,
   omnilife_product,
   omnilife_products,
-  omnilife_category,
-  omnilife_categories,
+  omnilife_products_in_table,
 }

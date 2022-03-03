@@ -30,7 +30,8 @@ function isArray(array) {
 
 // Comprobar si es un arreglo vacío
 function isEmptyArray(array) {
-  return isArray(array) && array.length === 0;
+  if (!isArray(array)) return false;
+  return array.length === 0;
 }
 
 // Comprobar si es un número
@@ -40,6 +41,8 @@ function isUndefined(data) {
 
 // Comprobar si es un objeto
 function isObject(obj) {
+  if (!obj) return false;
+
   return typeof obj === 'object'
 }
 

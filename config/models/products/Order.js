@@ -11,8 +11,9 @@ const createOrderSchema = function (config) {
       clientId: { type: String, required: true, unique: true },
       clientName: { type: String, required: true },
       clientPhone: { type: String, required: true },
-      products: [
+      clientProducts: [
         {
+          _id: String,
           optionalMessage: String,
           status: { type: String, required: true },
           totalCost: { type: Number, required: true },

@@ -12,11 +12,11 @@ const {
 const Testimonials = require('@models/testimonials/Testimony')
 
 // Typedefs
-const TestimonyTypedef = require('@graphql/typedefs/testimonials/Testimony.Typedef')
+const { TestimonyTypedef, TestimonySortByTypedef } = require('@graphql/typedefs/testimonials/Testimony.Typedef')
 
 // Utils
-const Pagination = require("@utils/Pagination");
 const { setArguments } = require("@utils/Helper");
+const { paginate, getLastest } = require("@utils/Pagination");
 
 const author_testimony = {
   type: TestimonyTypedef,
@@ -44,33 +44,38 @@ const testimonials = {
     limit: GraphQLInt,
     pagination: GraphQLBoolean,
     getLastestTestimonials: GraphQLBoolean,
+    sortBy: TestimonySortByTypedef,
   }),
   async resolve(_, args) {
-    const { skip, limit, pagination, getLastestTestimonials } = args;
+    const { skip, limit, sortBy, pagination, getLastestTestimonials } = args;
 
     try {
       if (pagination && getLastestTestimonials) return null;
 
       // Si se deben obtener los últimos testimonios Omnilife
       if (getLastestTestimonials) {
-        const lastestTestimonials = await Pagination.getLastestItems(Testimonials, limit);
+        const lastestTestimonials = await getLastest({
+          limit: limit,
+          model: Testimonials,
+        });
 
         return lastestTestimonials;
       }
 
       // Si se debe paginar los testimonios
       if (pagination) {
-        const paginatedTestimonials = await Pagination.paginate({
-          skip: skip || 0,
-          limit: limit || 6,
+        const paginatedTestimonials = await paginate({
+          skip: skip,
+          limit: limit,
+          sortBy: sortBy,
           model: Testimonials,
         })
 
         return paginatedTestimonials;
       }
 
-      const testimonialsFound = await Testimonials.find(args).lean()
-      return testimonialsFound;
+      // Retornar testimonios
+      return Testimonials.find({}).lean();
     } catch (err) {
       console.error('[TestimonyQuery.testimonials]', err)
     }

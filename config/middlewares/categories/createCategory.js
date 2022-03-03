@@ -14,7 +14,7 @@ const SchemaCategoryCreation = {
 const validateCategoryCreation = validateSchema(SchemaCategoryCreation)
 
 // Crear una categoría
-function createCategory(Model) {
+module.exports = function createCategory(Model) {
   return async (req, res) => {
     try {
       // Validar el body
@@ -46,9 +46,7 @@ function createCategory(Model) {
         message: `Se ha creado la categoría '${categoryName}' existosamente`
       })
     } catch (err) {
-      res.status(400).send({ error: err.message })
+      return res.status(400).send({ error: err.message })
     }
   }
 }
-
-module.exports = createCategory

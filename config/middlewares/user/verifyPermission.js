@@ -1,6 +1,6 @@
 const Roles = require('@models/users/Role')
 
-function verifyPermission({ action, permission }) {
+module.exports = function verifyPermission({ action, permission }) {
   return async (req, res, next) => {
     try {
       // Encontrar todos los roles
@@ -26,11 +26,9 @@ function verifyPermission({ action, permission }) {
       if (!roleFound || roleFound.name !== role) throw new Error(`Permiso denegado. Tu rol no tiene los permisos necesarios para ${action}`)
 
       // Continuar al siguiente middleware
-      next()
+      return next();
     } catch (error) {
       return res.status(403).send({ error: error.message })
     }
   }
 }
-
-module.exports = verifyPermission

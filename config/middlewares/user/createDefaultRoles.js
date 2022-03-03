@@ -9,7 +9,7 @@ const employeePermissions = require('@utils/permissions/employee-permissions')
 const userPermissions = require('@utils/permissions/user-permissions')
 
 // Crear roles por defecto
-async function createDefaultRoles() {
+module.exports = async function createDefaultRoles() {
   try {
     // Obtener el total de roles
     const roleCount = await Role.estimatedDocumentCount()
@@ -33,8 +33,6 @@ async function createDefaultRoles() {
       new Role(user).save()
     ])
   } catch (error) {
-    console.log(error)
+    console.log('[createDefaultRoles]', error)
   }
 }
-
-module.exports = createDefaultRoles

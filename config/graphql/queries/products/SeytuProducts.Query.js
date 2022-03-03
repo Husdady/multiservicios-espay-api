@@ -10,52 +10,20 @@ const {
 } = require('graphql')
 
 // Models
-const { SeytuOrders } = require('@models/products/Order')
 const { SeytuProducts } = require('@models/products/Product')
 const { SeytuCategories } = require('@models/products/Category')
 
 // Typedefs
-const {
-  CategoryTypedef,
-  ProductTypedef,
-  ProductOrderTypedef,
-  ProductFiltersTypedef,
-} = require('@graphql/typedefs/products')
+const { ProductTypedef, ProductFiltersTypedef, ProductTableTypedef } = require('@graphql/typedefs/products/Product.Typedef')
 
 // Utils
-const Pagination = require("@utils/Pagination");
 const { setArguments } = require("@utils/Helper");
-
-// Seytu Category Query
-const seytu_category = {
-  type: CategoryTypedef,
-  args: setArguments({
-    name: GraphQLString
-  }),
-  async resolve(_, args) {
-    try {
-      const seytuCategory = await SeytuCategories.findOne(args).lean()
-
-      return seytuCategory
-    } catch (err) {
-      console.error('[SeytuProductsQuery.category]', err)
-    }
-  },
-}
-
-// Seytu Categories Query
-const seytu_categories = {
-  type: new GraphQLList(CategoryTypedef),
-  async resolve(_, args) {
-    try {
-      const seytuCategory = await SeytuCategories.find(args).lean()
-
-      return seytuCategory
-    } catch (err) {
-      console.error('[SeytuProductsQuery.category]', err)
-    }
-  },
-}
+const {
+  paginate,
+  getLastest,
+  randomizeProducts,
+  setProductsFilters,
+} = require("@utils/Pagination");
 
 // Seytu Product Query
 const seytu_product = {
@@ -73,16 +41,27 @@ const seytu_product = {
       }
 
       if (args.name) {
-        config.title = {
+        config.name = {
           $regex: new RegExp(args.name.replace(/\W/g, '\\$&'), "gi"),
         }
       }
 
-      const seytuProduct = await SeytuProducts.findOne(config).populate("categories").lean()
+      // Aumentar número de visitas del producto
+      const update = {
+        $inc: {
+          totalVisits: 1
+      }}
 
-      return seytuProduct;
+      // Configuración extra
+      const extraConfig = {
+        new: true,
+      }
+
+      return SeytuProducts.findOneAndUpdate(config, update, extraConfig)
+        .populate("categories")
+        .lean();
     } catch (err) {
-      console.error('[SeytuProductsQuery.product]', err)
+      console.error('[SeytuQuery.product]', err)
     }
   },
 }
@@ -111,17 +90,18 @@ const seytu_products = {
 
       // Si se deben obtener los últimos productos Seytú
       if (getLastestProducts) {
-        const lastestSeytuProducts = await Pagination.getLastestItems(SeytuProducts, limit);
-
-        return lastestSeytuProducts;
+        return getLastest({
+          limit: limit,
+          model: SeytuProducts,
+        });
       }
 
       // Si se deben obtener los productos Seytú aleatoriamente
       if (getAleatoryProducts) {
-        const aleatorySeytuProducts = await Pagination.getAleatoryProducts({
+        const aleatorySeytuProducts = await randomizeProducts({
           limit: limit,
           Model: SeytuProducts,
-          productToExclude: filters.title,
+          productToExclude: filters.name,
         })
 
         return aleatorySeytuProducts;
@@ -129,72 +109,78 @@ const seytu_products = {
 
       // Si se debe paginar los productos Seytú
       if (pagination) {
-        const config = Pagination.setProductsPagination({
+        // Obtener filtros de productos
+        const productsFilters = setProductsFilters(filters);
+
+        // Paginar productos Seytú
+        const seytuProducts = await paginate({
           skip: skip,
           limit: limit,
-          filters: filters,
+          filters: productsFilters,
+          sortBy: filters.sortBy,
           model: SeytuProducts,
-        })
+        });
 
-        const paginateSeytuProducts = await Pagination.paginate(config)
-          .populate("categories")
-          .lean()
-
-        return paginateSeytuProducts;
+        return seytuProducts;
       }
 
-      const seytuProducts = await SeytuProducts.find(args).populate("categories").lean()
-      return seytuProducts;
+      return SeytuProducts.find(args).populate("categories").lean();
     } catch (err) {
-      console.error('[SeytuProductsQuery.products]', err)
+      console.error('[SeytuQuery.products]', err)
     }
   },
 }
 
-// Seytu Order Query
-const seytu_order = {
-  type: ProductOrderTypedef,
-  args: {
-    'clientId': {
-      name: 'clientId',
-      type: GraphQLString,
-    },
-  },
+// Seytu Products Pagination for table
+const seytu_products_in_table = {
+  type: ProductTableTypedef,
   args: setArguments({
-    clientId: GraphQLString,
+    skip: GraphQLInt,
+    limit: GraphQLInt,
+    pagination: GraphQLBoolean,
+    filters: ProductFiltersTypedef,
   }),
   async resolve(_, args) {
     try {
-      const seytuOrder = await SeytuOrders.findOne(args).populate("products.product")
+      const { skip, limit, filters, pagination } = args;
 
-      return seytuOrder
-    } catch (err) {
-      console.error('[seytuProductsQuery.order]', err)
-    }
-  },
-}
+      // Si la paginación no está habilitada
+      if (!pagination) return OmnilifeProducts.find({}).populate("categories").lean();
 
-// Seytu Orders Query
-const seytu_orders = {
-  type: new GraphQLList(ProductOrderTypedef),
-  args: setArguments({
-    clientId: GraphQLString,
-  }),
-  async resolve(_, args) {
-    try {
-      const seytuOrders = await SeytuOrders.find(args).populate("products.product")
-      return seytuOrders
-    } catch (err) {
-      console.error('[seytuProductsQuery.orders]', err)
+      // Obtener filtros de productos
+      const productsFilters = setProductsFilters(filters);
+
+      // Paginar productos Seytú
+      const seytuProducts = await paginate({
+        filters: productsFilters,
+        model: SeytuProducts,
+        extraFields: {
+          $lookup: {
+            from: SeytuCategories.collection.name,
+            localField: "categories",
+            foreignField: "_id",
+            as: "categories",
+          },
+          $facet: {
+            count: [{ $count: 'count' }],
+            items: [{ $sort: filters.sortBy }, { $skip: skip }, { $limit: limit }],
+          },
+          $project: {
+            count: { $arrayElemAt: ["$count.count", 0] },
+            items: "$items",
+          },
+        }
+      });
+
+      return seytuProducts[0];
+    } catch(err) {
+      console.error('[SeytuQuery.products_in_table]', err)
     }
-  },
+  }
 }
 
 module.exports = {
-  seytu_order,
-  seytu_orders,
   seytu_product,
   seytu_products,
-  seytu_category,
-  seytu_categories,
+  seytu_products_in_table,
 }

@@ -1,5 +1,5 @@
 // Editar una categoría
-function editCategory(Model) {
+module.exports = function editCategory(Model) {
   return async (req, res) => {
     try {
       // Obtener categoría en body
@@ -34,5 +34,3 @@ function editCategory(Model) {
     }
   }
 }
-
-module.exports = editCategory
