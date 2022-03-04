@@ -14,7 +14,7 @@ const validateOrderCreation = validateSchema(SchemaProductCreation)
 
 // Crear un pedido de un producto
 module.exports = function createOrder(Model) {
-  return async (req, res, next) => {
+  return async (req, res) => {
     try {
       // Validar el body
       const body = validateOrderCreation(req.body)

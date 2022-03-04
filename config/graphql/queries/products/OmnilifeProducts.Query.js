@@ -120,7 +120,7 @@ const omnilife_products = {
           sortBy: filters.sortBy,
           model: OmnilifeProducts,
         });
-        console.log('[omnilifeProducts]', omnilifeProducts)
+        
         return omnilifeProducts;
       }
 

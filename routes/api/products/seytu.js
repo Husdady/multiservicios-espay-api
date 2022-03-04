@@ -32,6 +32,9 @@ const verifySecretPassword = require('@middlewares/auth/verifySecretPassword')
 const { uploadMultipleImages } = require('@middlewares/upload/Upload.Middleware')
 const { uploadMultipleImagesToCloudinary } = require('@middlewares/upload/Upload.Cloudinary')
 
+// Services
+const sendWhatsappMessage = require("@services/whatsapp/sendWhatsappMessage")
+
 // Utils
 const { upload } = require('@utils/multer')
 const { isEmptyArray } = require('@utils/Validations')
@@ -132,7 +135,8 @@ router.delete(
 router.post(
   '/orders/new-order',
   verifySecretPassword('You do not have permissions to create an order of an Seytu product'),
-  Seytu.createOrder
+  // [sendWhatsappMessage, Seytu.createOrder]
+  Seytu.createOrder,
 )
 
 // Cambiar estado del pedido a "cancelado"

@@ -35,11 +35,33 @@ module.exports = function changeOrderStatus(Model) {
         }
 
         // Actualizar estado del pedido a "cancelado"
-        await Model.findOneAndUpdate(filter, update, extraConfig)
+        await Model.findOneAndUpdate(filter, update, extraConfig);
 
-        return res.status(200).json({
-          message: "El pedido ha sido cancelado"
-        });
+        let successMessage = {}
+
+        switch (status) {
+          case "cancelled":
+            Object.assign(successMessage, {
+              message: "El pedido ha sido cancelado"
+            });
+
+            break;
+
+          case "completed":
+            Object.assign(successMessage, {
+              message: "El pedido ha sido completado satisfactoriamente"
+            });
+            
+            break;
+
+          default:
+            break;
+        }
+
+        return res.status(200).json(successMessage)
+        // {
+        //   message: "El pedido ha sido cancelado"
+        // });
       } catch (error) {
         return res.status(400).send({ error: error.message })
       }

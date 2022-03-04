@@ -33,6 +33,9 @@ const verifySecretPassword = require('@middlewares/auth/verifySecretPassword')
 const { uploadMultipleImages } = require('@middlewares/upload/Upload.Middleware')
 const { uploadMultipleImagesToCloudinary } = require('@middlewares/upload/Upload.Cloudinary')
 
+// Services
+const sendWhatsappMessage = require("@services/whatsapp/sendWhatsappMessage")
+
 // Utils
 const { upload } = require('@utils/multer')
 const { isEmptyArray } = require('@utils/Validations')
@@ -143,6 +146,7 @@ router.post(
   '/orders/new-order',
   verifySecretPassword('You do not have permissions to create an order of an Omnilife product'),
   Omnilife.createOrder
+  // [sendWhatsappMessage, Omnilife.createOrder]
 )
 
 // Cambiar estado del pedido a "cancelado"
@@ -154,7 +158,7 @@ router.put(
 
 // Cambiar estado del pedido a "completado"
 router.put(
-  '/orders/:clientId/completed/:productId',
+  '/orders/:clientId/complete/:productId',
   verifySecretPassword('You do not have permissions to confirm this order'),
   Omnilife.changeOrderStatus("completed")
 )
