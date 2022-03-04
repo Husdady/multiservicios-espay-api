@@ -150,12 +150,21 @@ class Pagination {
 
     const usersFilters = {};
 
-    const { deleted, searchValue } = filters;
-
+    const { deleted, searchValue, excludeUserWithEmail } = filters;
+    console.log('[users.filters]', filters)
     // Si se debe filtrar por usuarios eliminados o no
     if (isBoolean(deleted)) {
       Object.assign(usersFilters, {
         deleted: deleted
+      })
+    }
+
+    // Si debe excluir un usuario con un "x" correo electrónico
+    if (isString(excludeUserWithEmail) && !isEmptyString(excludeUserWithEmail)) {
+      Object.assign(usersFilters, {
+        email: {
+          $ne: excludeUserWithEmail
+        }
       })
     }
 
