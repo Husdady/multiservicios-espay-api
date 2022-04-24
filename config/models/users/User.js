@@ -1,39 +1,22 @@
 'use strict'
 
-// Cargar esquema de mongoose
 const { Schema, mongoose } = require('@database/connection')
 
-// Creamos el objeto del esquema y sus atributos
+// Crear esquema del modelo
 const UserSchema = new Schema(
   {
-    fullname: {
-      type: String,
-      require: true
-    },
-    email: {
-      type: String,
-      require: true,
-      unique: true
-    },
-    password: {
-      type: String,
-      require: true,
-    },
-    role: {
-      ref: 'Role',
-      type: Schema.Types.ObjectId,
-      require: true,
-    },
-    deleted: {
-      type: Boolean,
-      require: true
-    },
-    deletedAt: Date,
-    verifiedEmail: {
-      type: Boolean,
-      require: true
-    },
-    settings: Object,
+    deletedAt: Date, // Fecha de eliminación del usuario
+    settings: Object, // Datos extras del usuario, como su foto de perfil, clave secreta, entre otros datos
+    profilePhoto: Object, // Foto de perfil del usuario
+    secretKey: { type: String, required: true, unique: true }, // Clave secreta del usuario
+    fullname: { type: String, require: true }, // Nombre completo del usuario
+    password: { type: String, require: true }, // Contraseña del usuario
+    deleted: { type: Boolean, require: true }, // Si el usuario ha sido eliminado
+    verifiedEmail: { type: Boolean, require: true }, // Si el usuario ha verificado su correo electrónico
+    email: { type: String, require: true, unique: true, trim: true, lowercase: true }, // Correo electrónico del usuario
+    role: { ref: 'Role', type: Schema.Types.ObjectId, require: true }, // Rol del usuario
+    emailConfirmationCode: String, // Código de confirmación de correo electrónico olvidado del usuario
+    passwordConfirmationCode: String // Código de confirmación de contraseña olvidada del usuario
   },
   {
     versionKey: false,
@@ -42,5 +25,5 @@ const UserSchema = new Schema(
   },
 )
 
-// Exportar esquema
+// Exportar modelo
 module.exports = mongoose.model('User', UserSchema)

@@ -11,21 +11,30 @@ const AdminController = require('@controllers/admin/Admin.Controller')
 // Middlewares
 const { verifyToken } = require('@middlewares/auth/token')
 const { uploadImage } = require('@middlewares/upload/Upload.Middleware')
+const verifySecretPassword = require('@middlewares/auth/verifySecretPassword')
 const { uploadImageToCloudinary } = require('@middlewares/upload/Upload.Cloudinary')
 
 // Utils
 const { upload } = require('@utils/multer')
 
 // Verificar si existe un usuario administrador
-router.get('/existAdmin', AdminController.existUserAdmin)
+router.get(
+  '/existAdmin',
+  verifySecretPassword(),
+  AdminController.existUserAdmin
+)
 
 // Cambiar contraseña del usuario administrador
-router.post('/change-my-password', verifyToken, AdminController.changePassword)
+router.post(
+  '/change-my-password',
+  [verifySecretPassword(), verifyToken],
+  AdminController.changePassword
+)
 
 // Actualizar información personal del usuario administrador
 router.put(
   '/update',
-  verifyToken,
+  [verifySecretPassword(), verifyToken],
   upload.single('profilePhoto'),
   AdminController.updateMyPersonalInformation,
   uploadImageToCloudinary((fileId) => ({
@@ -34,12 +43,9 @@ router.put(
   })),
   uploadImage({
     Model: Admin,
-    path: "settings.avatar",
+    path: "profilePhoto",
     uploadError: "Ha ocurrido un error al actualizar tu foto de perfil",
   }),
 )
-
-// Cerrar cuenta del usuario administrador 
-router.delete('/close-my-account', verifyToken, AdminController.closeMyAccount)
 
 module.exports = router

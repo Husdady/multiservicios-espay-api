@@ -13,8 +13,8 @@ const { createGraphQLObjectType } = require('@utils/Helper')
 
 // User Sort By Typedef
 const UserSortByTypedef = createGraphQLObjectType('UserSortBy', {
-  fullname: GraphQLInt,
   email: GraphQLInt,
+  fullname: GraphQLInt,
   updatedAt: GraphQLInt,
   createdAt: GraphQLInt,
   deletedAt: GraphQLInt,
@@ -30,17 +30,11 @@ const UserFiltersTypedef = createGraphQLObjectType('UserFilters', {
 }, "input");
 
 
-// Avatar Settings User Typedef
-const AvatarTypedef = createGraphQLObjectType('UserSettingsAvatar', {
+// User Profile Photo Typedef
+const UserProfilePhotoTypedef = createGraphQLObjectType('UserProfilePhoto', {
   url: GraphQLString,
   width: GraphQLString,
   heigth: GraphQLString,
-})
-
-// Settings User Typedef
-const SettingsTypedef = createGraphQLObjectType('UserSettings', {
-  theme: GraphQLString,
-  avatar: AvatarTypedef,
 })
 
 // Settings User Typedef
@@ -51,17 +45,19 @@ const RoleTypedef = createGraphQLObjectType('UserRole', {
 // User Typedef
 const UserFieldsTypedef = createGraphQLObjectType('UserFields', {
   _id: GraphQLID,
+  secretKey: GraphQLString,
   fullname: GraphQLString,
   email: GraphQLString,
   role: RoleTypedef,
-  settings: SettingsTypedef,
   deleted: GraphQLBoolean,
-  verifyEmail: GraphQLBoolean,
+  verifiedEmail: GraphQLBoolean,
+  profilePhoto: UserProfilePhotoTypedef,
   deletedAt: GraphQLDateTime,
   createdAt: GraphQLDateTime,
   updatedAt: GraphQLDateTime,
 })
 
+// Pagination users
 const UserTypedef = createGraphQLObjectType('User', {
   count: GraphQLInt,
   items: new GraphQLList(UserFieldsTypedef)

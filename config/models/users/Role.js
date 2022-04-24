@@ -1,13 +1,12 @@
 "use strict";
 
-// Cargar esquema de mongoose
 const { Schema, mongoose } = require("@database/connection");
 
-// Creamos el objeto del esquema y sus atributos
+// Crear esquema del modelo
 const RoleSchema = new Schema(
   {
-    name: { type: String, unique: true, required: true },
-    permissions: { type: Object, required: true },
+    name: { type: String, unique: true, required: true }, // Nombre del rol
+    permissions: { type: Object, required: true }, // Permisos disponibles del rol
   },
   {
     versionKey: false,
@@ -15,5 +14,5 @@ const RoleSchema = new Schema(
   }
 );
 
-// Exportar esquema
+// Exportar modelo
 module.exports = mongoose.model("Role", RoleSchema);

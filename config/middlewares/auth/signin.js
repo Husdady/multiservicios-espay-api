@@ -12,14 +12,16 @@ module.exports = async function signIn(req, res) {
     // Obtener el correo y la contraseña del usuario 
     const { email, password } = req.body
 
+    const fields = { deletedAt: 0, updatedAt: 0, deleted: 0 }
+
     // Encontrar al admin o a un usuario por correo
     const userFounds = await Promise.all([
-      Admin.findOne({ email }, { verifiedEmail: 0, deletedAt: 0, updatedAt: 0, deleted: 0, role: { permissions: 0 } }),
-      User.findOne({ email }, { verifiedEmail: 0, deletedAt: 0, updatedAt: 0, deleted: 0 }).populate('role', { name: 1 })
+      User.findOne({ email }).populate('role', { name: 1 }).select(fields),
+      Admin.findOne({ email }).select({ ...fields, role: { permissions: 0 } }),
     ])
 
     // Encontrar un válido usuario
-    const userFound = userFounds.find((user) => user !== null)
+    const userFound = userFounds.find((user) => !!user)
 
     // Comprobar si existe un usuario
     if (!userFound) throw new Error('El correo electrónico que has ingresado no existe')
@@ -35,14 +37,19 @@ module.exports = async function signIn(req, res) {
       throw new Error('Tu cuenta ha sido eliminada')
     }
     
-    // Comprobar si un usuario a validado su email
-    // if (process.env.NODE_ENV === 'production' && !userFound.verifiedEmail) {
-    //   throw new Error('Necesitas verificar tu correo electrónico para poder ingresar!')
-    // }
+    // Comprobar si un usuario a validado su correo electrónico
+    if (!userFound.verifiedEmail) {
+      throw new Error('Necesitas verificar tu correo electrónico para poder ingresar!')
+    }
+
+    // Segundos que hay en un día
+    const daySeconds = 86400
 
     // Crear token de usuario
     const token = createToken({
-      config: { id: userFound._id },
+      secretType: 'login',
+      exp: daySeconds * 3,
+      data: { id: userFound._id },
     })
     
     // Comprobar si existe la clave secreta
@@ -51,16 +58,16 @@ module.exports = async function signIn(req, res) {
       onEqual: function() {
         return res.status(200).json({
           user: {
+            access_token: token,
             _id: userFound._id,
             fullname: userFound.fullname,
             email: userFound.email,
             role: userFound.role.name,
-            profilePhoto: {
-              url: userFound?.settings?.avatar?.url,
-            },
-            id_Code: userFound?.settings?.id_Code,
+            secretKey: userFound.secretKey,
             createdAt: userFound.createdAt,
-            access_token: token
+            profilePhoto: {
+              url: userFound.profilePhoto?.url,
+            },
           }
         })
       },

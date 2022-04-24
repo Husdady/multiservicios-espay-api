@@ -6,20 +6,13 @@ const { removeImageFromCloudinary } = require('@middlewares/upload/Upload.Cloudi
 
 // Utils
 const cloudinary = require('@utils/cloudinary')
+const { isEmptyObject } = require('@utils/Validations')
 const { convertEmptySpacesInHyphens } = require('@utils/Helper')
 
 // Comprobar si existe un usuario administrador
-async function updateContactInformation(req, res, next) {
+exports.updateContactInformation = async function (req, res, next) {
   try {
-    const {
-      fullname,
-      aboutMe,
-      testimony,
-      phone,
-      omnilifeCode,
-      emails,
-      socialNetworks
-    } = req.body
+    const { location, phone, email, facebookPage } = req.body
 
     const formHasBeenEdited = JSON.parse(req.body.formHasBeenEdited)
 
@@ -28,23 +21,18 @@ async function updateContactInformation(req, res, next) {
       throw new Error('La información no ha sido actualizada, por favor actualice sus datos por otros que no sean iguales a los actuales')
     }
 
-    // Nueva información del usuario
+    // Nueva información de contacto
     const newContactData = {
-      fullname: fullname,
-      aboutMe: aboutMe,
-      testimony: testimony,
+      location: location,
       phone: phone,
-      omnilifeCode: omnilifeCode,
-      emails: JSON.parse(emails),
-      socialNetworks: JSON.parse(socialNetworks),
+      email: email,
+      facebookPage: JSON.parse(facebookPage),
     }
 
-    const existContactPhoto = JSON.parse(req.body.existContactPhoto)
-
-    if (!existContactPhoto) {
-
+    // Comprobar si no se ha establecido una foto de contacto
+    if (!req.body.contactPhoto) {
       // Obtener el id de la imagen de Cloudinary que se va a eliminar
-      const public_id = "contact/yessica-milagros";
+      const public_id = "contact/multiservicios-espay";
 
       // Eliminar imagen de Cloudinary
       await removeImageFromCloudinary(public_id)
@@ -91,8 +79,4 @@ async function updateContactInformation(req, res, next) {
   } catch (err) {
     return res.status(400).send({ error: err.message })
   }
-}
-
-module.exports = {
-  updateContactInformation,
 }

@@ -1,32 +1,18 @@
 "use strict";
 
-// Cargar esquema de mongoose
 const { Schema, mongoose } = require("@database/connection");
 
-// Creamos el objeto del esquema y sus atributos
+// Crear esquema del modelo
 const ContactSchema = new Schema(
   {
-    fullname: { type: String, required: true },
-    aboutMe: { type: String, required: true },
-    testimony: { type: String, required: true },
-    omnilifeCode: { type: String, required: true },
-    phone: { type: String, required: true },
-    contactPhoto: Object,
-    socialNetworks: {
-      twitter: {
-        type: [{ type: Object }],
-        required: true
-      },
-      instagram: {
-        type: [{ type: Object }],
-        required: true
-      },
-      facebook: {
-        type: [{ type: Object }],
-        required: true
-      }
+    contactPhoto: Object, // Foto de contacto
+    location: { type: String, required: true }, // Ubicación de contacto
+    phone: { type: String, required: true }, // Teléfono de contacto
+    email: { type: String, required: true }, // Correo electrónico de contacto
+    facebookPage: { // Página de facebook de contacto
+      name: { type: String, required: true },
+      url: { type: String, required: true }
     },
-    emails: [{ type: String }]
   },
   {
     versionKey: false,
@@ -35,5 +21,5 @@ const ContactSchema = new Schema(
   }
 );
 
-// Exportar esquema
+// Exportar modelo
 module.exports = mongoose.model("Contact", ContactSchema)

@@ -21,7 +21,7 @@ function uploadImage(settings) {
       }
 
       // Actualizar imagen en Modelo
-      const uploadedImage = await Model.findByIdAndUpdate(req.id, image, { new: true }).select(path)
+      const uploadedImage = await Model.findByIdAndUpdate(req.id, image, { new: true }).select({ [path]: 1 })
 
       // Setear respuesta del servidor
       const response = {

@@ -10,11 +10,11 @@ const UsersController = require('@controllers/users/Users.Controller')
 
 // Middlewares
 const { verifyToken } = require('@middlewares/auth/token')
-const verifyPermission = require('@middlewares/user/verifyPermission')
 const verifySecretPassword = require('@middlewares/auth/verifySecretPassword')
+const getTotalUsers = require('@middlewares/user/getTotalUsers')
+const verifyPermission = require('@middlewares/user/verifyPermission')
 const { uploadImage } = require('@middlewares/upload/Upload.Middleware')
 const { uploadImageToCloudinary } = require('@middlewares/upload/Upload.Cloudinary')
-const getTotalUsers = require('@middlewares/user/getTotalUsers')
 
 // Utils
 const { upload } = require('@utils/multer')
@@ -40,7 +40,7 @@ const permissionRequiredToRestoreUsers = verifyPermission({
 // Obtener el total de usuarios
 router.get(
   '/count',
-  verifySecretPassword('You do not have permissions to get this information'),
+  verifySecretPassword('No tienes permisos para obtener esta información'),
   getTotalUsers
 )
 
@@ -61,7 +61,7 @@ router.put(
   })),
   uploadImage({
     Model: User,
-    path: "settings.avatar",
+    path: "profilePhoto",
     uploadError: "Ha ocurrido un error al actualizar la foto de perfil del usuario",
   }),
 )
@@ -83,7 +83,7 @@ router.put(
   })),
   uploadImage({
     Model: User,
-    path: "settings.avatar",
+    path: "profilePhoto",
     uploadError: 'Ha ocurrido un error al actualizar tu foto de perfil',
   }),
 )
@@ -100,12 +100,5 @@ router.post('/:userId/restore', [verifyToken, permissionRequiredToRestoreUsers],
 
 // Cambiar contraseña de un usuario
 router.post('/:userId/change-my-password', verifyToken, UsersController.changePassword)
-
-// Cerrar cuenta de un usuario
-router.delete(
-  '/:userId/close-my-account',
-  verifyToken,
-  UsersController.closeMyAccount,
-)
 
 module.exports = router

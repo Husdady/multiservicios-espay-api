@@ -20,7 +20,7 @@ const SchemaRoleCreation = {
 const validateRoleCreation = validateSchema(SchemaRoleCreation)
 
 // Crear rol de usuario
-async function createRole(req, res) {
+exports.createRole = async function(req, res) {
   try {
     // Validar el body
     const body = validateRoleCreation(req.body)
@@ -62,7 +62,7 @@ async function createRole(req, res) {
 }
 
 // Editar un usuario por id
-async function editRole(req, res) {
+exports.editRole = async function(req, res) {
   try {
     // Obtener datos del body
     const { roleName, permissions, formHasBeenEdited } = req.body
@@ -77,13 +77,6 @@ async function editRole(req, res) {
       throw new Error("El rol 'Usuario' es inmutable")
     }
 
-    // Comprobar si exite un rol con nombre duplicado
-    const existRoleName = await Role.exists({ name: roleName })
-
-    if (existRoleName) {
-      throw new Error('Ya existe un rol registrado con ese nombre')
-    }
-
     // Setear id del rol
     const { roleId } = req.params
 
@@ -93,6 +86,16 @@ async function editRole(req, res) {
     // Si el usuario no existe
     if (!existRole) {
       throw new Error(`No se ha encontrado el rol '${roleName}' para editar su información`)
+    }
+
+    // Obtener el rol por id
+    const roleFound = await Role.findById(roleId).select({ name: 1 })
+
+    // Comprobar si exite un rol con nombre duplicado
+    const existRoleName = await Role.exists({ name: roleName })
+
+    if (existRoleName && roleFound.name !== roleName) {
+      throw new Error('Ya existe un rol registrado con ese nombre')
     }
 
     // Nueva información del usuario
@@ -118,7 +121,7 @@ async function editRole(req, res) {
 }
 
 // Eliminar un rol de usuario por id
-async function deleteRole(req, res) {
+exports.deleteRole = async function(req, res) {
   try {
     const { roleId } = req.params
 
@@ -143,10 +146,4 @@ async function deleteRole(req, res) {
   } catch (err) {
     res.status(400).send({ error: err.message })
   }
-}
-
-module.exports = {
-  createRole,
-  editRole,
-  deleteRole,
 }

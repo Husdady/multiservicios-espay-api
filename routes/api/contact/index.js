@@ -31,7 +31,7 @@ router.post(
   ContactController.updateContactInformation,
   uploadImageToCloudinary(() => ({
     folder: "contact",
-    public_id: "yessica-milagros",
+    public_id: "multiservicios-espay",
   })),
   uploadImage({
     Model: Contact,

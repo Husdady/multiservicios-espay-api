@@ -3,10 +3,10 @@ const { Router } = require('express')
 const router = Router()
 
 // Models
-const User = require('@models/users/User')
+const Users = require('@models/users/User')
 
 // Controllers
-const { createAdmin, createUser } = require("@controllers/auth/Auth.Controller")
+const AuthRegisterController = require("@controllers/auth/Auth.Register.Controller")
 
 // Middlewares
 const { verifyToken } = require('@middlewares/auth/token')
@@ -27,8 +27,8 @@ const permissionRequiredToCreateUsers = verifyPermission({
 // Crear cuenta como Admin
 router.post(
   "/signup/admin",
-  verifySecretPassword('You do not have permissions to create an administrator user'),
-  createAdmin
+  verifySecretPassword('No tienes permisos para crear un usuario administrador'),
+  AuthRegisterController.createAdmin,
 )
 
 // Crear cuenta como Usuario
@@ -37,14 +37,14 @@ router.post(
   verifySecretPassword('No tienes permisos para crear usuarios!'),
   [verifyToken, permissionRequiredToCreateUsers],
   upload.single('profilePhoto'),
-  createUser,
+  AuthRegisterController.createUser,
   uploadImageToCloudinary((fileId) => ({
     folder: "users",
     public_id: "user-" + fileId,
   })),
   uploadImage({
-    Model: User,
-    path: "settings.avatar",
+    Model: Users,
+    path: "profilePhoto",
     uploadError: 'Ha ocurrido un error al subir la foto de perfil del usuario',
   }),
 )

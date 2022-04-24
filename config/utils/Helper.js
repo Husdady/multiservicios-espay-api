@@ -1,6 +1,6 @@
 // Librarys
-const { sign } = require('jsonwebtoken')
-const { genSalt, hash, compare } = require('bcrypt')
+const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken')
 const { GraphQLObjectType, GraphQLInputObjectType } = require('graphql')
 
 // Utils
@@ -13,8 +13,8 @@ class Helper {
    * @returns
    */
   static async encryptPassword(password) {
-    const salt = await genSalt(10)
-    return hash(password, salt)
+    const salt = await bcrypt.genSalt(10)
+    return bcrypt.hash(password, salt)
   }
 
   /**
@@ -23,7 +23,7 @@ class Helper {
    * @returns
    */
   static async comparePassword(password, userPassword) {
-    return compare(password, userPassword)
+    return bcrypt.compare(password, userPassword)
   }
 
   /**
@@ -31,8 +31,14 @@ class Helper {
    * @param {config: Object, expiresIn: Number}
    * @returns token
    */
-  static createToken({ config, expiresIn = 86400 }) {
-    return sign(config, process.env.JWT_SECRET, { expiresIn: expiresIn * 3 })
+  static createToken({ exp, data, secretType }) {
+    const secrets = {
+      login: process.env.JWT_SECRET_LOGIN,
+      forgotPassword: process.env.JWT_SECRET_FORGOT_PASSWORD,
+      emailConfirmation: process.env.JWT_SECRET_EMAIL_CONFIRMATION,
+    }
+
+    return jwt.sign(data, secrets[secretType], { expiresIn: exp })
   }
 
   /**

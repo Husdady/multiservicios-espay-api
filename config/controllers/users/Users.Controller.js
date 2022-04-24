@@ -9,10 +9,10 @@ const { removeImageFromCloudinary } = require('@middlewares/upload/Upload.Cloudi
 // Utils
 const cloudinary = require('@utils/cloudinary')
 const { comparePassword, encryptPassword } = require('@utils/Helper')
-const { isString, isFunction, isEmptyArray } = require('@utils/Validations')
+const { isString, isFunction, isEmptyArray, isEmptyObject } = require('@utils/Validations')
 
 // Editar un usuario por id
-function editUser(messages) {
+exports.editUser = function(messages) {
   return async (req, res, next) => {
     try {
       // Obtener datos del body
@@ -46,12 +46,12 @@ function editUser(messages) {
 
       // Encontrar el rol del usuario
       const roleFound = await Role.findOne({ name: role }).select({ id: 1 }).lean()
-
+            console.log('[roleFound]', roleFound)
       // Nueva información del usuario
       const newUserData = {
         email: email,
         fullname: fullname,
-        role: roleFound.id,
+        role: roleFound._id,
       }
 
       const existUserPhoto = JSON.parse(req.body.existUserPhoto)
@@ -66,9 +66,7 @@ function editUser(messages) {
 
         // Eliminar foto de perfil del usuario de la DB
         Object.assign(newUserData, {
-          settings: {
-            avatar: null,
-          },
+          profilePhoto: {}
         })
       }
 
@@ -109,7 +107,7 @@ function editUser(messages) {
 }
 
 // Eliminar un usuario por id
-async function deleteUser(req, res) {
+exports.deleteUser = async function(req, res) {
   try {
     let account = null;
     // Obtener id del usuario
@@ -127,7 +125,7 @@ async function deleteUser(req, res) {
     }
 
     // Si el usuario tiene foto de perfil
-    if (account?.settings?.avatar) {
+    if (account.profilePhoto && !isEmptyObject(account.profilePhoto)) {
       // Eliminar foto de perfil del usuario de Cloudinary
       await removeImageFromCloudinary(account._id)
     }
@@ -140,9 +138,19 @@ async function deleteUser(req, res) {
 }
 
 // Restaurar un usuario por id
-async function restoreUser(req, res) {
+exports.restoreUser = async function(req, res) {
   try {
     const { userId } = req.params
+
+    const { username } = req.body
+
+    if (!userId) {
+      if (!username) {
+        throw new Error('A ocurrido un error para restaurar al usuario')
+      }
+
+      throw new Error(`A ocurrido un error inesperado a la hora de restaurar al usuario ${username}`)
+    }
 
     // Si se debe eliminar definitivamente la cuenta
     await User.findByIdAndUpdate(userId, {
@@ -158,7 +166,7 @@ async function restoreUser(req, res) {
 }
 
 // Actualizar contraseña de usuario
-async function changePassword(req, res) {
+exports.changePassword = async function(req, res) {
   try {
     const { password, newPassword } = req.body
 
@@ -179,50 +187,16 @@ async function changePassword(req, res) {
     }
 
     const filter = { _id: user._id }
-    const encryptNewPassword = { password: await encryptPassword(newPassword) };
+    const encryptNewPassword = await encryptPassword(newPassword)
 
     // Actualizar la contraseña del Administrador
-    await User.findOneAndUpdate(filter, encryptNewPassword)
+    await User.findOneAndUpdate(filter, {
+      password: encryptNewPassword
+    })
 
     // Retornar respuesta del servidor
     return res.status(204).json({})
   } catch (err) {
     return res.status(400).send({ error: err.message })
   }
-}
-
-// Cerrar cuenta de usuario
-async function closeMyAccount(req, res) {
-  try {
-    // Eliminar usuario
-    const user = await User.findByIdAndDelete(req.params.userId).select({
-      _id: 0,
-      settings: {
-        avatar: {
-          url: 1
-        }
-      }
-    })
-
-    // Si el usuario tiene foto de perfil
-    if (user?.settings?.avatar) {
-      const public_id = user.settings.avatar.cloudinary_path
-
-      // Eliminar foto de perfil del usuario de Cloudinary
-      await removeImageFromCloudinary(public_id)
-    }
-    
-    // Retornar respuesta del servidor
-    return res.status(204).json({})
-  } catch (error) {
-    return res.status(400).send({ error: error.message })
-  }
-}
-
-module.exports = {
-  editUser,
-  deleteUser,
-  restoreUser,
-  changePassword,
-  closeMyAccount,
 }

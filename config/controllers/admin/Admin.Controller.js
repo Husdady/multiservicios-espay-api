@@ -9,7 +9,7 @@ const { removeImageFromCloudinary } = require('@middlewares/upload/Upload.Cloudi
 const { comparePassword, encryptPassword } = require('@utils/Helper')
 
 // Comprobar si existe un usuario administrador
-async function existUserAdmin(_, res) {
+exports.existUserAdmin = async function(_, res) {
   try {
     // Obtener el total de admins
     const adminCount = await Admin.estimatedDocumentCount()
@@ -26,7 +26,7 @@ async function existUserAdmin(_, res) {
 }
 
 // Actualizar información personal del usuario administrador
-async function updateMyPersonalInformation(req, res, next) {
+exports.updateMyPersonalInformation = async function(req, res, next) {
   try {
     // Setear id del usuario administrador
     const { adminId } = req.query
@@ -66,9 +66,7 @@ async function updateMyPersonalInformation(req, res, next) {
 
       // Eliminar foto de perfil del usuario de la DB
       Object.assign(newAdminData, {
-        settings: {
-          avatar: null,
-        },
+        profilePhoto: {}
       })
     }
 
@@ -87,7 +85,7 @@ async function updateMyPersonalInformation(req, res, next) {
       req.successMessage = successMessage
 
       // Continuar al siguiente middleware
-      next();
+      return next();
     }
 
     // Retornar mensaje exitoso
@@ -102,7 +100,7 @@ async function updateMyPersonalInformation(req, res, next) {
 }
 
 // Actualizar contraseña del usuario administrador
-async function changePassword(req, res) {
+exports.changePassword = async function(req, res) {
   try {
     const { password, newPassword } = req.body
 
@@ -133,8 +131,9 @@ async function changePassword(req, res) {
   }
 }
 
+
 // Cerrar cuenta del usuario administrador
-async function closeMyAccount(req, res) {
+exports.closeMyAccount = async function(req, res) {
   try {
     // Eliminar usuario administrador
     const admin = await Admin.findByIdAndDelete(req.params.userId)
@@ -148,11 +147,4 @@ async function closeMyAccount(req, res) {
   } catch (err) {
     res.status(400).send({ error: err.message })
   }
-}
-
-module.exports = {
-  existUserAdmin,
-  changePassword,
-  closeMyAccount,
-  updateMyPersonalInformation
 }

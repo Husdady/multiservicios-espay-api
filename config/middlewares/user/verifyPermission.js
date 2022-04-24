@@ -1,7 +1,24 @@
+// Models
 const Roles = require('@models/users/Role')
+
+// Utils
+const { isString } = require('@utils/Validations')
 
 module.exports = function verifyPermission({ action, permission }) {
   return async (req, res, next) => {
+    // Obtener queries
+    const { skipNextMiddleware } = req.query
+
+    // Comprobar si se debe saltar el siguiente middleware
+    if (isString(skipNextMiddleware)) {
+      const needSkip = JSON.parse(skipNextMiddleware)
+
+      // Saltar el siguiente middleware
+      if (needSkip) {
+        return next()
+      }
+    }
+
     try {
       // Encontrar todos los roles
       const allRoles = await Roles.find({}, {
@@ -13,6 +30,7 @@ module.exports = function verifyPermission({ action, permission }) {
         if (role.permissions[permission]) {
           acc.push(role.name)
         }
+        
         return acc
       }, [])
 

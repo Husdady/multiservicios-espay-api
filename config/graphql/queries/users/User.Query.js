@@ -43,7 +43,7 @@ const users = {
     pagination: GraphQLBoolean,
     filters: UserFiltersTypedef,
   }),
-  async resolve(_, args, context, info) {
+  async resolve(_, args) {
     try {
       const { skip, limit, pagination, filters } = args;
 
@@ -81,7 +81,12 @@ const users = {
       }
 
       // Retornar usuarios
-      return Users.find({}).populate("role").lean();
+      const allUsers = Users.find({}).populate("role").lean();
+
+      return {
+        count: allUsers.length,
+        items: allUsers
+      }
     } catch (err) {
       console.error('[UserQuery.users]', err)
     }

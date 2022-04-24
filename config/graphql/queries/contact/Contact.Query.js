@@ -13,7 +13,8 @@ const contact = {
   type: ContactTypedef,
   async resolve() {
     try {
-      const contact = await Contact.findOne({});
+      const contact = await Contact.findOne({});console.log('[contact]', contact)
+
       return contact
     } catch (err) {
       console.error('[ContactQuery.error]', err)
